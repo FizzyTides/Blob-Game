@@ -25,6 +25,24 @@ public class GameBoard extends JPanel implements ActionListener, KeyListener {
 		
 	}
 	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		drawBackground(g);
+		
+	}
+	
+	public void drawBackground(Graphics g) {
+		g.setColor(new Color(0,0,0));
+		for(int i = 0; i < ROWS * TILE_SIZE; i+=TILE_SIZE) {
+			g.drawLine(0, i, TILE_SIZE * COLUMNS, i); // Draws the rows
+		}
+		
+		for(int j = 0; j < COLUMNS * TILE_SIZE; j+=TILE_SIZE) {
+			g.drawLine(j, 0, j, TILE_SIZE * COLUMNS); // Draws the columns
+		}
+	}
+	
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
