@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
+
 @SuppressWarnings("serial")
 public class GameBoard extends JPanel implements ActionListener, KeyListener {
 	
@@ -17,10 +18,14 @@ public class GameBoard extends JPanel implements ActionListener, KeyListener {
 	
 	public static final int NUM_COINS = 10;
 	
+	private Player player;
+	
 	public GameBoard() {
 		setPreferredSize(new Dimension(TILE_SIZE * COLUMNS, TILE_SIZE * ROWS));
 		
 		//Background color
+		
+		player = new Player(); // Instantiate a player when gameBoard starts
 		
 		
 	}
@@ -29,6 +34,7 @@ public class GameBoard extends JPanel implements ActionListener, KeyListener {
 		super.paintComponent(g);
 		
 		drawBackground(g);
+		player.drawPlayer(g, this); // Draws player image
 		
 	}
 	
@@ -50,7 +56,7 @@ public class GameBoard extends JPanel implements ActionListener, KeyListener {
 
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		player.keyPressed(e);
 	}
 
 	public void keyReleased(KeyEvent e) {
