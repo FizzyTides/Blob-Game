@@ -16,9 +16,12 @@ public class Game {
 		window.setResizable(false); // User cannot resize the window
 		window.pack();
 		
-		window.setLocationRelativeTo(null) // Opening game window in center of display
+		window.setLocationRelativeTo(null); // Opening game window in center of display
 		
 		window.setVisible(true); //Show the game window
 	}
 	
+	public static void main(String[] args) {
+		initWindow();
+	}
 }
