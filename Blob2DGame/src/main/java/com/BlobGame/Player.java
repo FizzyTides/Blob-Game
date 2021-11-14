@@ -18,13 +18,14 @@ import java.awt.event.KeyEvent;
 public class Player extends Entities {
 	
 	private int score;
+	double coolDownInMillis = -400;
+	double lastTime = 0;
 	
 	public Player() {
 		
 		this.imageName = "Blob.png";
 		this.pos = new Point(0,0);
 		score = 0;
-		
 		
 		loadImage();
 	}
@@ -41,23 +42,28 @@ public class Player extends Entities {
 	
 	public void keyPressed(KeyEvent e) {
 		
+		double now = System.currentTimeMillis();
 		int key = e.getKeyCode();
 		
-		if(key == KeyEvent.VK_W) {
+		if(key == KeyEvent.VK_W  && (lastTime - now < coolDownInMillis)) {
 			pos.translate(0, -1);
 			System.out.println("Player Position: " + pos.x + "," + pos.y);
+			lastTime = System.currentTimeMillis();
 		}
-		if(key == KeyEvent.VK_S) {
+		if(key == KeyEvent.VK_S && (lastTime - now < coolDownInMillis)) {
 			pos.translate(0, 1);
 			System.out.println("Player Position: " + pos.x + "," + pos.y);
+			lastTime = System.currentTimeMillis();
 		}
-		if(key == KeyEvent.VK_A) {
+		if(key == KeyEvent.VK_A && (lastTime - now < coolDownInMillis)) {
 			pos.translate(-1,0);
 			System.out.println("Player Position: " + pos.x + "," + pos.y);
+			lastTime = System.currentTimeMillis();
 		}
-		if(key == KeyEvent.VK_D) {
+		if(key == KeyEvent.VK_D && (lastTime - now < coolDownInMillis)) {
 			pos.translate(1,0);
 			System.out.println("Player Position: " + pos.x + "," + pos.y);
+			lastTime = System.currentTimeMillis();
 				
 		}
 	}
