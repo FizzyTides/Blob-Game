@@ -31,7 +31,7 @@ public class Player extends Entities {
 		
 		loadImage();
 	}
-	//comment
+	
 	public void keyPressed(KeyEvent e) {
 		
 		double now = System.currentTimeMillis();
