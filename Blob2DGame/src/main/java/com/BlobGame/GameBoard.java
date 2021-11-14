@@ -7,10 +7,13 @@ import java.util.Random;
 import javax.swing.*;
 
 
+
 @SuppressWarnings("serial")
-public class GameBoard extends JPanel implements ActionListener, KeyListener {
+public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
-	private final int DELAY = 500;
+	private final int DELAY = 10;
+	
+	private Timer timer;
 	
 	public static final int TILE_SIZE = 50;
 	public static final int ROWS = 15;
@@ -27,6 +30,9 @@ public class GameBoard extends JPanel implements ActionListener, KeyListener {
 		
 		player = new Player(); // Instantiate a player when gameBoard starts
 		
+		timer = new Timer(DELAY, this); // Calls the actionPerformed() function every DELAY
+		timer.start();
+		
 		
 	}
 	
@@ -36,6 +42,8 @@ public class GameBoard extends JPanel implements ActionListener, KeyListener {
 		drawBackground(g);
 		player.drawPlayer(g, this); // Draws player image
 		
+		
+		Toolkit.getDefaultToolkit().sync();
 	}
 	
 	public void drawBackground(Graphics g) {
@@ -53,20 +61,19 @@ public class GameBoard extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		player.keyPressed(e);
 	}
 
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
+		repaint();
 	}
 	
 	

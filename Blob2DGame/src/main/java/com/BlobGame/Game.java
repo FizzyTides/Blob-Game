@@ -13,6 +13,8 @@ public class Game {
 		
 		window.add(board); // Adding JPanel to the game Window
 		
+		window.addKeyListener(board); // Adding Keyboard listener so we can transfer inputs to character
+		
 		window.setResizable(false); // User cannot resize the window
 		window.pack();
 		

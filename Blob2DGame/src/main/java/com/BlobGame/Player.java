@@ -16,7 +16,7 @@ import java.awt.event.KeyEvent;
 public class Player {
 	
 	private BufferedImage playerImage;
-	private Point pos; // Player position on grid
+	private Point pos; // Player position on grid using Point Variable (same as processing PVectors)
 	private int score;
 	
 	public Player() {
@@ -35,12 +35,28 @@ public class Player {
 	}
 	
 	public void drawPlayer(Graphics g, ImageObserver watcher) {
-		g.drawImage(playerImage, pos.x * GameBoard.TILE_SIZE, pos.y * GameBoard.TILE_SIZE, watcher);
+		g.drawImage(playerImage, pos.x * GameBoard.TILE_SIZE, pos.y * GameBoard.TILE_SIZE , watcher);
 	}
 	
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		
-		if(key == KeyEvent.)
+		if(key == KeyEvent.VK_W) {
+			pos.translate(0, -1);
+			System.out.println("Player Position: " + pos.x + "," + pos.y);
+		}
+		if(key == KeyEvent.VK_S) {
+			pos.translate(0, 1);
+			System.out.println("Player Position: " + pos.x + "," + pos.y);
+		}
+		if(key == KeyEvent.VK_A) {
+			pos.translate(-1,0);
+			System.out.println("Player Position: " + pos.x + "," + pos.y);
+		}
+		if(key == KeyEvent.VK_D) {
+			pos.translate(1,0);
+			System.out.println("Player Position: " + pos.x + "," + pos.y);
+			
+		}
 	}
 }
