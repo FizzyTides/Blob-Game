@@ -18,7 +18,7 @@ import java.io.File;
 @SuppressWarnings("serial")
 public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
-	private final int DELAY = 50;
+	private final int DELAY = 0; //50 by default
 	private Timer timer;
 	
 	boolean wallFound = false;
