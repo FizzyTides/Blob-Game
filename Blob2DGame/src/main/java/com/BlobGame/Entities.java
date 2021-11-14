@@ -16,7 +16,7 @@ public class Entities {
 	protected Point pos; // Player position on grid using Point Variable (same as processing PVectors)
 	
 	public Entities() {
-		
+
 	}
 
 	public void loadImage() {
