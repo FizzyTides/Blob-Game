@@ -37,12 +37,14 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private ArrayList<Cake> cakes;	
 	private ArrayList<Wall> gameWalls;
 	private ArrayList<Punishment> punishments;
+	private ArrayList<Enemy> enemies;
 	
 	public GameBoard() {
 		setPreferredSize(new Dimension(TILE_SIZE * COLUMNS, TILE_SIZE * ROWS));
 		
 		
 		player = new Player(); // Instantiate a player when gameBoard starts
+		enemies =  spawnEnemies();
         cakes = spawnCakes();
         gameWalls = spawnWalls();
 		punishments = spawnPunishments();
@@ -161,6 +163,12 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
             	player.wallWest = false;
             }
         }
+	}
+	
+	private ArrayList<Enemy> spawnEnemies() {
+		ArrayList<Enemy> myEnemies = new ArrayList<Enemy>();
+		myEnemies.add(new Enemy(new Point(19, 14)));
+		return myEnemies;
 	}
 	
 	
