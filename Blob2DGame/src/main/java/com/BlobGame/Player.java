@@ -24,7 +24,7 @@ public class Player extends Entities {
 	public Player() {
 		
 		this.imageName = "Blob.png";
-		this.pos = new Point(0,0);
+		this.pos = new Point(0,1);
 		score = 0;
 		
 		

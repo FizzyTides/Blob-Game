@@ -23,13 +23,15 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	private Player player;
 	private ArrayList<Cake> cakes;	
+	private ArrayList<Wall> gameWalls;
 	public GameBoard() {
 		setPreferredSize(new Dimension(TILE_SIZE * COLUMNS, TILE_SIZE * ROWS));
 		
 		//Background color
 		
 		player = new Player(); // Instantiate a player when gameBoard starts
-        cakes = populateCakes();
+        cakes = spawnCakes();
+        gameWalls = spawnWalls();
 
 		timer = new Timer(DELAY, this); // Calls the actionPerformed() function every DELAY
 		timer.start();
@@ -45,6 +47,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		for (Cake cake : cakes) {
             cake.draw(g, this);
         }
+		
+		for(Wall wall : gameWalls ) {
+			wall.draw(g, this);
+		}
+		
 		player.draw(g, this); // Draws player image
 		
 		
@@ -84,13 +91,21 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		repaint();
 	}
 	
+	private ArrayList<Wall> spawnWalls() { 
+		ArrayList<Wall> myWalls = new ArrayList<Wall>();
+		
+		for(int i = 0; i < COLUMNS; i++) {
+			Point wallPos = new Point(i,0);
+			myWalls.add(new Wall(wallPos));
+		}
+		
+		return myWalls;
+	}
+	
 
-	private ArrayList<Cake> populateCakes() {
+	private ArrayList<Cake> spawnCakes() {
         ArrayList<Cake> cakeList = new ArrayList<Cake>();
 
-        // create the given number of coins in random positions on the board.
-        // note that there is not check here to prevent two coins from occupying the same
-        // spot, nor to prevent coins from spawning in the same spot as the player
         for (int i = 0; i < NUM_CAKES; i++) {
             Point p = new Point(i,i);
             cakeList.add(new Cake(p));
@@ -100,17 +115,17 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
     }
 
 	private void collectCakes() {
-        // allow player to pickup coins
+		// Fills ArrayList with collectedCakes
         ArrayList<Cake> collectedCakes = new ArrayList<Cake>();
         for (Cake cake : cakes) {
-            // if the player is on the same tile as a coin, collect it
+            // if the player is on the same tile as a cake, collect it
             if (player.getPos().equals(cake.getPos())) {
                 // give the player some points for picking this up
                 player.addScore(CAKE_REWARD);
                 collectedCakes.add(cake);
             }
         }
-        // remove collected coins from the board
+        // remove collected cakes from the board
         cakes.removeAll(collectedCakes);
     }
 	

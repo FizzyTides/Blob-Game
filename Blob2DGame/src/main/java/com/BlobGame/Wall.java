@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 
 public class Wall extends Entities {
 	
-	void wall(Point pos) {
+	Wall(Point pos) {
 		imageName = "Wall.png";
 		this.pos = pos;
 		
