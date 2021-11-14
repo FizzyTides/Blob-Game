@@ -3,8 +3,10 @@ package com.BlobGame;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
 
 import javax.imageio.ImageIO;
+
 
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
@@ -13,32 +15,32 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 
 
-public class Player {
+public class Player extends Entities {
 	
-	private BufferedImage playerImage;
-	private Point pos; // Player position on grid using Point Variable (same as processing PVectors)
 	private int score;
 	
 	public Player() {
-		loadImage();
-		pos = new Point(0,0);
+		
+		this.imageName = "Blob.png";
+		this.pos = new Point(0,0);
 		score = 0;
-
+		
+		
+		loadImage();
 	}
 	
-	private void loadImage() {
+	@Override
+	public void loadImage() {
 		try {
-			playerImage = ImageIO.read(new File("src/main/resources/Blob.png"));
+			Image = ImageIO.read(new File("src/main/resources/" + imageName));
 		} catch (IOException ex) {
 			System.out.println("Cannot open this file: " + ex.getMessage());
 		}
 	}
 	
-	public void drawPlayer(Graphics g, ImageObserver watcher) {
-		g.drawImage(playerImage, pos.x * GameBoard.TILE_SIZE, pos.y * GameBoard.TILE_SIZE , watcher);
-	}
 	
 	public void keyPressed(KeyEvent e) {
+		
 		int key = e.getKeyCode();
 		
 		if(key == KeyEvent.VK_W) {
@@ -56,7 +58,7 @@ public class Player {
 		if(key == KeyEvent.VK_D) {
 			pos.translate(1,0);
 			System.out.println("Player Position: " + pos.x + "," + pos.y);
-			
+				
 		}
 	}
 }
