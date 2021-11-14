@@ -19,7 +19,6 @@ import java.io.File;
 public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	private final int DELAY = 50;
-	
 	private Timer timer;
 	
 	boolean wallFound = false;
@@ -90,7 +89,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 //		}
 		for(int i = 0; i < ROWS * TILE_SIZE; i++) {
 			for(int j = 0; j < COLUMNS * TILE_SIZE; j++) {
-				g.drawImage(tile, i * GameBoard.TILE_SIZE, j * GameBoard.TILE_SIZE , watcher);
+				//g.drawImage(tile, i * GameBoard.TILE_SIZE, j * GameBoard.TILE_SIZE , watcher);
 			}
 		}
 	}
