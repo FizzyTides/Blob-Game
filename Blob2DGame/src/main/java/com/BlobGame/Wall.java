@@ -1,6 +1,5 @@
 package com.BlobGame;
 
-import java.io.File;
 import java.io.IOException;
 import java.awt.Point;
 
@@ -16,12 +15,4 @@ public class Wall extends Entities {
 		
 	}
 	
-	@Override
-	public void loadImage() {
-		try {
-			Image = ImageIO.read(new File("src/main/resources/" + imageName));
-		} catch (IOException ex) {
-			System.out.println("Cannot open this file: " + ex.getMessage());
-		}
-	}
 }

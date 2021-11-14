@@ -29,16 +29,6 @@ public class Player extends Entities {
 		loadImage();
 	}
 	
-	@Override
-	public void loadImage() {
-		try {
-			Image = ImageIO.read(new File("C:\\Users\\dhing\\OneDrive\\Desktop\\Family\\Ketan\\UNI\\Fall2021\\cmpt276\\project\\Blob2DGame\\src\\main\\resources\\" + imageName));
-		} catch (IOException ex) {
-			System.out.println("Cannot open this file: " + ex.getMessage());
-		}
-	}
-	
-	
 	public void keyPressed(KeyEvent e) {
 		
 		int key = e.getKeyCode();
