@@ -118,7 +118,49 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	}
 	
 	public void checkWalls() {
-		
+        Point playerCurrPos = player.getPlayerPos();
+        boolean aWallNorth, aWallSouth, aWallEast, aWallWest;
+        aWallNorth = aWallSouth = aWallEast = aWallWest = false;
+        for(Wall walls : gameWalls) {
+            Point wallCurrPos = walls.getWallPos();
+            
+            //System.out.println("Player position: ");
+            
+            		
+
+            if((playerCurrPos.y - 1 == wallCurrPos.y && playerCurrPos.x == wallCurrPos.x) || aWallNorth) {
+                player.wallNorth = true;
+                aWallNorth = true;
+                System.out.println("There is a wall to the North!");
+            }
+            else {
+            	player.wallNorth = false;
+            }
+            if((playerCurrPos.y + 1 == wallCurrPos.y && playerCurrPos.x == wallCurrPos.x) || aWallSouth) {
+                player.wallSouth = true;
+                aWallSouth = true;
+                System.out.println("There is a wall to the South!");
+            }
+            else {
+            	player.wallSouth = false;
+            }
+            if((playerCurrPos.x - 1== wallCurrPos.x && playerCurrPos.y == wallCurrPos.y) || aWallEast) {
+                player.wallEast = true;
+                aWallEast = true;
+                System.out.println("There is a wall to the East!");
+            }
+            else {
+            	player.wallEast = false;
+            }
+            if((playerCurrPos.x + 1 == wallCurrPos.x && playerCurrPos.y == wallCurrPos.y) || aWallWest) {
+                player.wallWest = true;
+                aWallWest = true;
+                System.out.println("There is a wall to the West!");
+            }
+            else {
+            	player.wallWest = false;
+            }
+        }
 	}
 	
 	
