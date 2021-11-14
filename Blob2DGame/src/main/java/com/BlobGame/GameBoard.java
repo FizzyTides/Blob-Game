@@ -28,12 +28,15 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	public static final int ROWS = 15;
 	public static final int COLUMNS = 20;
 	private static final int CAKE_REWARD = 100;
+	private static final int PUNISHMENT_PENALTY = 100;
 	public static final int NUM_CAKES = 10;
+	public static final int NUM_PUNISHMENTS = 10;
 	
 	private Player player;
 	private BufferedImage tile;
 	private ArrayList<Cake> cakes;	
 	private ArrayList<Wall> gameWalls;
+	private ArrayList<Punishment> punishments;
 	
 	public GameBoard() {
 		setPreferredSize(new Dimension(TILE_SIZE * COLUMNS, TILE_SIZE * ROWS));
@@ -43,6 +46,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		player = new Player(); // Instantiate a player when gameBoard starts
         cakes = spawnCakes();
         gameWalls = spawnWalls();
+		punishments = spawnPunishments();
+
         
         loadTileImage();
         
@@ -55,7 +60,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	void loadTileImage() {
 		try { 
-			tile = ImageIO.read(new File("src/main/resources/Tile.png"));
+			tile = ImageIO.read(new File("C:\\Users\\dhing\\OneDrive\\Desktop\\Family\\Ketan\\UNI\\Fall2021\\cmpt276\\project\\Blob2DGame\\src\\main\\resources\\Tile.png"));
 		} catch (IOException ex) {
 			System.out.println("Cannot open this file: " + ex.getMessage());
 		}
@@ -71,6 +76,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 		for(Wall wall : gameWalls ) {
 			wall.draw(g, this);
+		}
+
+		for(Punishment punishment : punishments){
+			punishment.draw(g, this);
 		}
 		
 		player.draw(g, this); // Draws player image
@@ -114,6 +123,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 		checkWalls();
 		collectCakes();
+		hitPunishment();
 		repaint();
 	}
 	
@@ -185,6 +195,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		return myWalls;
 	}
 	
+	
 
 	private ArrayList<Cake> spawnCakes() {
         ArrayList<Cake> cakeList = new ArrayList<Cake>();
@@ -195,6 +206,17 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         }
 
         return cakeList;
+    }
+
+	private ArrayList<Punishment> spawnPunishments() {
+        ArrayList<Punishment> punishmentList = new ArrayList<Punishment>();
+
+        for (int i = 0; i < NUM_PUNISHMENTS; i++) {
+            Point p = new Point(i+1,i);
+            punishmentList.add(new Punishment(p));
+        }
+
+        return punishmentList;
     }
 
 	private void collectCakes() {
@@ -212,5 +234,21 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         // remove collected cakes from the board
         cakes.removeAll(collectedCakes);
     }
+
 	
+	private void hitPunishment() {
+		// Fills ArrayList with collectedPunishments
+        ArrayList<Punishment> collectedPunishments = new ArrayList<Punishment>();
+        for (Punishment punishment : punishments) {
+            // if the player is on the same tile as a punishment, hit it
+            if (player.getPos().equals(punishment.getPos())) {
+                // deduct points from total
+                player.deductScore(PUNISHMENT_PENALTY);
+                collectedPunishments.add(punishment);
+                System.out.println("SCORE: " + player.getScore());
+            }
+        }
+        // remove collected cakes from the board
+        punishments.removeAll(collectedPunishments);
+    }
 }

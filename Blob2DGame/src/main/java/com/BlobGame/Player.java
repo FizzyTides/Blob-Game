@@ -63,10 +63,16 @@ public class Player extends Entities {
 	public void addScore(int amount) {
         score += amount;
     }
+
+    public void deductScore(int amount) {
+        score -= amount;
+    }
 	
 	public int getScore() {
 		return this.score; 
 	}
+
+    
 	
 	public Point getPlayerPos() {
 		return this.pos;
