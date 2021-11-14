@@ -31,20 +31,19 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	public static final int NUM_CAKES = 10;
 	
 	private Player player;
-	private BufferedImage tile;
+	private BufferedImage bgImage;
 	private ArrayList<Cake> cakes;	
 	private ArrayList<Wall> gameWalls;
 	
 	public GameBoard() {
 		setPreferredSize(new Dimension(TILE_SIZE * COLUMNS, TILE_SIZE * ROWS));
 		
-		//Background color
 		
 		player = new Player(); // Instantiate a player when gameBoard starts
         cakes = spawnCakes();
         gameWalls = spawnWalls();
         
-        loadTileImage();
+        loadBgImage();
         
 		timer = new Timer(DELAY, this); // Calls the actionPerformed() function every DELAY
 		timer.start();
@@ -53,9 +52,9 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 	}
 	
-	void loadTileImage() {
+	void loadBgImage() {
 		try { 
-			tile = ImageIO.read(new File("src/main/resources/Tile.png"));
+			bgImage = ImageIO.read(new File("src/main/resources/Bg.png"));
 		} catch (IOException ex) {
 			System.out.println("Cannot open this file: " + ex.getMessage());
 		}
@@ -64,7 +63,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		drawBackground(g, this);
+		g.drawImage(bgImage, 0, 0, null);
+		
 		for (Cake cake : cakes) {
             cake.draw(g, this);
         }
@@ -79,29 +79,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		Toolkit.getDefaultToolkit().sync();
 	}
 	
-	public void drawBackground(Graphics g, ImageObserver watcher) {
-//		g.setColor(new Color(0,0,0));
-//		for(int i = 0; i < ROWS * TILE_SIZE; i+=TILE_SIZE) {
-//			g.drawLine(0, i, TILE_SIZE * COLUMNS, i); // Draws the rows
-//		}
-//		
-//		for(int j = 0; j < COLUMNS * TILE_SIZE; j+=TILE_SIZE) {
-//			g.drawLine(j, 0, j, TILE_SIZE * COLUMNS); // Draws the columns
-//		}
-		for(int i = 0; i < ROWS * TILE_SIZE; i++) {
-			for(int j = 0; j < COLUMNS * TILE_SIZE; j++) {
-				g.drawImage(tile, i * GameBoard.TILE_SIZE, j * GameBoard.TILE_SIZE , watcher);
-			}
-		}
-	}
-	
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 		player.keyPressed(e);
 	}
@@ -113,10 +95,18 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		checkWalls();
+		gameBoundary();
 		collectCakes();
 		repaint();
 	}
 	
+	public void gameBoundary() {
+		if(player.pos.x < 0) {
+			player.pos.x = 0;
+		}
+	}
+	
+
 	public void checkWalls() {
         Point playerCurrPos = player.getPlayerPos();
         boolean aWallNorth, aWallSouth, aWallEast, aWallWest;
@@ -124,8 +114,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         for(Wall walls : gameWalls) {
             Point wallCurrPos = walls.getWallPos();
             
-            //System.out.println("Player position: ");
-            
+
             		
 
             if((playerCurrPos.y - 1 == wallCurrPos.y && playerCurrPos.x == wallCurrPos.x) || aWallNorth) {
