@@ -11,18 +11,16 @@ import java.awt.image.BufferedImage;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 
-public class Cake extends Entities {
+public class Punishment extends Entities{
+    
+    public static final int penalty = 100;
 
-    private static final int reward = 100;
+    public Punishment (Point position) {
 
-    public Cake (Point position) {
-
-        this.imageName = "Cake.png";
+        this.imageName = "Punishment.png";
         this.pos =  position;
 
         loadImage();
-    }
+    } 
     
-
-
 }
