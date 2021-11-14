@@ -95,9 +95,19 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		ArrayList<Wall> myWalls = new ArrayList<Wall>();
 		
 		for(int i = 0; i < COLUMNS; i++) {
-			Point wallPos = new Point(i,0);
-			myWalls.add(new Wall(wallPos));
+			Point upperWalls = new Point(i, 0);
+			myWalls.add(new Wall(upperWalls));
+			Point lowerWalls = new Point(i, 14);
+			myWalls.add(new Wall(lowerWalls));
 		}
+		
+		for(int j = 2; j < ROWS - 1; j++) {
+			Point leftWalls = new Point(0,j);
+			myWalls.add(new Wall(leftWalls));
+			Point rightWalls = new Point(19, j - 1);
+			myWalls.add(new Wall(rightWalls));
+		}
+		
 		
 		return myWalls;
 	}
@@ -123,6 +133,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
                 // give the player some points for picking this up
                 player.addScore(CAKE_REWARD);
                 collectedCakes.add(cake);
+                System.out.println("SCORE: " + player.getScore());
             }
         }
         // remove collected cakes from the board

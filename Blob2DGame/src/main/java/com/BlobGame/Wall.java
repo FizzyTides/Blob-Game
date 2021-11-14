@@ -15,4 +15,8 @@ public class Wall extends Entities {
 		
 	}
 	
+	public Point getWallPos() {
+		return this.pos;
+	}
+	
 }

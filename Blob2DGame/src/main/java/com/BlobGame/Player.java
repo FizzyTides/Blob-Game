@@ -17,6 +17,7 @@ import java.awt.event.KeyEvent;
 
 public class Player extends Entities {
 	
+	boolean wallNorth, wallSouth, wallEast, wallWest = false;
 	double lastTime = 0;
 	double coolDownInMillis = -400;
 	private int score;
@@ -36,22 +37,22 @@ public class Player extends Entities {
 		double now = System.currentTimeMillis();
         int key = e.getKeyCode();
 
-        if(key == KeyEvent.VK_W  && (lastTime - now < coolDownInMillis)) {
+        if(key == KeyEvent.VK_W  && (lastTime - now < coolDownInMillis) && !wallNorth) {
             pos.translate(0, -1);
             System.out.println("Player Position: " + pos.x + "," + pos.y);
             lastTime = System.currentTimeMillis();
         }
-        if(key == KeyEvent.VK_S && (lastTime - now < coolDownInMillis)) {
+        if(key == KeyEvent.VK_S && (lastTime - now < coolDownInMillis) && !wallSouth) {
             pos.translate(0, 1);
             System.out.println("Player Position: " + pos.x + "," + pos.y);
             lastTime = System.currentTimeMillis();
         }
-        if(key == KeyEvent.VK_A && (lastTime - now < coolDownInMillis)) {
+        if(key == KeyEvent.VK_A && (lastTime - now < coolDownInMillis) && !wallEast) {
             pos.translate(-1,0);
             System.out.println("Player Position: " + pos.x + "," + pos.y);
             lastTime = System.currentTimeMillis();
         }
-        if(key == KeyEvent.VK_D && (lastTime - now < coolDownInMillis)) {
+        if(key == KeyEvent.VK_D && (lastTime - now < coolDownInMillis) && !wallWest) {
             pos.translate(1,0);
             System.out.println("Player Position: " + pos.x + "," + pos.y);
             lastTime = System.currentTimeMillis();
@@ -62,4 +63,12 @@ public class Player extends Entities {
 	public void addScore(int amount) {
         score += amount;
     }
+	
+	public int getScore() {
+		return this.score; 
+	}
+	
+	public Point getPlayerPos() {
+		return this.pos;
+	}
 }
