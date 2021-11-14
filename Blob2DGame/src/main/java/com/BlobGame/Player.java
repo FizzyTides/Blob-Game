@@ -19,7 +19,7 @@ public class Player extends Entities {
 	
 	boolean wallNorth, wallSouth, wallEast, wallWest = false;
 	double lastTime = 0;
-	double coolDownInMillis = -400;
+	double coolDownInMillis = -100;
 	private int score;
 	
 	public Player() {
