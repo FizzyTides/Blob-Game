@@ -10,5 +10,9 @@ public class Enemy extends Entities {
 		
 		loadImage();
 	}
+	
+	public void enemyMovement() {
+		
+	}
 
 }
