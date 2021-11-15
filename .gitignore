@@ -1,2 +1,4 @@
-.vscode
-.metadata
+*/.vscode/*
+*/.metadata/*
+
+Blob2DGame/*.setting/*
