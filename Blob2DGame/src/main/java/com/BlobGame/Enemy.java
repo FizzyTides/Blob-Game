@@ -7,8 +7,8 @@ public class Enemy extends Entities {
 	boolean playerAbove, playerBelow, playerRight, playerLeft = false;
 	double lastTime = 0;
 	double coolDownInMillis = -400;
-	//int access_switch = 0; //0 is for up/down access, 1 is for left/right access
-	int sw = 0; //0 is for up/down access, 1 is for left/right access
+	//int access_directionSwitchitch = 0; //0 is for up/down access, 1 is for left/right access
+	int directionSwitch = 0; //0 is for up/down access, 1 is for left/right access
 	
 	Enemy(Point pos) {
 		this.imageName = "Enemy.png";
@@ -17,47 +17,47 @@ public class Enemy extends Entities {
 		loadImage();
 	}
 	
-	public Point getEnemyPos() {
+	public Point getPos() {
 		return this.pos;	
 	}
 	
-	//int sw = this.access_switch;
+	//int directionSwitch = this.access_directionSwitchitch;
 	public void enemyMovement() { 
-		System.out.println("sw == " + sw);
+		//System.out.println("directionSwitch == " + directionSwitch);
 		double now = System.currentTimeMillis();
 		
 		//player is above
-		if(playerAbove && (lastTime - now < coolDownInMillis) && sw==0) {
+		if(playerAbove && !wallNorth && (lastTime - now < coolDownInMillis) && directionSwitch==0) {
 			pos.translate(0, -1);
 			lastTime = System.currentTimeMillis();
-			sw = 1;
+			directionSwitch = 1;
 		}
 		//player is below
-		else if(playerBelow && (lastTime - now < coolDownInMillis) && sw==0) {
+		else if(playerBelow && !wallSouth && (lastTime - now < coolDownInMillis) && directionSwitch==0) {
 			pos.translate(0, 1);
 			lastTime = System.currentTimeMillis();
-			sw = 1;
+			directionSwitch = 1;
 		}
-		//player on same row (or switch not 0 --> time to switch)
+		//player on same row (or directionSwitchitch not 0 --> time to directionSwitchitch)
 		else if(lastTime - now < coolDownInMillis){
-			sw = 1;
+			directionSwitch = 1;
 		}
 			
 		//player is to right
-		if(playerRight && (lastTime - now < coolDownInMillis) && sw==1) {
+		if(playerRight && !wallWest && (lastTime - now < coolDownInMillis) && directionSwitch==1) {
 			pos.translate(1, 0);
 			lastTime = System.currentTimeMillis();
-			sw = 0	;
+			directionSwitch = 0	;
 		}
 		//player is to left
-		else if(playerLeft && (lastTime - now < coolDownInMillis) && sw==1) {
+		else if(playerLeft && !wallEast && (lastTime - now < coolDownInMillis) && directionSwitch==1) {
 			pos.translate(-1, 0);
 			lastTime = System.currentTimeMillis();
-			sw = 0;
+			directionSwitch = 0;
 			}
-		//player on same columns (or switch not 1 --> time to switch)
+		//player on same columns (or directionSwitchitch not 1 --> time to directionSwitchitch)
 		else if(lastTime - now < coolDownInMillis){
-			sw = 0;
+			directionSwitch = 0;
 		}
 				
 	}

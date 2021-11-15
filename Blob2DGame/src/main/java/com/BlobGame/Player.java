@@ -17,7 +17,6 @@ import java.awt.event.KeyEvent;
 
 public class Player extends Entities {
 	
-	boolean wallNorth, wallSouth, wallEast, wallWest = false;
 	double lastTime = 0;
 	double coolDownInMillis = -100;
 	private int score;
@@ -74,7 +73,7 @@ public class Player extends Entities {
 
     
 	
-	public Point getPlayerPos() {
+	public Point getPos() {
 		return this.pos;
 	}
 }

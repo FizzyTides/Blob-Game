@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 public class Entities {
 	
 	String imageName;
+	boolean wallNorth, wallSouth, wallEast, wallWest = false;
 	protected BufferedImage Image;
 	protected Point pos; // Player position on grid using Point Variable (same as processing PVectors)
 	

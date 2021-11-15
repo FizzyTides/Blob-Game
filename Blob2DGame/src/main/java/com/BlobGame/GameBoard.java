@@ -28,8 +28,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	public static final int COLUMNS = 20;
 	private static final int CAKE_REWARD = 100;
 	private static final int PUNISHMENT_PENALTY = 100;
-	public static final int NUM_CAKES = 10;
-	public static final int NUM_PUNISHMENTS = 10;
+	public static final int NUM_CAKES = 0;
+	public static final int NUM_PUNISHMENTS = 0;
 	
 	private Player player;
 	private BufferedImage bgImage;
@@ -131,6 +131,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			enemy.enemyDirection();
 		}*/
 		
+		enemyCheckWalls();
 		checkWalls();
 		gameBoundary();
 		collectCakes();
@@ -150,8 +151,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		for(Enemy enemy : enemies) {
 		
 			
-			Point enemyCurrPos = enemy.getEnemyPos();
-			Point playerCurrPos = player.getPlayerPos();
+			Point enemyCurrPos = enemy.getPos();
+			Point playerCurrPos = player.getPos();
 		
 			//System.out.println("Enemy Position: " + enemyCurrPos.x + "," + enemyCurrPos.y + " --- " + "Player Position: " + playerCurrPos.x + "," + playerCurrPos.y);
 			
@@ -159,45 +160,45 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			if(playerCurrPos.y < enemyCurrPos.y) {
 				enemy.playerAbove = true;
 				enemy.playerBelow = false;
-				System.out.println("player is above");
+				//System.out.println("player is above");
 			}
 			//player is below
 			else if(playerCurrPos.y > enemyCurrPos.y) {
 				enemy.playerBelow = true;
 				enemy.playerAbove = false;
-				System.out.println("player is below");
+				//System.out.println("player is below");
 			}
 			//player on same row (or switch not 0 --> time to switch)
 			else {
 				enemy.playerAbove = false;
 				enemy.playerBelow = false;
-				System.out.println("player is on same row");
+				//System.out.println("player is on same row");
 			}
 			
 			//player is to right
 			if(playerCurrPos.x > enemyCurrPos.x) {
 				enemy.playerRight = true;
 				enemy.playerLeft = false;
-				System.out.println("player is to right");
+				//System.out.println("player is to right");
 			}
 			//player is to left
 			else if(playerCurrPos.x < enemyCurrPos.x) {
 				enemy.playerLeft = true;
 				enemy.playerRight = false;
-				System.out.println("player is to left");
+				//System.out.println("player is to left");
 			}
 			//player on same columns (or switch not 1 --> time to switch)
 			else {
 				enemy.playerRight = false;
 				enemy.playerLeft = false;
-				System.out.println("player is on same column");
+				//System.out.println("player is on same column");
 			}
 			enemy.enemyMovement();
 		}
 	}
 
 	public void checkWalls() {
-        Point playerCurrPos = player.getPlayerPos();
+        Point playerCurrPos = player.getPos();
         boolean aWallNorth, aWallSouth, aWallEast, aWallWest;
         aWallNorth = aWallSouth = aWallEast = aWallWest = false;
         for(Wall walls : gameWalls) {
@@ -241,15 +242,127 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         }
 	}
 	
+	public void enemyCheckWalls() {
+		for(Enemy enemies : enemies) {
+			Point currEnemyPos = enemies.getPos();
+	        boolean aWallNorth, aWallSouth, aWallEast, aWallWest;
+	        aWallNorth = aWallSouth = aWallEast = aWallWest = false;
+	        for(Wall walls : gameWalls) {
+	            Point wallCurrPos = walls.getWallPos();
+	            
+
+	            		
+
+	            if((currEnemyPos.y - 1 == wallCurrPos.y && currEnemyPos.x == wallCurrPos.x) || aWallNorth) {
+	            	enemies.wallNorth = true;
+	                aWallNorth = true;
+	                //System.out.println("There is a wall to the North!");
+	            }
+	            else {
+	            	enemies.wallNorth = false;
+	            }
+	            if((currEnemyPos.y + 1 == wallCurrPos.y && currEnemyPos.x == wallCurrPos.x) || aWallSouth) {
+	            	enemies.wallSouth = true;
+	                aWallSouth = true;
+	                //System.out.println("There is a wall to the South!");
+	            }
+	            else {
+	            	enemies.wallSouth = false;
+	            }
+	            if((currEnemyPos.x - 1== wallCurrPos.x && currEnemyPos.y == wallCurrPos.y) || aWallEast) {
+	            	enemies.wallEast = true;
+	                aWallEast = true;
+	                //System.out.println("There is a wall to the East!");
+	            }
+	            else {
+	            	enemies.wallEast = false;
+	            }
+	            if((currEnemyPos.x + 1 == wallCurrPos.x && currEnemyPos.y == wallCurrPos.y) || aWallWest) {
+	            	enemies.wallWest = true;
+	                aWallWest = true;
+	               //System.out.println("There is a wall to the West!");
+	            }
+	            else {
+	            	enemies.wallWest = false;
+	            }
+	        }
+		}
+	}
+	
+
+	
 	private ArrayList<Enemy> spawnEnemies() {
 		ArrayList<Enemy> myEnemies = new ArrayList<Enemy>();
 		myEnemies.add(new Enemy(new Point(19, 13)));
+		myEnemies.add(new Enemy(new Point(1, 14)));
+		
 		return myEnemies;
 	}
 	
-	
+
 	private ArrayList<Wall> spawnWalls() { 
 		ArrayList<Wall> myWalls = new ArrayList<Wall>();
+		
+		myWalls.add(new Wall(new Point(2, 2)));
+		myWalls.add(new Wall(new Point(3, 2)));
+		myWalls.add(new Wall(new Point(4, 2)));
+		
+		myWalls.add(new Wall(new Point(6, 1)));
+		myWalls.add(new Wall(new Point(6, 3)));
+		myWalls.add(new Wall(new Point(6, 4)));
+		myWalls.add(new Wall(new Point(6, 5)));
+
+		myWalls.add(new Wall(new Point(5, 4)));
+		myWalls.add(new Wall(new Point(4, 4)));
+		
+		myWalls.add(new Wall(new Point(2, 4)));
+		myWalls.add(new Wall(new Point(2, 5)));
+		myWalls.add(new Wall(new Point(2, 6)));
+		myWalls.add(new Wall(new Point(1, 7)));
+		
+		myWalls.add(new Wall(new Point(1, 12)));
+		myWalls.add(new Wall(new Point(2, 12)));
+		
+		myWalls.add(new Wall(new Point(4, 5)));
+		myWalls.add(new Wall(new Point(4, 6)));
+		myWalls.add(new Wall(new Point(4, 7)));
+		myWalls.add(new Wall(new Point(4, 8)));
+		
+		myWalls.add(new Wall(new Point(5, 7)));
+		myWalls.add(new Wall(new Point(6, 7)));
+		myWalls.add(new Wall(new Point(7, 7)));
+		myWalls.add(new Wall(new Point(8, 7)));
+		myWalls.add(new Wall(new Point(8, 6)));
+		myWalls.add(new Wall(new Point(8, 5)));
+		myWalls.add(new Wall(new Point(8, 4)));
+		myWalls.add(new Wall(new Point(8, 3)));
+		myWalls.add(new Wall(new Point(8, 2)));
+		
+		myWalls.add(new Wall(new Point(3, 8)));
+		myWalls.add(new Wall(new Point(2, 9)));
+		myWalls.add(new Wall(new Point(2, 10)));
+		
+		myWalls.add(new Wall(new Point(4, 10)));
+		myWalls.add(new Wall(new Point(4, 11)));
+		myWalls.add(new Wall(new Point(4, 12)));
+		
+		myWalls.add(new Wall(new Point(8, 9)));
+		myWalls.add(new Wall(new Point(7, 9)));
+		myWalls.add(new Wall(new Point(6, 9)));
+		
+		myWalls.add(new Wall(new Point(10, 11)));
+		myWalls.add(new Wall(new Point(9, 11)));
+		myWalls.add(new Wall(new Point(8, 11)));
+		myWalls.add(new Wall(new Point(7, 11)));
+		myWalls.add(new Wall(new Point(6, 11)));
+		
+		myWalls.add(new Wall(new Point(6, 12)));
+		myWalls.add(new Wall(new Point(8, 13)));
+		myWalls.add(new Wall(new Point(10, 12)));
+		myWalls.add(new Wall(new Point(12, 13)));
+		myWalls.add(new Wall(new Point(12, 12)));
+		myWalls.add(new Wall(new Point(12, 11)));
+		
 		
 		for(int i = 0; i < COLUMNS; i++) {
 			Point upperWalls = new Point(i, 0);
