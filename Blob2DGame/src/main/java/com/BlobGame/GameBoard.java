@@ -127,14 +127,15 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		
-		for(Enemy enemy : enemies) {
-			enemy.enemyMovement();
-		}
+		/*for(Enemy enemy : enemies) {
+			enemy.enemyDirection();
+		}*/
 		
 		checkWalls();
 		gameBoundary();
 		collectCakes();
 		hitPunishment();
+		enemyDirection();
 		repaint();
 	}
 	
@@ -144,6 +145,56 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		}
 	}
 	
+	
+	public void enemyDirection() {
+		for(Enemy enemy : enemies) {
+		
+			
+			Point enemyCurrPos = enemy.getEnemyPos();
+			Point playerCurrPos = player.getPlayerPos();
+		
+			//System.out.println("Enemy Position: " + enemyCurrPos.x + "," + enemyCurrPos.y + " --- " + "Player Position: " + playerCurrPos.x + "," + playerCurrPos.y);
+			
+			//player is above
+			if(playerCurrPos.y < enemyCurrPos.y) {
+				enemy.playerAbove = true;
+				enemy.playerBelow = false;
+				System.out.println("player is above");
+			}
+			//player is below
+			else if(playerCurrPos.y > enemyCurrPos.y) {
+				enemy.playerBelow = true;
+				enemy.playerAbove = false;
+				System.out.println("player is below");
+			}
+			//player on same row (or switch not 0 --> time to switch)
+			else {
+				enemy.playerAbove = false;
+				enemy.playerBelow = false;
+				System.out.println("player is on same row");
+			}
+			
+			//player is to right
+			if(playerCurrPos.x > enemyCurrPos.x) {
+				enemy.playerRight = true;
+				enemy.playerLeft = false;
+				System.out.println("player is to right");
+			}
+			//player is to left
+			else if(playerCurrPos.x < enemyCurrPos.x) {
+				enemy.playerLeft = true;
+				enemy.playerRight = false;
+				System.out.println("player is to left");
+			}
+			//player on same columns (or switch not 1 --> time to switch)
+			else {
+				enemy.playerRight = false;
+				enemy.playerLeft = false;
+				System.out.println("player is on same column");
+			}
+			enemy.enemyMovement();
+		}
+	}
 
 	public void checkWalls() {
         Point playerCurrPos = player.getPlayerPos();
@@ -158,7 +209,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
             if((playerCurrPos.y - 1 == wallCurrPos.y && playerCurrPos.x == wallCurrPos.x) || aWallNorth) {
                 player.wallNorth = true;
                 aWallNorth = true;
-                System.out.println("There is a wall to the North!");
+                //System.out.println("There is a wall to the North!");
             }
             else {
             	player.wallNorth = false;
@@ -166,7 +217,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
             if((playerCurrPos.y + 1 == wallCurrPos.y && playerCurrPos.x == wallCurrPos.x) || aWallSouth) {
                 player.wallSouth = true;
                 aWallSouth = true;
-                System.out.println("There is a wall to the South!");
+                //System.out.println("There is a wall to the South!");
             }
             else {
             	player.wallSouth = false;
@@ -174,7 +225,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
             if((playerCurrPos.x - 1== wallCurrPos.x && playerCurrPos.y == wallCurrPos.y) || aWallEast) {
                 player.wallEast = true;
                 aWallEast = true;
-                System.out.println("There is a wall to the East!");
+                //System.out.println("There is a wall to the East!");
             }
             else {
             	player.wallEast = false;
@@ -182,7 +233,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
             if((playerCurrPos.x + 1 == wallCurrPos.x && playerCurrPos.y == wallCurrPos.y) || aWallWest) {
                 player.wallWest = true;
                 aWallWest = true;
-                System.out.println("There is a wall to the West!");
+               //System.out.println("There is a wall to the West!");
             }
             else {
             	player.wallWest = false;
