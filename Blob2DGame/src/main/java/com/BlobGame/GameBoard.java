@@ -85,6 +85,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			punishment.draw(g, this);
 		}
 		
+		for(Enemy enemy : enemies) {
+			enemy.draw(g, this);
+		}
+		
 		player.draw(g, this); // Draws player image
 		
 		
@@ -105,6 +109,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		
+		for(Enemy enemy : enemies) {
+			enemy.enemyMovement();
+		}
 		
 		checkWalls();
 		gameBoundary();
@@ -167,7 +175,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	private ArrayList<Enemy> spawnEnemies() {
 		ArrayList<Enemy> myEnemies = new ArrayList<Enemy>();
-		myEnemies.add(new Enemy(new Point(19, 14)));
+		myEnemies.add(new Enemy(new Point(19, 13)));
 		return myEnemies;
 	}
 	
@@ -210,7 +218,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         ArrayList<Punishment> punishmentList = new ArrayList<Punishment>();
 
         for (int i = 0; i < NUM_PUNISHMENTS; i++) {
-            Point p = new Point(i+1,i);
+            Point p = new Point(i+1,i+2);
             punishmentList.add(new Punishment(p));
         }
 
