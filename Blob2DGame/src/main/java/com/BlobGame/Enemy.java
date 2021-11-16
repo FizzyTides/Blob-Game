@@ -4,6 +4,7 @@ import java.awt.Point;
 
 public class Enemy extends Entities {
 	
+	boolean otherEnemyNorth, otherEnemySouth, otherEnemyEast, otherEnemyWest = false;
 	boolean playerAbove, playerBelow, playerRight, playerLeft = false;
 	double lastTime = 0;
 	double coolDownInMillis = -400;
@@ -27,13 +28,13 @@ public class Enemy extends Entities {
 		double now = System.currentTimeMillis();
 		
 		//player is above
-		if(playerAbove && !wallNorth && (lastTime - now < coolDownInMillis) && directionSwitch==0) {
+		if(playerAbove && !wallNorth && !otherEnemyNorth && (lastTime - now < coolDownInMillis) && directionSwitch==0) {
 			pos.translate(0, -1);
 			lastTime = System.currentTimeMillis();
 			directionSwitch = 1;
 		}
 		//player is below
-		else if(playerBelow && !wallSouth && (lastTime - now < coolDownInMillis) && directionSwitch==0) {
+		else if(playerBelow && !wallSouth && !otherEnemySouth && (lastTime - now < coolDownInMillis) && directionSwitch==0) {
 			pos.translate(0, 1);
 			lastTime = System.currentTimeMillis();
 			directionSwitch = 1;
@@ -44,13 +45,13 @@ public class Enemy extends Entities {
 		}
 			
 		//player is to right
-		if(playerRight && !wallWest && (lastTime - now < coolDownInMillis) && directionSwitch==1) {
+		if(playerRight && !wallWest && !otherEnemyWest && (lastTime - now < coolDownInMillis) && directionSwitch==1) {
 			pos.translate(1, 0);
 			lastTime = System.currentTimeMillis();
 			directionSwitch = 0	;
 		}
 		//player is to left
-		else if(playerLeft && !wallEast && (lastTime - now < coolDownInMillis) && directionSwitch==1) {
+		else if(playerLeft && !wallEast && !otherEnemyEast && (lastTime - now < coolDownInMillis) && directionSwitch==1) {
 			pos.translate(-1, 0);
 			lastTime = System.currentTimeMillis();
 			directionSwitch = 0;
