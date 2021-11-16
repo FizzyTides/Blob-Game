@@ -28,18 +28,24 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private boolean gameEnd = false;
 	
 	
-	private double startTime = System.currentTimeMillis() / 1000;
+	private double startTime;
     private int gameTimeElapse = 0;
 	
+    public int gameState;
+    private static final int MENU = 0;
+    private static final int GAMEPLAY = 1;
+    private static final int LOSEGAME = 2;
+    private static final int WINGAME = 3;
+    
 	public static final int TILE_SIZE = 50;
 	public static final int ROWS = 15;
 	public static final int COLUMNS = 20;
 	private static final int CAKE_REWARD = 100;
 	private static final int BONUS_REWARD = 500;
 	private static final int PUNISHMENT_PENALTY = 100;
-	public static final int NUM_CAKES = 0;
-	public static final int NUM_PUNISHMENTS = 0;
-	private static final int MAX_GAMETIME = 10;
+	public static final int NUM_CAKES = 5;
+	public static final int NUM_PUNISHMENTS = 5;
+	private static final int MAX_GAMETIME = 20;
 	
 	private Player player;
 	private BufferedImage bgImage;
@@ -48,10 +54,52 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private ArrayList<Punishment> punishments;
 	private ArrayList<Enemy> enemies;
 	
+	JButton startButton = new JButton("START");
+	
 	public GameBoard() {
 		setPreferredSize(new Dimension(TILE_SIZE * COLUMNS, TILE_SIZE * ROWS + 50));
+		setLayout(new GridBagLayout());
+		gameState = MENU;
 		
+		stateSwitch(gameState);
 		
+	}
+	
+	private void startButton() {
+		startButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				gameState = GAMEPLAY;
+				stateSwitch(gameState);
+				startButton.setVisible(false);
+				startButton.setFocusable(false);
+				startTime = System.currentTimeMillis() / 1000;
+			}
+		});
+		
+		startButton.setPreferredSize(new Dimension(100, 50));
+		this.add(startButton, new GridBagConstraints());
+		
+	}
+
+    private void stateSwitch(int gameState) {
+		switch(gameState) {
+		case MENU:
+			displayMenu();
+			break;
+		case GAMEPLAY:
+			gamePlay();
+			break;
+		case LOSEGAME:
+			
+			break;
+		case WINGAME:
+			
+			break;
+		}
+		
+	}
+    
+    private void gamePlay() {
 		player = new Player(); // Instantiate a player when gameBoard starts
 		enemies =  spawnEnemies();
         rewards = spawnRewards();
@@ -63,11 +111,15 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         
 		timer = new Timer(DELAY, this); // Calls the actionPerformed() function every DELAY
 		timer.start();
+    }
 
+	private void displayMenu() {
 		
+		startButton();
+		repaint();
 	}
 
-    private void timeElapsed() {
+	private void timeElapsed() {
         double currTime = System.currentTimeMillis() / 1000;
 
         if((currTime - (startTime + gameTimeElapse)) == 1 && gameTimeElapse <= MAX_GAMETIME) {
@@ -98,29 +150,37 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		g.drawImage(bgImage, 0, 0, null);
-		
-		
-		for (Cake reward : rewards) {
-			if(reward.isVisible()){
-				reward.draw(g, this);
+		if(gameState == GAMEPLAY) {
+			g.drawImage(bgImage, 0, 0, null);
+			g.drawString("Score: " + player.getScore(), TILE_SIZE * COLUMNS - 100, TILE_SIZE * ROWS + 30);
+			g.drawString("Time Remaining: " + (MAX_GAMETIME + 1 - gameTimeElapse), 50, TILE_SIZE * ROWS + 30);
+			
+			for (Cake reward : rewards) {
+				if(reward.isVisible()){
+					reward.draw(g, this);
+				}
+	  
+	        }
+			
+			for(Wall wall : gameWalls ) {
+				wall.draw(g, this);
 			}
-  
-        }
-		
-		for(Wall wall : gameWalls ) {
-			wall.draw(g, this);
+
+			for(Punishment punishment : punishments){
+				punishment.draw(g, this);
+			}
+			
+			for(Enemy enemy : enemies) {
+				enemy.draw(g, this);
+			}
+			
+			player.draw(g, this); // Draws player image
+		}
+		else if(gameState == MENU) {
+			g.setColor(Color.RED);
+			g.fillRect(0, 0, COLUMNS * TILE_SIZE, ROWS * TILE_SIZE + 50);
 		}
 
-		for(Punishment punishment : punishments){
-			punishment.draw(g, this);
-		}
-		
-		for(Enemy enemy : enemies) {
-			enemy.draw(g, this);
-		}
-		
-		player.draw(g, this); // Draws player image
 		
 		if(gameEnd) {
 			g.setColor(Color.BLACK);
@@ -129,23 +189,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 		Toolkit.getDefaultToolkit().sync();
 	}
-	
 
-	public void drawBackground(Graphics g, ImageObserver watcher) {
-//		g.setColor(new Color(0,0,0));
-//		for(int i = 0; i < ROWS * TILE_SIZE; i+=TILE_SIZE) {
-//			g.drawLine(0, i, TILE_SIZE * COLUMNS, i); // Draws the rows
-//		}
-//		
-//		for(int j = 0; j < COLUMNS * TILE_SIZE; j+=TILE_SIZE) {
-//			g.drawLine(j, 0, j, TILE_SIZE * COLUMNS); // Draws the columns
-//		}
-		for(int i = 0; i < ROWS * TILE_SIZE; i++) {
-			for(int j = 0; j < COLUMNS * TILE_SIZE; j++) {
-				//g.drawImage(tile, i * GameBoard.TILE_SIZE, j * GameBoard.TILE_SIZE , watcher);
-			}
-		}
-	}
 	
 
 	public void keyTyped(KeyEvent e) {
@@ -177,15 +221,16 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		/*for(Enemy enemy : enemies) {
 			enemy.enemyDirection();
 		}*/
-		
-		timeElapsed();
-		enemyCheckEnemies();
-		enemyCheckWalls();
-		checkWalls();
-		gameBoundary();
-		collectRewards();
-		hitPunishment();
-		enemyDirection();
+		if(gameState == GAMEPLAY) {
+			timeElapsed();
+			enemyCheckEnemies();
+			enemyCheckWalls();
+			checkWalls();
+			gameBoundary();
+			collectRewards();
+			hitPunishment();
+			enemyDirection();
+		}
 		repaint();
 	}
 	
