@@ -27,9 +27,9 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private boolean pause = false;
 	private boolean gameEnd = false;
 	
-	
-	private double startTime;
-    private int gameTimeElapse = 0;
+    private int gameTimeElapsed = 0;
+    private double startRealTime;
+    private int pauseTime = 0;
 	
     public int gameState;
     private static final int MENU = 0;
@@ -72,7 +72,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 				stateSwitch(gameState);
 				startButton.setVisible(false);
 				startButton.setFocusable(false);
-				startTime = System.currentTimeMillis() / 1000;
+				startRealTime = System.currentTimeMillis() / 1000;
 			}
 		});
 		
@@ -119,16 +119,17 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		repaint();
 	}
 
-	private void timeElapsed() {
-        double currTime = System.currentTimeMillis() / 1000;
+    private void timeElapsed() {
+        double currRealTime = System.currentTimeMillis() / 1000;
 
-        if((currTime - (startTime + gameTimeElapse)) == 1 && gameTimeElapse <= MAX_GAMETIME) {
-            //System.out.println(gameTimeElapse);
-            System.out.println(MAX_GAMETIME - gameTimeElapse); // stop at 0...
-            gameTimeElapse++;
+        if((currRealTime - (startRealTime + gameTimeElapsed + pauseTime)) == 1 && gameTimeElapsed <= MAX_GAMETIME) {
+            //System.out.println(gameTimeElapsed);
+            int gameTimeCountdown = MAX_GAMETIME - gameTimeElapsed;
+            System.out.println(gameTimeCountdown); // stop at 0...
+            gameTimeElapsed++;
         }
-        else if(MAX_GAMETIME + 1 == gameTimeElapse) {
-        	gameEnd();
+        else if(MAX_GAMETIME + 1 == gameTimeElapsed) {
+            gameEnd();
         }
     }
     
@@ -153,7 +154,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		if(gameState == GAMEPLAY) {
 			g.drawImage(bgImage, 0, 0, null);
 			g.drawString("Score: " + player.getScore(), TILE_SIZE * COLUMNS - 100, TILE_SIZE * ROWS + 30);
-			g.drawString("Time Remaining: " + (MAX_GAMETIME + 1 - gameTimeElapse), 50, TILE_SIZE * ROWS + 30);
+			g.drawString("Time Remaining: " + (MAX_GAMETIME + 1 - gameTimeElapsed), 50, TILE_SIZE * ROWS + 30);
 			
 			for (Cake reward : rewards) {
 				if(reward.isVisible()){
