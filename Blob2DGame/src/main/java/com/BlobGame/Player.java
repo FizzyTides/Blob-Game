@@ -39,22 +39,22 @@ public class Player extends Entities {
 
         if(!pause && key == KeyEvent.VK_W  && (lastTime - now < coolDownInMillis) && !wallNorth) {
             pos.translate(0, -1);
-            System.out.println("Player Position: " + pos.x + "," + pos.y);
+            //System.out.println("Player Position: " + pos.x + "," + pos.y);
             lastTime = System.currentTimeMillis();
         }
         if(!pause && key == KeyEvent.VK_S && (lastTime - now < coolDownInMillis) && !wallSouth) {
             pos.translate(0, 1);
-            System.out.println("Player Position: " + pos.x + "," + pos.y);
+           // System.out.println("Player Position: " + pos.x + "," + pos.y);
             lastTime = System.currentTimeMillis();
         }
         if(!pause && key == KeyEvent.VK_A && (lastTime - now < coolDownInMillis) && !wallEast) {
             pos.translate(-1,0);
-            System.out.println("Player Position: " + pos.x + "," + pos.y);
+           // System.out.println("Player Position: " + pos.x + "," + pos.y);
             lastTime = System.currentTimeMillis();
         }
         if(!pause && key == KeyEvent.VK_D && (lastTime - now < coolDownInMillis) && !wallWest) {
             pos.translate(1,0);
-            System.out.println("Player Position: " + pos.x + "," + pos.y);
+         //   System.out.println("Player Position: " + pos.x + "," + pos.y);
             lastTime = System.currentTimeMillis();
         }
 	}
