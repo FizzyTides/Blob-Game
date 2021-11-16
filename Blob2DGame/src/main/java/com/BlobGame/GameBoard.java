@@ -35,7 +35,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private static final int PUNISHMENT_PENALTY = 100;
 	public static final int NUM_CAKES = 0;
 	public static final int NUM_PUNISHMENTS = 0;
-	private static final int MAX_GAMETIME = 5;
+	private static final int MAX_GAMETIME = 10;
 	
 	private Player player;
 	private BufferedImage bgImage;
@@ -45,7 +45,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private ArrayList<Enemy> enemies;
 	
 	public GameBoard() {
-		setPreferredSize(new Dimension(TILE_SIZE * COLUMNS, TILE_SIZE * ROWS));
+		setPreferredSize(new Dimension(TILE_SIZE * COLUMNS, TILE_SIZE * ROWS + 50));
 		
 		
 		player = new Player(); // Instantiate a player when gameBoard starts
