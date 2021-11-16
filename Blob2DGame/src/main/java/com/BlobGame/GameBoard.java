@@ -51,9 +51,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private static final int PUNISHMENT_PENALTY = 100;
 	public static final int NUM_CAKES = 5;
 	public static final int NUM_PUNISHMENTS = 5;
-	private static final int MAX_GAMETIME = 10;
+	private static final int MAX_GAMETIME = 30;
 	
 	private Player player;
+	private Gate gate;
 	private BufferedImage bgImage;
 	private ArrayList<Cake> rewards; //includes bunus and regular reward	
 	private ArrayList<Wall> gameWalls;
@@ -93,7 +94,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			displayMenu();
 			break;
 		case GAMEPLAY:
-			gamePlay();
+			gameInit();
 			break;
 		case GAMELOSE:
 			gameLose();
@@ -115,12 +116,12 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 	}
 
-	private void gamePlay() {
+	private void gameInit() {
 		player = new Player(); // Instantiate a player when gameBoard starts
 		enemies =  spawnEnemies();
         rewards = spawnRewards();
         gameWalls = spawnWalls();
-		punishments = spawnPunishments();
+		punishments = spawnPunishments();		
 
 		cakeCount = 0;
         
@@ -134,6 +135,12 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 		startButton();
 		repaint();
+	}
+	
+	private void winCondition() {
+		if(cakeCount == NUM_CAKES) {
+			gameWalls.remove(gate);
+		}
 	}
 
     private void timeElapsed() {
@@ -158,7 +165,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	void loadBgImage() {
 		try { 
-
 			bgImage = ImageIO.read(new File("src/main/resources/Bg.png"));
 		} catch (IOException ex) {
 			System.out.println("Cannot open this file: " + ex.getMessage());
@@ -256,6 +262,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			collectRewards();
 			hitPunishment();
 			enemyDirection();
+			winCondition();
 		}
 		repaint();
 	}
@@ -324,7 +331,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         boolean aWallNorth, aWallSouth, aWallEast, aWallWest;
         aWallNorth = aWallSouth = aWallEast = aWallWest = false;
         for(Wall walls : gameWalls) {
-            Point wallCurrPos = walls.getWallPos();
+            Point wallCurrPos = walls.getPos();
             
 
             if((playerCurrPos.y - 1 == wallCurrPos.y && playerCurrPos.x == wallCurrPos.x) || aWallNorth) {
@@ -376,7 +383,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	        boolean aWallNorth, aWallSouth, aWallEast, aWallWest;
 	        aWallNorth = aWallSouth = aWallEast = aWallWest = false;
 	        for(Wall walls : gameWalls) {
-	            Point wallCurrPos = walls.getWallPos();
+	            Point wallCurrPos = walls.getPos();
 	            
 
 	            if((currEnemyPos.y - 1 == wallCurrPos.y && currEnemyPos.x == wallCurrPos.x) || aWallNorth) {
@@ -526,8 +533,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		myWalls.add(new Wall(new Point(11, 9)));
 		myWalls.add(new Wall(new Point(10, 13)));
 		myWalls.add(new Wall(new Point(7, 12)));
-
-		
+		gate = new Gate(new Point(19, 13));
+		myWalls.add(gate); //Adding gate to Walls ArrayList
 		
 		for(int i = 0; i < COLUMNS; i++) {
 			Point upperWalls = new Point(i, 0);
