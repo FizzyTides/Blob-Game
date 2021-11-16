@@ -166,8 +166,9 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	}
 	
 	private void gameCountDown(int currTime) {
-		if(currTime == MAX_GAMETIME) {
+		if(MAX_GAMETIME - currTime <= 0) {
 			gameEnd = true;
+			player.pause = true;
 			timer.stop(); // Stops Game Time on end
 		}
 		
