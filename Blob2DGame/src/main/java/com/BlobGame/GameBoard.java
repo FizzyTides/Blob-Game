@@ -21,7 +21,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private final int DELAY = 0; //50 by default
 	private Timer timer;
 	
+	private int gameTime;
+	
 	boolean wallFound = false;
+	private boolean pause = false;
+	private boolean gameEnd = false;
 	
 	public static final int TILE_SIZE = 50;
 	public static final int ROWS = 15;
@@ -30,6 +34,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private static final int PUNISHMENT_PENALTY = 100;
 	public static final int NUM_CAKES = 0;
 	public static final int NUM_PUNISHMENTS = 0;
+	private static final int MAX_GAMETIME = 5;
 	
 	private Player player;
 	private BufferedImage bgImage;
@@ -53,7 +58,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         
 		timer = new Timer(DELAY, this); // Calls the actionPerformed() function every DELAY
 		timer.start();
-		System.out.println("TIMER: " + timer);
 
 		
 	}
@@ -90,6 +94,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 		player.draw(g, this); // Draws player image
 		
+		if(gameEnd) {
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, COLUMNS * TILE_SIZE, ROWS * TILE_SIZE);
+		}
 		
 		Toolkit.getDefaultToolkit().sync();
 	}
@@ -118,6 +126,17 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	public void keyPressed(KeyEvent e) {
 		
+		int key = e.getKeyCode();
+		if(key == KeyEvent.VK_P && !pause) {
+			timer.stop();
+			pause = true;
+			player.pause = true;
+		} else if (key == KeyEvent.VK_P && pause) {
+			timer.start();
+			pause = false;
+			player.pause = false;
+		}
+
 		player.keyPressed(e);
 	}
 
@@ -131,6 +150,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			enemy.enemyDirection();
 		}*/
 		
+		gameTime++;
+		
+		int currTime = getGameTimeSeconds(gameTime);
+		System.out.println("Time Remaining: " + (MAX_GAMETIME - currTime));
+		gameCountDown(currTime);
 		enemyCheckEnemies();
 		enemyCheckWalls();
 		checkWalls();
@@ -141,6 +165,20 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		repaint();
 	}
 	
+	private void gameCountDown(int currTime) {
+		if(currTime == MAX_GAMETIME) {
+			gameEnd = true;
+			timer.stop(); // Stops Game Time on end
+		}
+		
+	}
+
+	private int getGameTimeSeconds(int gameTime) {
+		int roundTime = (int) Math.round(gameTime);
+		int gameTimeSeconds = ((roundTime % 86400) % 3600 / 60);
+		return gameTimeSeconds;
+	}
+
 	public void gameBoundary() {
 		if(player.pos.x < 0) {
 			player.pos.x = 0;
@@ -349,61 +387,55 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		myWalls.add(new Wall(new Point(3, 2)));
 		myWalls.add(new Wall(new Point(4, 2)));
 		
-		myWalls.add(new Wall(new Point(6, 1)));
-		myWalls.add(new Wall(new Point(6, 3)));
-		myWalls.add(new Wall(new Point(6, 4)));
-		myWalls.add(new Wall(new Point(6, 5)));
-
-		myWalls.add(new Wall(new Point(5, 4)));
-		myWalls.add(new Wall(new Point(4, 4)));
-		
-		myWalls.add(new Wall(new Point(2, 4)));
-		myWalls.add(new Wall(new Point(2, 5)));
-		myWalls.add(new Wall(new Point(2, 6)));
-		myWalls.add(new Wall(new Point(1, 7)));
-		
-		myWalls.add(new Wall(new Point(1, 12)));
 		myWalls.add(new Wall(new Point(2, 12)));
-		
-		myWalls.add(new Wall(new Point(4, 5)));
-		myWalls.add(new Wall(new Point(4, 6)));
-		myWalls.add(new Wall(new Point(4, 7)));
-		myWalls.add(new Wall(new Point(4, 8)));
-		
-		myWalls.add(new Wall(new Point(5, 7)));
-		myWalls.add(new Wall(new Point(6, 7)));
-		myWalls.add(new Wall(new Point(7, 7)));
-		myWalls.add(new Wall(new Point(8, 7)));
-		myWalls.add(new Wall(new Point(8, 6)));
-		myWalls.add(new Wall(new Point(8, 5)));
-		myWalls.add(new Wall(new Point(8, 4)));
-		myWalls.add(new Wall(new Point(8, 3)));
-		myWalls.add(new Wall(new Point(8, 2)));
-		
-		myWalls.add(new Wall(new Point(3, 8)));
-		myWalls.add(new Wall(new Point(2, 9)));
+		myWalls.add(new Wall(new Point(2, 11)));
 		myWalls.add(new Wall(new Point(2, 10)));
+		myWalls.add(new Wall(new Point(2, 9)));
 		
-		myWalls.add(new Wall(new Point(4, 10)));
 		myWalls.add(new Wall(new Point(4, 11)));
-		myWalls.add(new Wall(new Point(4, 12)));
+		myWalls.add(new Wall(new Point(5, 11)));
+
+		myWalls.add(new Wall(new Point(1, 6)));
+		myWalls.add(new Wall(new Point(2, 6)));
+		myWalls.add(new Wall(new Point(3, 6)));
 		
-		myWalls.add(new Wall(new Point(8, 9)));
+		myWalls.add(new Wall(new Point(16, 1)));
+		myWalls.add(new Wall(new Point(16, 2)));
+		myWalls.add(new Wall(new Point(17, 2)));
+
+		myWalls.add(new Wall(new Point(6, 7)));
+		myWalls.add(new Wall(new Point(8, 7)));
+		myWalls.add(new Wall(new Point(9, 7)));
+		
+		myWalls.add(new Wall(new Point(11, 7)));
+		myWalls.add(new Wall(new Point(12, 7)));
+		
+		myWalls.add(new Wall(new Point(16, 5)));
+		myWalls.add(new Wall(new Point(16, 6)));
+		myWalls.add(new Wall(new Point(16, 7)));
+		myWalls.add(new Wall(new Point(16, 8)));
+		
+		myWalls.add(new Wall(new Point(8, 2)));
+		myWalls.add(new Wall(new Point(7, 2)));
+		myWalls.add(new Wall(new Point(7, 3)));
+		myWalls.add(new Wall(new Point(7, 4)));
+		myWalls.add(new Wall(new Point(8, 4)));
+		
+		myWalls.add(new Wall(new Point(10, 2)));
+		myWalls.add(new Wall(new Point(11, 2)));
+		myWalls.add(new Wall(new Point(11, 3)));
+		myWalls.add(new Wall(new Point(11, 4)));
+		myWalls.add(new Wall(new Point(10, 4)));
+		
+		myWalls.add(new Wall(new Point(16, 12)));
+		myWalls.add(new Wall(new Point(14, 12)));
+		myWalls.add(new Wall(new Point(13, 12)));
+		
 		myWalls.add(new Wall(new Point(7, 9)));
-		myWalls.add(new Wall(new Point(6, 9)));
-		
-		myWalls.add(new Wall(new Point(10, 11)));
-		myWalls.add(new Wall(new Point(9, 11)));
-		myWalls.add(new Wall(new Point(8, 11)));
-		myWalls.add(new Wall(new Point(7, 11)));
-		myWalls.add(new Wall(new Point(6, 11)));
-		
-		myWalls.add(new Wall(new Point(6, 12)));
-		myWalls.add(new Wall(new Point(8, 13)));
-		myWalls.add(new Wall(new Point(10, 12)));
-		myWalls.add(new Wall(new Point(12, 13)));
-		myWalls.add(new Wall(new Point(12, 12)));
-		myWalls.add(new Wall(new Point(12, 11)));
+		myWalls.add(new Wall(new Point(11, 9)));
+		myWalls.add(new Wall(new Point(10, 13)));
+		myWalls.add(new Wall(new Point(7, 12)));
+
 		
 		
 		for(int i = 0; i < COLUMNS; i++) {
