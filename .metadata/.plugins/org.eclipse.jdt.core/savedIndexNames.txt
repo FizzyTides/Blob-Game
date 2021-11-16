@@ -1,7 +1,4 @@
 INDEX VERSION 1.131+C:\Users\Michael\project\.metadata\.plugins\org.eclipse.jdt.core
 1782951288.index
 3413725848.index
-<<<<<<< HEAD
-=======
 1865797976.index
->>>>>>> master
