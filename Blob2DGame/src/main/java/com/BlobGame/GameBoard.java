@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,11 +23,13 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private final int DELAY = 0; //50 by default
 	private Timer timer;
 	
-	private int gameTime;
-	
 	boolean wallFound = false;
 	private boolean pause = false;
 	private boolean gameEnd = false;
+	
+	
+	private double startTime = System.currentTimeMillis() / 1000;
+    private int gameTimeElapse = 0;
 	
 	public static final int TILE_SIZE = 50;
 	public static final int ROWS = 15;
@@ -62,6 +66,25 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 
 		
 	}
+
+    private void timeElapsed() {
+        double currTime = System.currentTimeMillis() / 1000;
+
+        if((currTime - (startTime + gameTimeElapse)) == 1 && gameTimeElapse <= MAX_GAMETIME) {
+            //System.out.println(gameTimeElapse);
+            System.out.println(MAX_GAMETIME - gameTimeElapse); // stop at 0...
+            gameTimeElapse++;
+        }
+        else if(MAX_GAMETIME + 1 == gameTimeElapse) {
+        	gameEnd();
+        }
+    }
+    
+    public void gameEnd() {
+    	player.pause = true;
+    	timer.stop();
+    	gameEnd = true;
+    }
 	
 	void loadBgImage() {
 		try { 
@@ -76,6 +99,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		super.paintComponent(g);
 		
 		g.drawImage(bgImage, 0, 0, null);
+		
 		
 		for (Cake reward : rewards) {
 			if(reward.isVisible()){
@@ -154,11 +178,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			enemy.enemyDirection();
 		}*/
 		
-		gameTime++;
-		
-		int currTime = getGameTimeSeconds(gameTime);
-		System.out.println("Time Remaining: " + (MAX_GAMETIME - currTime));
-		gameCountDown(currTime);
+		timeElapsed();
 		enemyCheckEnemies();
 		enemyCheckWalls();
 		checkWalls();
@@ -169,20 +189,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		repaint();
 	}
 	
-	private void gameCountDown(int currTime) {
-		if(MAX_GAMETIME - currTime <= 0) {
-			gameEnd = true;
-			player.pause = true;
-			timer.stop(); // Stops Game Time on end
-		}
-		
-	}
 
-	private int getGameTimeSeconds(int gameTime) {
-		int roundTime = (int) Math.round(gameTime);
-		int gameTimeSeconds = ((roundTime % 86400) % 3600 / 60);
-		return gameTimeSeconds;
-	}
 
 	public void gameBoundary() {
 		if(player.pos.x < 0) {
