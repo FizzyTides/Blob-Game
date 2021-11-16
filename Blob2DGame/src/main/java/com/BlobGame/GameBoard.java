@@ -40,8 +40,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
     public int gameState;
     private static final int MENU = 0;
     private static final int GAMEPLAY = 1;
-    private static final int LOSEGAME = 2;
-    private static final int WINGAME = 3;
+    private static final int GAMELOSE = 2;
+    private static final int GAMEWIN = 3;
     
 	public static final int TILE_SIZE = 50;
 	public static final int ROWS = 15;
@@ -95,17 +95,27 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		case GAMEPLAY:
 			gamePlay();
 			break;
-		case LOSEGAME:
-			
+		case GAMELOSE:
+			gameLose();
 			break;
-		case WINGAME:
-			
+		case GAMEWIN:
+			gameWin();
 			break;
 		}
 		
 	}
     
-    private void gamePlay() {
+    private void gameLose() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void gameWin() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void gamePlay() {
 		player = new Player(); // Instantiate a player when gameBoard starts
 		enemies =  spawnEnemies();
         rewards = spawnRewards();
@@ -143,7 +153,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
     public void gameEnd() {
     	player.pause = true;
     	timer.stop();
-    	gameEnd = true;
+    	gameState = GAMELOSE;
     }
 	
 	void loadBgImage() {
@@ -191,9 +201,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		}
 
 		
-		if(gameEnd) {
+		else if(gameState == GAMELOSE) {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, COLUMNS * TILE_SIZE, ROWS * TILE_SIZE);
+			g.setColor(Color.WHITE);
+			g.drawString("GAME OVER!!! ~~~ LOSER!", TILE_SIZE * COLUMNS / 2 - 50, TILE_SIZE * ROWS / 2);
 		}
 		
 		Toolkit.getDefaultToolkit().sync();
@@ -238,6 +250,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			timeElapsed();
 			enemyCheckEnemies();
 			enemyCheckWalls();
+			enemyKillPlayer(player.getPos());
 			checkWalls();
 			gameBoundary();
 			collectRewards();
@@ -347,6 +360,14 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
             	player.wallWest = false;
             }
         }
+	}
+	
+	public void enemyKillPlayer(Point playerPos) {
+		for(Enemy enemies : enemies) {
+			if(playerPos.x == enemies.getPos().x && playerPos.y == enemies.getPos().y) {
+				gameEnd();
+			}
+		}
 	}
 	
 	public void enemyCheckWalls() {
@@ -531,15 +552,23 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private ArrayList<Cake> spawnRewards() {
         ArrayList<Cake> rewardList = new ArrayList<Cake>();
 
-        for (int i = 0; i < NUM_CAKES; i++) {
-            Point p = new Point(i+2,1);
-            rewardList.add(new Cake(p));
-        }
+        Point p1 = new Point(1,10);
+        rewardList.add(new Cake(p1));
 
-		Random rand = new Random(); //TODO hardcode
-		
-		Point p = new Point(rand.nextInt(COLUMNS),rand.nextInt(ROWS));
-		rewardList.add(new BonusReward(p));
+        Point p2 = new Point(9,3);
+        rewardList.add(new Cake(p2));
+
+        Point p3 = new Point(17,1);
+        rewardList.add(new Cake(p3));
+
+        Point p4 = new Point(17,7);
+        rewardList.add(new Cake(p4));
+
+        Point p5 = new Point(11,11);
+        rewardList.add(new Cake(p5));
+
+        Point p6 = new Point(1,5);
+        rewardList.add(new BonusReward(p6));
 
         return rewardList;
     }
@@ -547,10 +576,23 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private ArrayList<Punishment> spawnPunishments() {
         ArrayList<Punishment> punishmentList = new ArrayList<Punishment>();
 
-        for (int i = 0; i < NUM_PUNISHMENTS; i++) {
-            Point p = new Point(i+1,i+2);
-            punishmentList.add(new Punishment(p));
-        }
+        Point p1 = new Point(5,2);
+        punishmentList.add(new Punishment(p1));
+
+        Point p2 = new Point(9,4);
+        punishmentList.add(new Punishment(p2));
+
+        Point p3 = new Point(17,3);
+        punishmentList.add(new Punishment(p3));
+
+        Point p4 = new Point(2,5);
+        punishmentList.add(new Punishment(p4));
+
+        Point p5 = new Point(9,11);
+        punishmentList.add(new Punishment(p5));
+
+        Point p6 = new Point(14,10);
+        punishmentList.add(new Punishment(p6));
 
         return punishmentList;
     }
