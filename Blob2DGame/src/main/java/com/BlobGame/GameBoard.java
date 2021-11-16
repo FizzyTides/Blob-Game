@@ -31,6 +31,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	public static final int ROWS = 15;
 	public static final int COLUMNS = 20;
 	private static final int CAKE_REWARD = 100;
+	private static final int BONUS_REWARD = 500;
 	private static final int PUNISHMENT_PENALTY = 100;
 	public static final int NUM_CAKES = 0;
 	public static final int NUM_PUNISHMENTS = 0;
@@ -38,7 +39,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	private Player player;
 	private BufferedImage bgImage;
-	private ArrayList<Cake> cakes;	
+	private ArrayList<Cake> rewards; //includes bunus and regular reward	
 	private ArrayList<Wall> gameWalls;
 	private ArrayList<Punishment> punishments;
 	private ArrayList<Enemy> enemies;
@@ -49,7 +50,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 		player = new Player(); // Instantiate a player when gameBoard starts
 		enemies =  spawnEnemies();
-        cakes = spawnCakes();
+        rewards = spawnRewards();
         gameWalls = spawnWalls();
 		punishments = spawnPunishments();
 
@@ -76,8 +77,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 		g.drawImage(bgImage, 0, 0, null);
 		
-		for (Cake cake : cakes) {
-            cake.draw(g, this);
+		for (Cake reward : rewards) {
+			if(reward.isVisible()){
+				reward.draw(g, this);
+			}
+  
         }
 		
 		for(Wall wall : gameWalls ) {
@@ -159,7 +163,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		enemyCheckWalls();
 		checkWalls();
 		gameBoundary();
-		collectCakes();
+		collectRewards();
 		hitPunishment();
 		enemyDirection();
 		repaint();
@@ -459,15 +463,20 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	
 
-	private ArrayList<Cake> spawnCakes() {
-        ArrayList<Cake> cakeList = new ArrayList<Cake>();
+	private ArrayList<Cake> spawnRewards() {
+        ArrayList<Cake> rewardList = new ArrayList<Cake>();
 
         for (int i = 0; i < NUM_CAKES; i++) {
             Point p = new Point(i,i);
-            cakeList.add(new Cake(p));
+            rewardList.add(new Cake(p));
         }
 
-        return cakeList;
+		Random rand = new Random(); //TODO hardcode
+		
+		Point p = new Point(rand.nextInt(COLUMNS),rand.nextInt(ROWS));
+		rewardList.add(new BonusReward(p));
+
+        return rewardList;
     }
 
 	private ArrayList<Punishment> spawnPunishments() {
@@ -481,20 +490,20 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         return punishmentList;
     }
 
-	private void collectCakes() {
+	private void collectRewards() {
 		// Fills ArrayList with collectedCakes
         ArrayList<Cake> collectedCakes = new ArrayList<Cake>();
-        for (Cake cake : cakes) {
+        for (Cake reward : rewards) {
             // if the player is on the same tile as a cake, collect it
-            if (player.getPos().equals(cake.getPos())) {
+            if (player.getPos().equals(reward.getPos()) && (reward.isVisible())) {
                 // give the player some points for picking this up
-                player.addScore(CAKE_REWARD);
-                collectedCakes.add(cake);
+                player.addScore(reward.rewardValue());
+                collectedCakes.add(reward);
                 System.out.println("SCORE: " + player.getScore());
             }
         }
         // remove collected cakes from the board
-        cakes.removeAll(collectedCakes);
+        rewards.removeAll(collectedCakes);
     }
 
 	

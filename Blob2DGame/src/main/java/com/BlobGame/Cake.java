@@ -13,14 +13,27 @@ import java.awt.event.KeyEvent;
 
 public class Cake extends Entities {
 
-    private static final int reward = 100;
+    protected  int reward;
+    protected boolean visibility;
 
     public Cake (Point position) {
 
         this.imageName = "Cake.png";
         this.pos =  position;
+        this.reward = 100;
+        this.visibility = true;
 
         loadImage();
+    }
+
+    public int rewardValue(){
+
+        return reward;
+    }
+
+    public boolean isVisible(){
+
+        return visibility;
     }
     
 
