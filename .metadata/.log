@@ -1,5 +1,5 @@
 
-!ENTRY org.eclipse.m2e.logback.appender 4 0 2021-11-16 02:51:20.966
+!ENTRY org.eclipse.m2e.logback.appender 4 0 2021-11-16 03:13:00.076
 !MESSAGE Can't write workspace state
 !STACK 0
 java.io.FileNotFoundException: C:\Users\Michael\project\.metadata\.plugins\org.eclipse.m2e.core\workspaceState.ser (The system cannot find the path specified)
@@ -19,208 +19,40 @@ java.io.FileNotFoundException: C:\Users\Michael\project\.metadata\.plugins\org.e
 	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor.lambda$1(IDEWorkbenchAdvisor.java:554)
 	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
 
-!ENTRY org.eclipse.ui.ide 4 4 2021-11-16 02:51:22.489
+!ENTRY org.eclipse.core.resources 4 566 2021-11-16 03:13:00.082
+!MESSAGE Could not save master table to file 'C:\Users\Michael\project\.metadata\.plugins\org.eclipse.core.resources\.safetable\org.eclipse.core.resources.bak'.
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Michael\project\.metadata\.plugins\org.eclipse.core.resources\.safetable\org.eclipse.core.resources.bak (The system cannot find the path specified)
+	at java.base/java.io.FileOutputStream.open0(Native Method)
+	at java.base/java.io.FileOutputStream.open(FileOutputStream.java:293)
+	at java.base/java.io.FileOutputStream.<init>(FileOutputStream.java:235)
+	at java.base/java.io.FileOutputStream.<init>(FileOutputStream.java:155)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:48)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:44)
+	at org.eclipse.core.internal.resources.SaveManager.saveMasterTable(SaveManager.java:1265)
+	at org.eclipse.core.internal.resources.SaveManager.cleanMasterTable(SaveManager.java:240)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1173)
+	at org.eclipse.core.internal.resources.Workspace.save(Workspace.java:2354)
+	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor.lambda$1(IDEWorkbenchAdvisor.java:554)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+
+!ENTRY org.eclipse.ui.ide 4 4 2021-11-16 03:13:00.968
 !MESSAGE Problems saving workspace
 
-!ENTRY org.eclipse.ui.ide 4 1 2021-11-16 02:51:22.490
+!ENTRY org.eclipse.ui.ide 4 1 2021-11-16 03:13:00.968
 !MESSAGE Problems occurred while trying to save the state of the workbench.
-!SUBENTRY 1 org.eclipse.core.resources 4 568 2021-11-16 02:51:22.490
-!MESSAGE Could not write workspace metadata 'C:/Users/Michael/project/.metadata/.plugins/org.eclipse.core.resources/.root/1.tree'.
+!SUBENTRY 1 org.eclipse.core.resources 4 568 2021-11-16 03:13:00.968
+!MESSAGE Could not write metadata for '/.org.eclipse.egit.core.cmp'.
 !STACK 0
-java.io.FileNotFoundException: C:\Users\Michael\project\.metadata\.plugins\org.eclipse.core.resources\.root\1.tree (The system cannot find the path specified)
+java.io.FileNotFoundException: C:\Users\Michael\project\.metadata\.plugins\org.eclipse.core.resources\.projects\.org.eclipse.egit.core.cmp\.markers (The system cannot find the path specified)
 	at java.base/java.io.FileOutputStream.open0(Native Method)
 	at java.base/java.io.FileOutputStream.open(FileOutputStream.java:293)
 	at java.base/java.io.FileOutputStream.<init>(FileOutputStream.java:235)
 	at java.base/java.io.FileOutputStream.<init>(FileOutputStream.java:184)
 	at org.eclipse.core.internal.localstore.SafeFileOutputStream.<init>(SafeFileOutputStream.java:55)
-	at org.eclipse.core.internal.resources.SaveManager.saveTree(SaveManager.java:1381)
-	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1168)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSave(SaveManager.java:1657)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSave(SaveManager.java:1736)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1177)
 	at org.eclipse.core.internal.resources.Workspace.save(Workspace.java:2354)
 	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor.lambda$1(IDEWorkbenchAdvisor.java:554)
 	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
-
-!ENTRY org.eclipse.core.resources 2 10035 2021-11-16 02:51:23.145
-!MESSAGE The workspace will exit with unsaved changes in this session.
-!SESSION 2021-11-16 02:51:31.340 -----------------------------------------------
-eclipse.buildId=4.21.0.I20210906-0500
-java.version=17
-java.vendor=Oracle Corporation
-BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_CA
-Framework arguments:  -product org.eclipse.epp.package.java.product
-Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
-
-!ENTRY org.eclipse.core.resources 2 10035 2021-11-16 02:51:33.456
-!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
-
-!ENTRY org.eclipse.osgi 4 0 2021-11-16 02:51:33.477
-!MESSAGE An error occurred while automatically activating bundle org.eclipse.core.resources (88).
-!STACK 0
-org.osgi.framework.BundleException: Exception in org.eclipse.core.resources.ResourcesPlugin.start() of bundle org.eclipse.core.resources.
-	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:828)
-	at org.eclipse.osgi.internal.framework.BundleContextImpl.start(BundleContextImpl.java:759)
-	at org.eclipse.osgi.internal.framework.EquinoxBundle.startWorker0(EquinoxBundle.java:1019)
-	at org.eclipse.osgi.internal.framework.EquinoxBundle$EquinoxModule.startWorker(EquinoxBundle.java:365)
-	at org.eclipse.osgi.container.Module.doStart(Module.java:605)
-	at org.eclipse.osgi.container.Module.start(Module.java:468)
-	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:404)
-	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:117)
-	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:572)
-	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:345)
-	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:388)
-	at org.eclipse.osgi.internal.loader.sources.SingleSourcePackage.loadClass(SingleSourcePackage.java:41)
-	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:463)
-	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:170)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:520)
-	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:153)
-	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:136)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:659)
-	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:596)
-	at org.eclipse.equinox.launcher.Main.run(Main.java:1467)
-	at org.eclipse.equinox.launcher.Main.main(Main.java:1440)
-Caused by: org.eclipse.core.internal.dtree.ObjectNotFoundException: Tree element '/Blob2DGame/target/classes/com/BlobGame/Wall.class' not found.
-	at org.eclipse.core.internal.dtree.AbstractDataTree.handleNotFound(AbstractDataTree.java:260)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.getData(DeltaDataTree.java:599)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:54)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:51)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:51)
-	at org.eclipse.core.internal.dtree.NoDataDeltaNode.asBackwardDelta(NoDataDeltaNode.java:63)
-	at org.eclipse.core.internal.dtree.NoDataDeltaNode.asBackwardDelta(NoDataDeltaNode.java:63)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:51)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:51)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.asBackwardDelta(DeltaDataTree.java:91)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.reroot(DeltaDataTree.java:835)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.reroot(DeltaDataTree.java:834)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.reroot(DeltaDataTree.java:811)
-	at org.eclipse.core.internal.watson.ElementTree.immutable(ElementTree.java:522)
-	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:731)
-	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1555)
-	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2480)
-	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2231)
-	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:475)
-	at org.eclipse.osgi.internal.framework.BundleContextImpl.lambda$2(BundleContextImpl.java:808)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:569)
-	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:802)
-	... 28 more
-Root exception:
-org.eclipse.core.internal.dtree.ObjectNotFoundException: Tree element '/Blob2DGame/target/classes/com/BlobGame/Wall.class' not found.
-	at org.eclipse.core.internal.dtree.AbstractDataTree.handleNotFound(AbstractDataTree.java:260)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.getData(DeltaDataTree.java:599)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:54)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:51)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:51)
-	at org.eclipse.core.internal.dtree.NoDataDeltaNode.asBackwardDelta(NoDataDeltaNode.java:63)
-	at org.eclipse.core.internal.dtree.NoDataDeltaNode.asBackwardDelta(NoDataDeltaNode.java:63)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:51)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:51)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.asBackwardDelta(DeltaDataTree.java:91)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.reroot(DeltaDataTree.java:835)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.reroot(DeltaDataTree.java:834)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.reroot(DeltaDataTree.java:811)
-	at org.eclipse.core.internal.watson.ElementTree.immutable(ElementTree.java:522)
-	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:731)
-	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1555)
-	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2480)
-	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2231)
-	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:475)
-	at org.eclipse.osgi.internal.framework.BundleContextImpl.lambda$2(BundleContextImpl.java:808)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:569)
-	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:802)
-	at org.eclipse.osgi.internal.framework.BundleContextImpl.start(BundleContextImpl.java:759)
-	at org.eclipse.osgi.internal.framework.EquinoxBundle.startWorker0(EquinoxBundle.java:1019)
-	at org.eclipse.osgi.internal.framework.EquinoxBundle$EquinoxModule.startWorker(EquinoxBundle.java:365)
-	at org.eclipse.osgi.container.Module.doStart(Module.java:605)
-	at org.eclipse.osgi.container.Module.start(Module.java:468)
-	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:404)
-	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:117)
-	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:572)
-	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:345)
-	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:388)
-	at org.eclipse.osgi.internal.loader.sources.SingleSourcePackage.loadClass(SingleSourcePackage.java:41)
-	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:463)
-	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:170)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:520)
-	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:153)
-	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:136)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:659)
-	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:596)
-	at org.eclipse.equinox.launcher.Main.run(Main.java:1467)
-	at org.eclipse.equinox.launcher.Main.main(Main.java:1440)
-
-!ENTRY org.eclipse.osgi 4 0 2021-11-16 02:51:33.483
-!MESSAGE Application error
-!STACK 1
-java.lang.NoClassDefFoundError: org/eclipse/core/resources/IContainer
-	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:153)
-	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:136)
-	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
-	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:659)
-	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:596)
-	at org.eclipse.equinox.launcher.Main.run(Main.java:1467)
-	at org.eclipse.equinox.launcher.Main.main(Main.java:1440)
-Caused by: java.lang.ClassNotFoundException: An error occurred while automatically activating bundle org.eclipse.core.resources (88).
-	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:126)
-	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:572)
-	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:345)
-	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:388)
-	at org.eclipse.osgi.internal.loader.sources.SingleSourcePackage.loadClass(SingleSourcePackage.java:41)
-	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:463)
-	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:170)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:520)
-	... 14 more
-Caused by: org.osgi.framework.BundleException: Exception in org.eclipse.core.resources.ResourcesPlugin.start() of bundle org.eclipse.core.resources.
-	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:828)
-	at org.eclipse.osgi.internal.framework.BundleContextImpl.start(BundleContextImpl.java:759)
-	at org.eclipse.osgi.internal.framework.EquinoxBundle.startWorker0(EquinoxBundle.java:1019)
-	at org.eclipse.osgi.internal.framework.EquinoxBundle$EquinoxModule.startWorker(EquinoxBundle.java:365)
-	at org.eclipse.osgi.container.Module.doStart(Module.java:605)
-	at org.eclipse.osgi.container.Module.start(Module.java:468)
-	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:404)
-	at org.eclipse.osgi.internal.hooks.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:117)
-	... 21 more
-Caused by: org.eclipse.core.internal.dtree.ObjectNotFoundException: Tree element '/Blob2DGame/target/classes/com/BlobGame/Wall.class' not found.
-	at org.eclipse.core.internal.dtree.AbstractDataTree.handleNotFound(AbstractDataTree.java:260)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.getData(DeltaDataTree.java:599)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:54)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:51)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:51)
-	at org.eclipse.core.internal.dtree.NoDataDeltaNode.asBackwardDelta(NoDataDeltaNode.java:63)
-	at org.eclipse.core.internal.dtree.NoDataDeltaNode.asBackwardDelta(NoDataDeltaNode.java:63)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:51)
-	at org.eclipse.core.internal.dtree.DataDeltaNode.asBackwardDelta(DataDeltaNode.java:51)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.asBackwardDelta(DeltaDataTree.java:91)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.reroot(DeltaDataTree.java:835)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.reroot(DeltaDataTree.java:834)
-	at org.eclipse.core.internal.dtree.DeltaDataTree.reroot(DeltaDataTree.java:811)
-	at org.eclipse.core.internal.watson.ElementTree.immutable(ElementTree.java:522)
-	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:731)
-	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1555)
-	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2480)
-	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2231)
-	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:475)
-	at org.eclipse.osgi.internal.framework.BundleContextImpl.lambda$2(BundleContextImpl.java:808)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:569)
-	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:802)
-	... 28 more
