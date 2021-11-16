@@ -1,6 +1,8 @@
 package com.BlobGame;
 
 import javax.swing.*;
+import java.awt.*;
+
 
 public class Game {
 	
@@ -10,7 +12,8 @@ public class Game {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Stops game on game window close
 
 		GameBoard board = new GameBoard(); //JPanel to draw our game
-
+		
+		board.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		window.add(board); // Adding JPanel to the game Window
 		window.addKeyListener(board); // Adding Keyboard listener so we can transfer inputs to character
 

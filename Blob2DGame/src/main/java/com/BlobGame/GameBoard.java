@@ -49,25 +49,25 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private static final int CAKE_REWARD = 100;
 	private static final int BONUS_REWARD = 500;
 	private static final int PUNISHMENT_PENALTY = 100;
-	public static final int NUM_CAKES = 5;
+	public static final int NUM_CAKES = 1;
 	public static final int NUM_PUNISHMENTS = 5;
 	private static final int MAX_GAMETIME = 30;
 	
 	private Player player;
 	private Gate gate;
-	private BufferedImage bgImage;
+	private ExitTile winTile;
+	private BufferedImage bgImage, winBgImage, loseBgImage, menuBgImage;
 	private ArrayList<Cake> rewards; //includes bunus and regular reward	
 	private ArrayList<Wall> gameWalls;
 	private ArrayList<Punishment> punishments;
 	private ArrayList<Enemy> enemies;
 	
-	JButton startButton = new JButton("START");
+	JButton startButton= new JButton("START");
 	
 	public GameBoard() {
 		setPreferredSize(new Dimension(TILE_SIZE * COLUMNS, TILE_SIZE * ROWS + 50));
-		setLayout(new GridBagLayout());
+		setLayout(null);
 		gameState = MENU;
-		
 		stateSwitch(gameState);
 		
 	}
@@ -83,9 +83,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			}
 		});
 		
-		startButton.setPreferredSize(new Dimension(100, 50));
-		this.add(startButton, new GridBagConstraints());
-		
+		startButton.setBounds(TILE_SIZE * COLUMNS / 2 - 50, TILE_SIZE * ROWS / 2 - 25, 100, 25);
+		this.add(startButton);
 	}
 
     private void stateSwitch(int gameState) {
@@ -97,35 +96,26 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			gameInit();
 			break;
 		case GAMELOSE:
-			gameLose();
+
 			break;
 		case GAMEWIN:
-			gameWin();
+
 			break;
 		}
 		
 	}
     
-    private void gameLose() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void gameWin() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	private void gameInit() {
 		player = new Player(); // Instantiate a player when gameBoard starts
 		enemies =  spawnEnemies();
         rewards = spawnRewards();
         gameWalls = spawnWalls();
-		punishments = spawnPunishments();		
+		punishments = spawnPunishments();
+		winTile = new ExitTile(new Point(19,13));
 
 		cakeCount = 0;
         
-        loadBgImage();
+        loadImages();
         
 		timer = new Timer(DELAY, this); // Calls the actionPerformed() function every DELAY
 		timer.start();
@@ -137,9 +127,19 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		repaint();
 	}
 	
+	private void loseCondition() {
+		if(player.getScore() < 0 || MAX_GAMETIME == gameTimeElapsed) {
+			gameEnd(GAMELOSE);
+		}
+		enemyKillPlayer(player.getPos());
+	}
+	
 	private void winCondition() {
 		if(cakeCount == NUM_CAKES) {
 			gameWalls.remove(gate);
+		}
+		if(player.getPos().x == winTile.getPos().x && player.getPos().y == winTile.getPos().y) {
+			gameEnd(GAMEWIN);
 		}
 	}
 
@@ -152,20 +152,21 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
             System.out.println(gameTimeCountdown); // stop at 0...
             gameTimeElapsed++;
         }
-        else if(MAX_GAMETIME == gameTimeElapsed) {
-            gameEnd();
-        }
+
     }
     
-    public void gameEnd() {
+    public void gameEnd(int gameResult) {
     	player.pause = true;
     	timer.stop();
-    	gameState = GAMELOSE;
+    	gameState = gameResult;
     }
 	
-	void loadBgImage() {
+	void loadImages() {
 		try { 
 			bgImage = ImageIO.read(new File("src/main/resources/Bg.png"));
+			winBgImage = ImageIO.read(new File("src/main/resources/winBgImage.png"));
+			loseBgImage = ImageIO.read(new File("src/main/resources/loseBgImage.png"));
+			menuBgImage = ImageIO.read(new File("src/main/resources/menuBgImage.png"));
 		} catch (IOException ex) {
 			System.out.println("Cannot open this file: " + ex.getMessage());
 		}
@@ -176,6 +177,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 		if(gameState == GAMEPLAY) {
 			g.drawImage(bgImage, 0, 0, null);
+
 			g.drawString("Score: " + player.getScore(), TILE_SIZE * COLUMNS - 100, TILE_SIZE * ROWS + 30);
 			g.drawString("Time Remaining: " + (MAX_GAMETIME - gameTimeElapsed), 50, TILE_SIZE * ROWS + 30);
 			g.drawString("Cakes: " + cakeCount + " /" + NUM_CAKES, TILE_SIZE * COLUMNS / 2, TILE_SIZE * ROWS + 30);
@@ -186,11 +188,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 				}
 	  
 	        }
-			
+			winTile.draw(g, this);
 			for(Wall wall : gameWalls ) {
 				wall.draw(g, this);
 			}
-
+			
 			for(Punishment punishment : punishments){
 				punishment.draw(g, this);
 			}
@@ -202,16 +204,18 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			player.draw(g, this); // Draws player image
 		}
 		else if(gameState == MENU) {
-			g.setColor(Color.RED);
-			g.fillRect(0, 0, COLUMNS * TILE_SIZE, ROWS * TILE_SIZE + 50);
+			g.drawImage(menuBgImage, 0, 0, this);
+			//g.setColor(Color.RED);
+			//g.fillRect(0, 0, COLUMNS * TILE_SIZE, ROWS * TILE_SIZE + 50);
 		}
 
 		
 		else if(gameState == GAMELOSE) {
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, COLUMNS * TILE_SIZE, ROWS * TILE_SIZE);
-			g.setColor(Color.WHITE);
-			g.drawString("GAME OVER!!! ~~~ LOSER!", TILE_SIZE * COLUMNS / 2 - 50, TILE_SIZE * ROWS / 2);
+			g.drawImage(loseBgImage, 0, 0, null);
+		}
+		
+		else if(gameState == GAMEWIN) {
+			g.drawImage(winBgImage, 0, 0, null);
 		}
 		
 		Toolkit.getDefaultToolkit().sync();
@@ -256,13 +260,13 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			timeElapsed();
 			enemyCheckEnemies();
 			enemyCheckWalls();
-			enemyKillPlayer(player.getPos());
 			checkWalls();
 			gameBoundary();
 			collectRewards();
 			hitPunishment();
 			enemyDirection();
 			winCondition();
+			loseCondition();
 		}
 		repaint();
 	}
@@ -282,8 +286,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			
 			Point enemyCurrPos = enemy.getPos();
 			Point playerCurrPos = player.getPos();
-		
-			//System.out.println("Enemy Position: " + enemyCurrPos.x + "," + enemyCurrPos.y + " --- " + "Player Position: " + playerCurrPos.x + "," + playerCurrPos.y);
 			
 			//player is above
 			if(playerCurrPos.y < enemyCurrPos.y) {
@@ -372,7 +374,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	public void enemyKillPlayer(Point playerPos) {
 		for(Enemy enemies : enemies) {
 			if(playerPos.x == enemies.getPos().x && playerPos.y == enemies.getPos().y) {
-				gameEnd();
+				gameEnd(GAMELOSE);
 			}
 		}
 	}
