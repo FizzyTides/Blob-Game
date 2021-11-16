@@ -29,8 +29,14 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
     private int gameTimeElapsed = 0;
     private double startRealTime;
-    private int pauseTime = 0;
+    private double pauseTime = 0;
+    double pause_begin;
+    double pause_end;
 	
+    private int cakeCount;
+    
+
+    
     public int gameState;
     private static final int MENU = 0;
     private static final int GAMEPLAY = 1;
@@ -45,7 +51,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private static final int PUNISHMENT_PENALTY = 100;
 	public static final int NUM_CAKES = 5;
 	public static final int NUM_PUNISHMENTS = 5;
-	private static final int MAX_GAMETIME = 20;
+	private static final int MAX_GAMETIME = 10;
 	
 	private Player player;
 	private BufferedImage bgImage;
@@ -106,6 +112,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         gameWalls = spawnWalls();
 		punishments = spawnPunishments();
 
+		cakeCount = 0;
         
         loadBgImage();
         
@@ -128,7 +135,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
             System.out.println(gameTimeCountdown); // stop at 0...
             gameTimeElapsed++;
         }
-        else if(MAX_GAMETIME + 1 == gameTimeElapsed) {
+        else if(MAX_GAMETIME == gameTimeElapsed) {
             gameEnd();
         }
     }
@@ -154,7 +161,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		if(gameState == GAMEPLAY) {
 			g.drawImage(bgImage, 0, 0, null);
 			g.drawString("Score: " + player.getScore(), TILE_SIZE * COLUMNS - 100, TILE_SIZE * ROWS + 30);
-			g.drawString("Time Remaining: " + (MAX_GAMETIME + 1 - gameTimeElapsed), 50, TILE_SIZE * ROWS + 30);
+			g.drawString("Time Remaining: " + (MAX_GAMETIME - gameTimeElapsed), 50, TILE_SIZE * ROWS + 30);
+			g.drawString("Cakes: " + cakeCount + " /" + NUM_CAKES, TILE_SIZE * COLUMNS / 2, TILE_SIZE * ROWS + 30);
 			
 			for (Cake reward : rewards) {
 				if(reward.isVisible()){
@@ -198,20 +206,24 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		
-		int key = e.getKeyCode();
-		if(key == KeyEvent.VK_P && !pause) {
-			timer.stop();
-			pause = true;
-			player.pause = true;
-		} else if (key == KeyEvent.VK_P && pause) {
-			timer.start();
-			pause = false;
-			player.pause = false;
-		}
 
-		player.keyPressed(e);
-	}
+        int key = e.getKeyCode();
+        if(key == KeyEvent.VK_P && !pause) {
+            timer.stop();
+            pause_begin = System.currentTimeMillis() / 1000;
+            pause = true;
+            player.pause = true;
+
+        } else if (key == KeyEvent.VK_P && pause) {
+            timer.start();
+            pause_end = System.currentTimeMillis() / 1000;
+            pauseTime = pauseTime + (pause_end - pause_begin);
+            pause = false;
+            player.pause = false;
+        }
+
+        player.keyPressed(e);
+    }
 
 	public void keyReleased(KeyEvent e) {
 		
@@ -520,7 +532,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         ArrayList<Cake> rewardList = new ArrayList<Cake>();
 
         for (int i = 0; i < NUM_CAKES; i++) {
-            Point p = new Point(i,i);
+            Point p = new Point(i+2,1);
             rewardList.add(new Cake(p));
         }
 
@@ -552,6 +564,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
                 // give the player some points for picking this up
                 player.addScore(reward.rewardValue());
                 collectedCakes.add(reward);
+                cakeCount++;
                 System.out.println("SCORE: " + player.getScore());
             }
         }
