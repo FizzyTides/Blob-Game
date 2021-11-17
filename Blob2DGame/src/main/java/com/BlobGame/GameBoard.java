@@ -30,14 +30,13 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	boolean wallFound = false;
 	private boolean pause = false;
 	
-	private int punishmentFreezeTime = 1;
-    private int frozenStartTime = -punishmentFreezeTime;
+    private int punishmentFreezeTime = 1000; //in milliseconds 
+    private double frozenStartTime = -punishmentFreezeTime;
     private int gameTimeElapsed = 0;
     private double startRealTime;
     private double pauseTime = 0;
     double pause_begin;
     double pause_end;
-	
     private int cakeCount;
     
 
@@ -54,9 +53,9 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private static final int CAKE_REWARD = 100;
 	private static final int BONUS_REWARD = 500;
 	private static final int PUNISHMENT_PENALTY = 100;
-	public static final int NUM_CAKES = 1;
+	public static final int NUM_CAKES = 5;
 	public static final int NUM_PUNISHMENTS = 5;
-	private static final int MAX_GAMETIME = 15;
+	private static final int MAX_GAMETIME = 30;
 	
 	private Player player;
 	private Gate gate;
@@ -89,7 +88,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 				player.setScore(0);
 				gameTimeElapsed = 0;
 				pauseTime = 0;
-				punishmentFreezeTime = 1;
 				frozenStartTime = -punishmentFreezeTime;
 			}
 		});
@@ -245,7 +243,13 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("Squidgy Slimes", Font.PLAIN, 18));
 			g.drawString("FINAL SUGAR LEVEL: " + player.getScore(), TILE_SIZE * COLUMNS / 2 - 110, TILE_SIZE * ROWS / 2 + 115);
-			g.drawString("TIME REMAINING: " + (MAX_GAMETIME - gameTimeElapsed), TILE_SIZE * COLUMNS / 2 - 110, TILE_SIZE * ROWS / 2 + 145);
+			
+			if((MAX_GAMETIME - gameTimeElapsed) != 1) {
+				g.drawString("TIME REMAINING: " + (MAX_GAMETIME - gameTimeElapsed) + " seconds", TILE_SIZE * COLUMNS / 2 - 110, TILE_SIZE * ROWS / 2 + 145);
+			}
+			else {
+				g.drawString("TIME REMAINING: " + (MAX_GAMETIME - gameTimeElapsed) + " second", TILE_SIZE * COLUMNS / 2 - 110, TILE_SIZE * ROWS / 2 + 145);
+			}
 		}
 		
 		Toolkit.getDefaultToolkit().sync();
@@ -662,7 +666,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
                 player.addScore(reward.getValue());
                 collectedCakes.add(reward);
                 cakeCount++;
-                System.out.println("SCORE: " + player.getScore());
+                //System.out.println("SCORE: " + player.getScore());
             }
         }
         // remove collected cakes from the board
@@ -679,12 +683,13 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
                 // deduct points from total
                 player.deductScore(punishment.getPenalty());
                 collectedPunishments.add(punishment);
-                System.out.println("SCORE: " + player.getScore());
+                //System.out.println("SCORE: " + player.getScore());
                 if(punishment instanceof TelePunishment) {
                 	player.setPos(new Point(0, 1));
                 }
                 else {
-                	frozenStartTime = gameTimeElapsed;
+                	//frozenStartTime = gameTimeElapsed;
+                	frozenStartTime = System.currentTimeMillis();
                 }
             }
         }
@@ -694,9 +699,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	public void frozenCheck() {
         //System.out.println(frozen_start_time);
-        if((frozenStartTime + punishmentFreezeTime) > gameTimeElapsed) {
+        //if((frozenStartTime + punishmentFreezeTime) > gameTimeElapsed) {
+        if((frozenStartTime + punishmentFreezeTime) > System.currentTimeMillis()) {
+       
             //still frozen
-            //System.out.println("still frozen");
+            //System.out.println(System.currentTimeMillis());
         	player.imageName = "FrozenPlayer.png";
         	player.loadImage();
             player.pause = true;
