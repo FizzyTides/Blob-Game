@@ -23,6 +23,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private final int DELAY = 0; //50 by default
 	private Timer timer;
 	
+	double bonusStayTime = 5;
+	double rand = Math.floor(Math.random()*((MAX_GAMETIME-1-bonusStayTime)+1)); 
+		//get random time (between 0 <-> MAXTIME-1-bonusStayTime)..
+	
 	boolean wallFound = false;
 	private boolean pause = false;
 	private boolean gameEnd = false;
@@ -51,7 +55,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private static final int PUNISHMENT_PENALTY = 100;
 	public static final int NUM_CAKES = 1;
 	public static final int NUM_PUNISHMENTS = 5;
-	private static final int MAX_GAMETIME = 30;
+	private static final int MAX_GAMETIME = 15;
 	
 	private Player player;
 	private Gate gate;
@@ -147,9 +151,9 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         double currRealTime = System.currentTimeMillis() / 1000;
 
         if((currRealTime - (startRealTime + gameTimeElapsed + pauseTime)) == 1 && gameTimeElapsed <= MAX_GAMETIME) {
-            //System.out.println(gameTimeElapsed);
+        	//System.out.println(gameTimeElapsed);
             int gameTimeCountdown = MAX_GAMETIME - gameTimeElapsed;
-            System.out.println(gameTimeCountdown); // stop at 0...
+            //System.out.println(gameTimeCountdown); // stop at 0...
             gameTimeElapsed++;
         }
 
@@ -267,11 +271,26 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			enemyDirection();
 			winCondition();
 			loseCondition();
+			bonusVisibility();
 		}
 		repaint();
 	}
-	
 
+	public void bonusVisibility() {
+		//System.out.println("rand: "+rand);
+		for (Cake cake : rewards) {
+			//System.out.println("gameTimeElapsed: " + (gameTimeElapsed) + "rand: " + rand);
+			if((cake.isBonus == true) && (gameTimeElapsed == rand)) {
+				//System.out.println("show bonus reward @" + rand);
+				cake.visibility = true; 
+			}
+			if((cake.isBonus == true) && (gameTimeElapsed == (rand + bonusStayTime)) && cake.visibility == true) {
+				//System.out.println("show bonus reward @" + rand);
+				cake.visibility = false; 
+			}
+		}
+		
+	}
 
 	public void gameBoundary() {
 		if(player.pos.x < 0) {

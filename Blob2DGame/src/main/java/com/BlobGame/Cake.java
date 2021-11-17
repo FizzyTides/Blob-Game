@@ -15,6 +15,7 @@ public class Cake extends Entities {
 
     protected  int reward;
     protected boolean visibility;
+    protected boolean isBonus;
 
     public Cake (Point position) {
 
@@ -22,7 +23,8 @@ public class Cake extends Entities {
         this.pos =  position;
         this.reward = 100;
         this.visibility = true;
-
+        this.isBonus = false;
+        
         loadImage();
     }
 

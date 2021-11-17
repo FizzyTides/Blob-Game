@@ -10,6 +10,7 @@ public class BonusReward extends Cake{
         this.imageName = "Cake.png"; //TODO change image
         this.reward = 500;
         this.visibility = false;
+        this.isBonus = true;
 
         loadImage();
 
