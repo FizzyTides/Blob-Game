@@ -19,7 +19,7 @@ public class Cake extends Entities {
 
     public Cake (Point position) {
 
-        this.imageName = "Cake.png";
+        this.imageName = "CakeSlice.png";
         this.pos =  position;
         this.reward = 100;
         this.visibility = true;
@@ -28,16 +28,18 @@ public class Cake extends Entities {
         loadImage();
     }
 
-    public int rewardValue(){
-
-        return reward;
-    }
-
     public boolean isVisible(){
 
         return visibility;
     }
     
+    public void setBonusReward(int rewardValue) {
+    	this.reward = rewardValue;
+    }
+    
+    public int getValue() {
+    	return this.reward;
+    }
 
 
 }

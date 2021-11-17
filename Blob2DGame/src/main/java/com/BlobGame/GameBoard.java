@@ -95,6 +95,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		switch(gameState) {
 		case MENU:
 			displayMenu();
+			loadImages();
 			break;
 		case GAMEPLAY:
 			gameInit();
@@ -118,8 +119,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		winTile = new ExitTile(new Point(19,13));
 
 		cakeCount = 0;
-        
-        loadImages();
         
 		timer = new Timer(DELAY, this); // Calls the actionPerformed() function every DELAY
 		timer.start();
@@ -208,7 +207,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			player.draw(g, this); // Draws player image
 		}
 		else if(gameState == MENU) {
-			g.drawImage(menuBgImage, 0, 0, this);
+			g.drawImage(menuBgImage, 0, 0, null);
 			//g.setColor(Color.RED);
 			//g.fillRect(0, 0, COLUMNS * TILE_SIZE, ROWS * TILE_SIZE + 50);
 		}
@@ -282,6 +281,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			//System.out.println("gameTimeElapsed: " + (gameTimeElapsed) + "rand: " + rand);
 			if((cake.isBonus == true) && (gameTimeElapsed == rand)) {
 				//System.out.println("show bonus reward @" + rand);
+				cake.setBonusReward((int) (player.getScore() * 1.5 + 200));
 				cake.visibility = true; 
 			}
 			if((cake.isBonus == true) && (gameTimeElapsed == (rand + bonusStayTime)) && cake.visibility == true) {
@@ -632,7 +632,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
             // if the player is on the same tile as a cake, collect it
             if (player.getPos().equals(reward.getPos()) && (reward.isVisible())) {
                 // give the player some points for picking this up
-                player.addScore(reward.rewardValue());
+                player.addScore(reward.getValue());
                 collectedCakes.add(reward);
                 cakeCount++;
                 System.out.println("SCORE: " + player.getScore());
