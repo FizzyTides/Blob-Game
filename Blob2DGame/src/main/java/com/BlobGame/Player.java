@@ -71,7 +71,9 @@ public class Player extends Entities {
 		return this.score; 
 	}
 
-    
+    public void setScore(int value) {
+    	this.score = value;
+    }
 	
 	public Point getPos() {
 		return this.pos;

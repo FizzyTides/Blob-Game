@@ -60,13 +60,14 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private Player player;
 	private Gate gate;
 	private ExitTile winTile;
-	private BufferedImage bgImage, winBgImage, loseBgImage, menuBgImage;
+	private BufferedImage bgImage, winBgImage, loseBgImage, menuBgImage, pauseText;
 	private ArrayList<Cake> rewards; //includes bunus and regular reward	
 	private ArrayList<Wall> gameWalls;
 	private ArrayList<Punishment> punishments;
 	private ArrayList<Enemy> enemies;
 	
 	JButton startButton= new JButton("START");
+	JButton replayButton = new JButton("REPLAY");
 	
 	public GameBoard() {
 		setPreferredSize(new Dimension(TILE_SIZE * COLUMNS, TILE_SIZE * ROWS + 50));
@@ -74,6 +75,24 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		gameState = MENU;
 		stateSwitch(gameState);
 		
+	}
+	
+	private void replayButton() {
+		replayButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				gameState = GAMEPLAY;
+				stateSwitch(gameState);
+				replayButton.setVisible(false);
+				replayButton.setFocusable(false);
+				startRealTime = System.currentTimeMillis() / 1000;
+				player.setScore(0);
+				gameTimeElapsed = 0;
+				pauseTime = 0;
+			}
+		});
+		
+		replayButton.setBounds(TILE_SIZE * COLUMNS / 2 - 50, TILE_SIZE * ROWS / 2 + 100, 100, 25);
+		this.add(replayButton);
 	}
 	
 	private void startButton() {
@@ -94,17 +113,19 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
     private void stateSwitch(int gameState) {
 		switch(gameState) {
 		case MENU:
-			displayMenu();
+			startButton();
+			replayButton();
+			replayButton.setVisible(false);
 			loadImages();
 			break;
 		case GAMEPLAY:
 			gameInit();
 			break;
 		case GAMELOSE:
-
+			replayButton();
 			break;
 		case GAMEWIN:
-
+			replayButton();
 			break;
 		}
 		
@@ -123,12 +144,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		timer = new Timer(DELAY, this); // Calls the actionPerformed() function every DELAY
 		timer.start();
     }
-
-	private void displayMenu() {
-		
-		startButton();
-		repaint();
-	}
 	
 	private void loseCondition() {
 		if(player.getScore() < 0 || MAX_GAMETIME == gameTimeElapsed) {
@@ -151,7 +166,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 
         if((currRealTime - (startRealTime + gameTimeElapsed + pauseTime)) == 1 && gameTimeElapsed <= MAX_GAMETIME) {
         	//System.out.println(gameTimeElapsed);
-            int gameTimeCountdown = MAX_GAMETIME - gameTimeElapsed;
+            //int gameTimeCountdown = MAX_GAMETIME - gameTimeElapsed;
             //System.out.println(gameTimeCountdown); // stop at 0...
             gameTimeElapsed++;
         }
@@ -161,6 +176,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
     public void gameEnd(int gameResult) {
     	player.pause = true;
     	timer.stop();
+		replayButton.setVisible(true);
     	gameState = gameResult;
     }
 	
@@ -170,6 +186,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			winBgImage = ImageIO.read(new File("src/main/resources/winBgImage.png"));
 			loseBgImage = ImageIO.read(new File("src/main/resources/loseBgImage.png"));
 			menuBgImage = ImageIO.read(new File("src/main/resources/menuBgImage.png"));
+			pauseText = ImageIO.read(new File("src/main/resources/pauseText.png"));
 		} catch (IOException ex) {
 			System.out.println("Cannot open this file: " + ex.getMessage());
 		}
@@ -179,7 +196,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		super.paintComponent(g);
 		
 		if(gameState == GAMEPLAY) {
-			g.drawImage(bgImage, 0, 0, null);
+			g.drawImage(bgImage, 0, 0, this);
 
 			g.drawString("Score: " + player.getScore(), TILE_SIZE * COLUMNS - 100, TILE_SIZE * ROWS + 30);
 			g.drawString("Time Remaining: " + (MAX_GAMETIME - gameTimeElapsed), 50, TILE_SIZE * ROWS + 30);
@@ -205,20 +222,21 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			}
 			
 			player.draw(g, this); // Draws player image
+			if(pause) {
+				g.drawImage(pauseText, TILE_SIZE * COLUMNS / 2 - 150, TILE_SIZE * ROWS / 2 - 50, this);
+			}
 		}
 		else if(gameState == MENU) {
-			g.drawImage(menuBgImage, 0, 0, null);
-			//g.setColor(Color.RED);
-			//g.fillRect(0, 0, COLUMNS * TILE_SIZE, ROWS * TILE_SIZE + 50);
+			g.drawImage(menuBgImage, 0, 0, this);
 		}
 
 		
 		else if(gameState == GAMELOSE) {
-			g.drawImage(loseBgImage, 0, 0, null);
+			g.drawImage(loseBgImage, 0, 0, this);
 		}
 		
 		else if(gameState == GAMEWIN) {
-			g.drawImage(winBgImage, 0, 0, null);
+			g.drawImage(winBgImage, 0, 0, this);
 		}
 		
 		Toolkit.getDefaultToolkit().sync();
@@ -234,13 +252,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 
         int key = e.getKeyCode();
         if(key == KeyEvent.VK_P && !pause) {
-            timer.stop();
             pause_begin = System.currentTimeMillis() / 1000;
             pause = true;
             player.pause = true;
 
         } else if (key == KeyEvent.VK_P && pause) {
-            timer.start();
             pause_end = System.currentTimeMillis() / 1000;
             pauseTime = pauseTime + (pause_end - pause_begin);
             pause = false;
@@ -259,7 +275,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		/*for(Enemy enemy : enemies) {
 			enemy.enemyDirection();
 		}*/
-		if(gameState == GAMEPLAY) {
+		if(gameState == GAMEPLAY && !pause) {
 			timeElapsed();
 			enemyCheckEnemies();
 			enemyCheckWalls();

@@ -6,6 +6,7 @@ public class Enemy extends Entities {
 	
 	boolean otherEnemyNorth, otherEnemySouth, otherEnemyEast, otherEnemyWest = false;
 	boolean playerAbove, playerBelow, playerRight, playerLeft = false;
+	
 	double lastTime = 0;
 	double coolDownInMillis = -400;
 	//int access_directionSwitchitch = 0; //0 is for up/down access, 1 is for left/right access
