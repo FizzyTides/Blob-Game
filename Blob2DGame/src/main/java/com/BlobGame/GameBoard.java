@@ -647,7 +647,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 
         Point p6 = new Point(14,10);
         punishmentList.add(new Punishment(p6));
-
+        
+        punishmentList.add(new TelePunishment(new Point(18,13)));
         return punishmentList;
     }
 
@@ -676,10 +677,15 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
             // if the player is on the same tile as a punishment, hit it
             if (player.getPos().equals(punishment.getPos())) {
                 // deduct points from total
-                player.deductScore(PUNISHMENT_PENALTY);
+                player.deductScore(punishment.getPenalty());
                 collectedPunishments.add(punishment);
                 System.out.println("SCORE: " + player.getScore());
-                frozenStartTime = gameTimeElapsed;
+                if(punishment instanceof TelePunishment) {
+                	player.setPos(new Point(0, 1));
+                }
+                else {
+                	frozenStartTime = gameTimeElapsed;
+                }
             }
         }
         // remove collected cakes from the board

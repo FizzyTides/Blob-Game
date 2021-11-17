@@ -13,14 +13,22 @@ import java.awt.event.KeyEvent;
 
 public class Punishment extends Entities{
     
-    public static final int penalty = 100;
+    private int penalty;
 
     public Punishment (Point position) {
 
-        this.imageName = "Punishment.png";
+        this.imageName = "FreezeTile.png";
         this.pos =  position;
+        this.setPenalty(100);
 
         loadImage();
-    } 
+    }
     
+    public void setPenalty(int value) {
+    	this.penalty = value;
+    }
+    
+    public int getPenalty() {
+    	return this.penalty;
+    }
 }
