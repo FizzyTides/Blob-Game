@@ -95,7 +95,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			}
 		});
 		
-		replayButton.setBounds(TILE_SIZE * COLUMNS / 2 - 50, TILE_SIZE * ROWS / 2 + 100, 100, 25);
+		replayButton.setBounds(TILE_SIZE * COLUMNS / 2 - 50, TILE_SIZE * ROWS / 2 + 185, 100, 25);
 		this.add(replayButton);
 	}
 	
@@ -201,7 +201,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 		if(gameState == GAMEPLAY) {
 			g.drawImage(bgImage, 0, 0, this);
-
+			
+			g.setColor(Color.WHITE);
 			g.drawString("Score: " + player.getScore(), TILE_SIZE * COLUMNS - 100, TILE_SIZE * ROWS + 30);
 			g.drawString("Time Remaining: " + (MAX_GAMETIME - gameTimeElapsed), 50, TILE_SIZE * ROWS + 30);
 			g.drawString("Cakes: " + cakeCount + " /" + NUM_CAKES, TILE_SIZE * COLUMNS / 2, TILE_SIZE * ROWS + 30);
@@ -241,6 +242,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 		else if(gameState == GAMEWIN) {
 			g.drawImage(winBgImage, 0, 0, this);
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("SquidgySlimes", Font.PLAIN, 18));
+			g.drawString("FINAL SUGAR LEVEL: " + player.getScore(), TILE_SIZE * COLUMNS / 2 - 110, TILE_SIZE * ROWS / 2 + 115);
+			g.drawString("TIME REMAINING: " + (MAX_GAMETIME - gameTimeElapsed), TILE_SIZE * COLUMNS / 2 - 110, TILE_SIZE * ROWS / 2 + 145);
 		}
 		
 		Toolkit.getDefaultToolkit().sync();

@@ -13,7 +13,6 @@ public class Game {
 
 		GameBoard board = new GameBoard(); //JPanel to draw our game
 		
-		board.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		window.add(board); // Adding JPanel to the game Window
 		window.addKeyListener(board); // Adding Keyboard listener so we can transfer inputs to character
 
