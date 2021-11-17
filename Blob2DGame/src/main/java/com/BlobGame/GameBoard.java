@@ -29,7 +29,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	boolean wallFound = false;
 	private boolean pause = false;
-	private boolean gameEnd = false;
 	
 	private int punishmentFreezeTime = 1;
     private int frozenStartTime = -punishmentFreezeTime;
@@ -202,6 +201,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		if(gameState == GAMEPLAY) {
 			g.drawImage(bgImage, 0, 0, this);
 			
+			g.setFont(new Font("TimesNew Bold", Font.PLAIN, 18));
 			g.setColor(Color.WHITE);
 			g.drawString("Score: " + player.getScore(), TILE_SIZE * COLUMNS - 100, TILE_SIZE * ROWS + 30);
 			g.drawString("Time Remaining: " + (MAX_GAMETIME - gameTimeElapsed), 50, TILE_SIZE * ROWS + 30);
@@ -243,7 +243,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		else if(gameState == GAMEWIN) {
 			g.drawImage(winBgImage, 0, 0, this);
 			g.setColor(Color.WHITE);
-			g.setFont(new Font("SquidgySlimes", Font.PLAIN, 18));
+			g.setFont(new Font("Squidgy Slimes", Font.PLAIN, 18));
 			g.drawString("FINAL SUGAR LEVEL: " + player.getScore(), TILE_SIZE * COLUMNS / 2 - 110, TILE_SIZE * ROWS / 2 + 115);
 			g.drawString("TIME REMAINING: " + (MAX_GAMETIME - gameTimeElapsed), TILE_SIZE * COLUMNS / 2 - 110, TILE_SIZE * ROWS / 2 + 145);
 		}
