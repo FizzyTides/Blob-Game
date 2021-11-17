@@ -12,8 +12,8 @@ public class Enemy extends Entities {
 	//int access_directionSwitchitch = 0; //0 is for up/down access, 1 is for left/right access
 	int directionSwitch = 0; //0 is for up/down access, 1 is for left/right access
 	
-	Enemy(Point pos) {
-		this.imageName = "Enemy.png";
+	Enemy(Point pos, String imageName) {
+		this.imageName = imageName;
 		this.pos = pos;
 		
 		loadImage();

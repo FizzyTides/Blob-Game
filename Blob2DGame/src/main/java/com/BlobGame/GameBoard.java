@@ -31,6 +31,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private boolean pause = false;
 	private boolean gameEnd = false;
 	
+	private int punishmentFreezeTime = 1;
+    private int frozenStartTime = -punishmentFreezeTime;
     private int gameTimeElapsed = 0;
     private double startRealTime;
     private double pauseTime = 0;
@@ -88,6 +90,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 				player.setScore(0);
 				gameTimeElapsed = 0;
 				pauseTime = 0;
+				punishmentFreezeTime = 1;
+				frozenStartTime = -punishmentFreezeTime;
 			}
 		});
 		
@@ -287,6 +291,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			winCondition();
 			loseCondition();
 			bonusVisibility();
+			frozenCheck();
 		}
 		repaint();
 	}
@@ -508,8 +513,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	private ArrayList<Enemy> spawnEnemies() {
 		ArrayList<Enemy> myEnemies = new ArrayList<Enemy>();
-		myEnemies.add(new Enemy(new Point(19, 13)));
-		myEnemies.add(new Enemy(new Point(1, 14)));
+		myEnemies.add(new Enemy(new Point(19, 13), "MomEnemy.png"));
+		myEnemies.add(new Enemy(new Point(1, 14), "DadEnemy.png"));
 		
 		return myEnemies;
 	}
@@ -669,9 +674,28 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
                 player.deductScore(PUNISHMENT_PENALTY);
                 collectedPunishments.add(punishment);
                 System.out.println("SCORE: " + player.getScore());
+                frozenStartTime = gameTimeElapsed;
             }
         }
         // remove collected cakes from the board
         punishments.removeAll(collectedPunishments);
+    }
+	
+	public void frozenCheck() {
+        //System.out.println(frozen_start_time);
+        if((frozenStartTime + punishmentFreezeTime) > gameTimeElapsed) {
+            //still frozen
+            //System.out.println("still frozen");
+        	player.imageName = "FrozenPlayer.png";
+        	player.loadImage();
+            player.pause = true;
+        }
+        //not frozen anymore
+        else {
+            //System.out.println("un-frozen");
+            player.pause = false;
+            player.imageName = "Blob.png";
+            player.loadImage();
+        }
     }
 }
