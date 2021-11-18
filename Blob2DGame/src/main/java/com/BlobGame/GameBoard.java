@@ -89,6 +89,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			}
 		});
 		replayButton.setFont(new Font("TimesNew Bold", Font.PLAIN, 18));
+		replayButton.setBorderPainted(false);
+		replayButton.setOpaque(true);
 		replayButton.setBackground(Color.BLACK);
 		replayButton.setForeground(Color.WHITE);
 		replayButton.setBounds(TILE_SIZE * COLUMNS / 2 - 100, TILE_SIZE * ROWS / 2 + 185, 200, 50);
@@ -106,6 +108,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			}
 		});
 		startButton.setFont(new Font("TimesNew Bold", Font.PLAIN, 18));
+		startButton.setBorderPainted(false);
+		startButton.setOpaque(true);
 		startButton.setBackground(Color.BLACK);
 		startButton.setForeground(Color.WHITE);
 		startButton.setBounds(TILE_SIZE * COLUMNS / 2 - 100, TILE_SIZE * ROWS / 2 - 50, 200, 50);
