@@ -51,14 +51,14 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	public static final int ROWS = 15;
 	public static final int COLUMNS = 20;
 	public static final int NUM_CAKES = 10;
-	public static final int NUM_PUNISHMENTS = 5;
+	//public static final int NUM_PUNISHMENTS = 10;
 	private static final int MAX_GAMETIME = 30;
 	
 	private Player player;
 	private Gate gate;
 	private ExitTile winTile;
 	private BufferedImage bgImage, winBgImage, loseBgImage, menuBgImage, pauseText;
-	private ArrayList<Cake> rewards; //includes bunus and regular reward	
+	private ArrayList<Cake> rewards; //includes bonus and regular reward	
 	private ArrayList<Wall> gameWalls;
 	private ArrayList<Punishment> punishments;
 	private ArrayList<Enemy> enemies;
@@ -72,7 +72,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		setLayout(null);
 		gameState = MENU;
 		stateSwitch(gameState);
-		System.out.println("boardStateSwitch");
+		//System.out.println("boardStateSwitch");
 		loadImages();
 		buttons();
 		
@@ -84,7 +84,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 				if(event.getSource() == replayButton) {
 					gameState = GAMEPLAY;
 					stateSwitch(gameState);
-					System.out.println("ReplayButton switch State");
+					//System.out.println("ReplayButton switch State");
 					replayButton.setVisible(false);
 					replayButton.setFocusable(false);
 					menuButton.setVisible(false);
@@ -101,7 +101,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 				if(event.getSource() == menuButton) {
 					gameState = MENU;
 					stateSwitch(gameState);
-					System.out.println("Menubutton state switch: ");
+					//System.out.println("Menubutton state switch: ");
 					menuButton.setVisible(false);
 					menuButton.setFocusable(false);
 					replayButton.setVisible(false);
@@ -121,7 +121,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 				if(event.getSource() == startButton) {
 					gameState = GAMEPLAY;
 					stateSwitch(gameState);
-					System.out.println("Start button state switch");
+					//System.out.println("Start button state switch");
 					startButton.setVisible(false);
 					startButton.setFocusable(false);
 					startRealTime = System.currentTimeMillis() / 1000;
@@ -161,11 +161,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			timer = new Timer(DELAY, this); // Calls the actionPerformed() function every DELAY
 			timer.start();
 			gameInit();
-			System.out.println("wall size: " + gameWalls.size());
+			//System.out.println("wall size: " + gameWalls.size());
 			break;
 		case GAMELOSE:
 			gameReset();
-			System.out.println("wall size: " + gameWalls.size());
+			//System.out.println("wall size: " + gameWalls.size());
 			break;
 		case GAMEWIN:
 			gameReset();
@@ -248,9 +248,9 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			
 			g.setFont(new Font("TimesNew Bold", Font.PLAIN, 18));
 			g.setColor(Color.WHITE);
-			g.drawString("Score: " + player.getScore(), TILE_SIZE * COLUMNS - 100, TILE_SIZE * ROWS + 30);
+			g.drawString("Sugar Level: " + player.getScore(), TILE_SIZE * COLUMNS - 175, TILE_SIZE * ROWS + 30);
 			g.drawString("Time Remaining: " + (MAX_GAMETIME - gameTimeElapsed), 50, TILE_SIZE * ROWS + 30);
-			g.drawString("Cakes: " + cakeCount + " /" + NUM_CAKES, TILE_SIZE * COLUMNS / 2, TILE_SIZE * ROWS + 30);
+			g.drawString("Cakes: " + cakeCount + " /" + NUM_CAKES, (TILE_SIZE * COLUMNS / 2) - 50, TILE_SIZE * ROWS + 30);
 			
 			for (Cake reward : rewards) {
 				if(reward.isVisible()){
@@ -675,6 +675,21 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 
         Point p6 = new Point(1,5);
         rewardList.add(new BonusReward(p6));
+        
+        Point p7 = new Point(14,3);
+        rewardList.add(new Cake(p7));
+        
+        Point p8 = new Point(4,12);
+        rewardList.add(new Cake(p8));
+        
+        Point p9 = new Point(10,7);
+        rewardList.add(new Cake(p9));
+        
+        Point p10 = new Point(1,7);
+        rewardList.add(new Cake(p10));
+        
+        Point p11 = new Point(15,12);
+        rewardList.add(new Cake(p11));
 
         return rewardList;
     }
@@ -700,7 +715,20 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         Point p6 = new Point(14,10);
         punishmentList.add(new Punishment(p6));
         
+        Point p7 = new Point(9,2);
+        punishmentList.add(new Punishment(p7));
+        
+        Point p8 = new Point(18,12);
+        punishmentList.add(new Punishment(p8));
+        
+        Point p9 = new Point(1,9);
+        punishmentList.add(new Punishment(p9));
+        
+        Point p10 = new Point(14,7);
+        punishmentList.add(new Punishment(p10));
+        
         punishmentList.add(new TelePunishment(new Point(18,13)));
+        
         return punishmentList;
     }
 
