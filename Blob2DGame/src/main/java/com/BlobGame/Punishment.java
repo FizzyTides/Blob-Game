@@ -11,6 +11,13 @@ import java.awt.image.BufferedImage;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 
+/**PUNISHMENT CLASS
+ * This is a subclass of Entities and handles punishment functionalities
+ * @author mca
+ * @author mba
+ * @author ketan
+ *
+ */
 public class Punishment extends Entities{
     
     private int penalty;
