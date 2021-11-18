@@ -17,8 +17,9 @@ import java.io.File;
 
 
 
-/**
+/**GAMEBOARD
  * This class includes all the functions we need for our Game Board.
+ * This is a subclass of JPanel package so we can implement the KeyListener and Actionlistener to our JPanel board
  * 
  * @author mba
  * @author mca
@@ -391,6 +392,12 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 	}
 	
+	/**
+	 * KEYPRESSED METHOD
+	 * This method is used for all keyboard input
+	 * PRESS "P" for pause and unpause
+	 * "WASD" to move
+	 */
 	public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();
@@ -413,6 +420,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 	}
 
+	/**
+	 * ACTIONPERFORMED METHOD
+	 * This method is called based on the timer with DELAY which is currently set to 0 (so no delay in our game)
+	 */
 	public void actionPerformed(ActionEvent e) {
 		
 		if(gameState == GAMEPLAY && !pause) {
@@ -431,7 +442,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		}
 		repaint();
 	}
-
+	
+	/**
+	 * BONUSVISIBILITY METHOD
+	 * Handles the timing for the bonus rewards visibility and its sugar value
+	 */
 	public void bonusVisibility() {
 		for (Cake cake : rewards) {
 			if((cake.isBonus == true) && (gameTimeElapsed == rand)) {
@@ -444,14 +459,22 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		}
 		
 	}
-
+	
+	/**
+	 * GAMEBOUNDARY METHOD
+	 * A simple boundary restriction so player cannot leave the left side of the screen
+	 * Right side is not set cause its not possible to reach the right side of screen
+	 */
 	public void gameBoundary() {
 		if(player.pos.x < 0) {
 			player.pos.x = 0;
 		}
 	}
 	
-	
+	/**
+	 * ENEMYDIRECTION METHOD
+	 * 
+	 */
 	public void enemyDirection() {
 		for(Enemy enemy : enemies) {
 		
@@ -499,7 +522,12 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			enemy.enemyMovement();
 		}
 	}
-
+	
+	/**
+	 * CHECKWALLS METHOD
+	 * Handles player wall check by comparing player's x and y coordinates to the indexed wall's x and y coordinate
+	 * Triggers corresponding wall boolean to restrict player movement upon attempting to move onto wall with tile
+	 */
 	public void checkWalls() {
         Point playerCurrPos = player.getPos();
         boolean aWallNorth, aWallSouth, aWallEast, aWallWest;
@@ -543,6 +571,12 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         }
 	}
 	
+	/**
+	 * ENEMYKILLPLAYER METHOD
+	 * @param playerPos
+	 * Compares all enemy positions in enemy arraylist to player position, if they are =
+	 * gameEnd(GAMELOSE) is called ending the game with a lose
+	 */
 	public void enemyKillPlayer(Point playerPos) {
 		for(Enemy enemies : enemies) {
 			if(playerPos.x == enemies.getPos().x && playerPos.y == enemies.getPos().y) {
@@ -551,6 +585,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		}
 	}
 	
+	/**
+	 * ENEMYCHECKWALLS METHOD
+	 * Same as player check walls method simply used for enemies detection
+	 */
 	public void enemyCheckWalls() {
 		for(Enemy enemy : enemies) {
 			Point currEnemyPos = enemy.getPos();
@@ -596,6 +634,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		}
 	}
 	
+	/**
+	 * ENEMYCHECKENEMIES METHOD
+	 * Similar to checkwalls logic, except uses it for comparing enemy position to eachother so they cannot move onto
+	 * the same tile
+	 */
 	public void enemyCheckEnemies() {
 		for(Enemy enemy : enemies) {
 			Point currEnemyPos = enemy.getPos();
@@ -642,7 +685,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	}
 	
 
-	
+	/**
+	 * SPAWNENEMIES METHOD
+	 * returns arraylist with enemies
+	 * @return
+	 */
 	private ArrayList<Enemy> spawnEnemies() {
 		ArrayList<Enemy> myEnemies = new ArrayList<Enemy>();
 		myEnemies.add(new Enemy(new Point(19, 13), "MomEnemy.png"));
@@ -651,7 +698,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		return myEnemies;
 	}
 	
-
+	/**
+	 * SPAWNWALLS METHOD
+	 * returns arraylist of walls
+	 * @return
+	 */
 	private ArrayList<Wall> spawnWalls() { 
 		ArrayList<Wall> myWalls = new ArrayList<Wall>();
 		
@@ -729,7 +780,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	}
 	
 	
-
+	/**
+	 * SPAWNREWARDS METHOD
+	 * returns arraylist of cakeslices and cake
+	 * @return
+	 */
 	private ArrayList<Cake> spawnRewards() {
         ArrayList<Cake> rewardList = new ArrayList<Cake>();
 
@@ -769,8 +824,9 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         return rewardList;
     }
 	
-	/*
-	 * explain method..
+	/**
+	 * SPAWNPUNISHMENTS METHOD
+	 * returns arrayList of punishments both Freeze and Teleport tile in one list
 	 */
 	private ArrayList<Punishment> spawnPunishments() {
         ArrayList<Punishment> punishmentList = new ArrayList<Punishment>();
@@ -811,7 +867,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
     }
 	
 	/*
-	 * explain method..
+	 * COLLECTREWARDS METHOD
+	 * Checks to see if player picks up a reward
+	 * increments cakeCount if player picks one up
+	 * Compares player position to reward position and the rewards visibility so that you cannot pickup invisible rewards
 	 */
 	private void collectRewards() {
 		// Fills ArrayList with collectedCakes
@@ -829,8 +888,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         rewards.removeAll(collectedCakes);
     }
 
-	/*
-	 * explain method..
+	/**
+	 * HITPUNISHMENT METHOD
+	 * Checks to see if player lands on tile with punishment
+	 * Same as collectReward, different effects sets player position to start if instanceof Telepunishment otherwise freezes player
 	 */
 	private void hitPunishment() {
 		// Fills ArrayList with collectedPunishments
@@ -854,8 +915,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         punishments.removeAll(collectedPunishments);
     }
 	
-	/*
-	 * explain method..
+	/**
+	 * FROZENCHECK METHOD
+	 * Checks to see if player is frozen, calculates the freeze duration and replaces player image with frozen player image
+	 * pauses player
 	 */
 	public void frozenCheck() {
         if((frozenStartTime + punishmentFreezeTime) > System.currentTimeMillis()) {

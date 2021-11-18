@@ -2,6 +2,14 @@ package com.BlobGame;
 
 import java.awt.Point;
 
+/**GATE CLASS
+ * This is a subclass of Wall, which handles the gate functionalities by inheriting its parents
+ * 
+ * @author mca
+ * @author mba
+ * @author ketan
+ *
+ */
 public class Gate extends Wall {
 	
 	public Gate(Point pos) {

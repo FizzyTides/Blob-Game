@@ -11,6 +11,12 @@ import java.awt.image.BufferedImage;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 
+/**CAKE CLASS
+ * This is a subclass of Entities, which handles solely all objects of type Cakes functionalities
+ * 
+ * @author Michael
+ *
+ */
 public class Cake extends Entities {
 
     protected  int reward;
@@ -29,7 +35,6 @@ public class Cake extends Entities {
     }
 
     public boolean isVisible(){
-
         return visibility;
     }
     

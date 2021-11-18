@@ -14,9 +14,18 @@ import java.awt.image.BufferedImage;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 
-
+/**
+ * This class includes all the functions we need for our Player.
+ * 
+ * @author mba
+ * @author mca
+ * @author ketan
+ */
 public class Player extends Entities {
-	
+	/**
+     * Variables needed for the class are instantiated/set
+     * 
+     */
 	double lastTime = 0;
 	double coolDownInMillis = -100;
 	private int score;
@@ -32,6 +41,20 @@ public class Player extends Entities {
 		loadImage();
 	}
 	
+	/**
+	 * KEYPRESSED METHOD FOR PLAYER
+     * Takes the users keyboard input and moves the player accordingly:
+     * W key moves the player one tile North.
+     * S key moves the player one tile South.
+     * A key moves the player one tile West.
+     * D key moves the player one tile East.
+     *
+     * The following restricts how the player can move:
+     * 1. The player cannot be paused (by either the pause feature or the freeze feature).
+     * 2. The player cannot be blocked by a wall.
+     * 3. The player cannot move 'again' until the cool-down time passes.
+     * 
+     */
 	public void keyPressed(KeyEvent e) {
 		
 		double now = System.currentTimeMillis();

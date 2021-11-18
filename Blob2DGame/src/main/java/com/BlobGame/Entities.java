@@ -9,17 +9,28 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**ENTITIES CLASS
+ * This class is the superclass for all our entites such as walls, player, enemies, punishments, cakes etc.
+ * @author mca
+ * @author mba
+ * @author ketan
+ *
+ */
 public class Entities {
 	
 	String imageName;
-	boolean wallNorth, wallSouth, wallEast, wallWest = false;
+	boolean wallNorth, wallSouth, wallEast, wallWest = false; //Wall detection booleans
 	protected BufferedImage Image;
 	protected Point pos; // Player position on grid using Point Variable (same as processing PVectors)
 	
 	public Entities() {
-
+		//ENTITES CONSTRUCTOR AS PLACEHOLDER
 	}
-
+	
+	/**
+	 * LOADIMAGE METHOD
+	 * Loads entity image corresponding to its ImageName, inherited to other subclasses
+	 */
 	public void loadImage() {
 		try {
 			Image = ImageIO.read(new File("src/main/resources/" + imageName));
@@ -28,14 +39,30 @@ public class Entities {
 		}
 	}
 	
+	/**
+	 * DRAW METHOD
+	 * Draws image using its position * TILE_SIZE
+	 * @param g
+	 * @param watcher
+	 */
 	public void draw(Graphics g, ImageObserver watcher) {
 		g.drawImage(Image, pos.x * GameBoard.TILE_SIZE, pos.y * GameBoard.TILE_SIZE , watcher);
 	}
 
+	/**
+	 * GETPOS METHOD
+	 * returns this.pos
+	 * @return
+	 */
 	public Point getPos() {
         return this.pos;
     }
 	
+	/**
+	 * SETPOS
+	 * sets this.pos = pos
+	 * @param pos
+	 */
     public void setPos(Point pos) {
     	this.pos = pos;
     }

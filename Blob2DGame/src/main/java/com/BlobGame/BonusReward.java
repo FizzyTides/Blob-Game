@@ -2,6 +2,13 @@ package com.BlobGame;
 
 import java.awt.Point;
 
+/**BONUSREWARD CLASS
+ * This is a subsubclass of Entities and a subclass of Cake, which handles solely the functionalities of the Bonus Reward
+ * @author mca
+ * @author mba
+ * @author ketan
+ *
+ */
 public class BonusReward extends Cake{
 
     BonusReward(Point position){
