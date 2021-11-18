@@ -50,10 +50,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	public static final int TILE_SIZE = 50;
 	public static final int ROWS = 15;
 	public static final int COLUMNS = 20;
-	private static final int CAKE_REWARD = 100;
-	private static final int BONUS_REWARD = 500;
-	private static final int PUNISHMENT_PENALTY = 100;
-	public static final int NUM_CAKES = 5;
+	public static final int NUM_CAKES = 10;
 	public static final int NUM_PUNISHMENTS = 5;
 	private static final int MAX_GAMETIME = 30;
 	
@@ -91,8 +88,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 				frozenStartTime = -punishmentFreezeTime;
 			}
 		});
-		
-		replayButton.setBounds(TILE_SIZE * COLUMNS / 2 - 50, TILE_SIZE * ROWS / 2 + 185, 100, 25);
+		replayButton.setFont(new Font("TimesNew Bold", Font.PLAIN, 18));
+		replayButton.setBackground(Color.BLACK);
+		replayButton.setForeground(Color.WHITE);
+		replayButton.setBounds(TILE_SIZE * COLUMNS / 2 - 100, TILE_SIZE * ROWS / 2 + 185, 200, 50);
 		this.add(replayButton);
 	}
 	
@@ -106,8 +105,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 				startRealTime = System.currentTimeMillis() / 1000;
 			}
 		});
-		
-		startButton.setBounds(TILE_SIZE * COLUMNS / 2 - 50, TILE_SIZE * ROWS / 2 - 25, 100, 25);
+		startButton.setFont(new Font("TimesNew Bold", Font.PLAIN, 18));
+		startButton.setBackground(Color.BLACK);
+		startButton.setForeground(Color.WHITE);
+		startButton.setBounds(TILE_SIZE * COLUMNS / 2 - 100, TILE_SIZE * ROWS / 2 - 50, 200, 50);
 		this.add(startButton);
 	}
 
@@ -166,9 +167,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         double currRealTime = System.currentTimeMillis() / 1000;
 
         if((currRealTime - (startRealTime + gameTimeElapsed + pauseTime)) == 1 && gameTimeElapsed <= MAX_GAMETIME) {
-        	//System.out.println(gameTimeElapsed);
-            //int gameTimeCountdown = MAX_GAMETIME - gameTimeElapsed;
-            //System.out.println(gameTimeCountdown); // stop at 0...
             gameTimeElapsed++;
         }
 
@@ -241,7 +239,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		else if(gameState == GAMEWIN) {
 			g.drawImage(winBgImage, 0, 0, this);
 			g.setColor(Color.WHITE);
-			g.setFont(new Font("Squidgy Slimes", Font.PLAIN, 18));
+			g.setFont(new Font("TimesNew Bold", Font.PLAIN, 18));
 			g.drawString("FINAL SUGAR LEVEL: " + player.getScore(), TILE_SIZE * COLUMNS / 2 - 110, TILE_SIZE * ROWS / 2 + 115);
 			
 			if((MAX_GAMETIME - gameTimeElapsed) != 1) {
