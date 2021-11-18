@@ -28,7 +28,7 @@ import java.io.File;
 public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	
-	/*
+	/**
 	 * Variables needed for the program are instantiated/set
 	 */
 	
@@ -77,8 +77,13 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	JButton replayButton = new JButton("REPLAY");
 	JButton menuButton = new JButton("MENU");
 	
-	/*
-	 * explain method..
+	/**
+	 * GameBoard JPanel constructor this is instantiated at the beginning of program execution which is added to the JWindow.
+	 * This constructor:
+	 * sets the layoutmanager
+	 * sets starting gameState
+	 * loads game assets
+	 * loads the game JButtons
 	 */
 	public GameBoard() {
 		setPreferredSize(new Dimension(TILE_SIZE * COLUMNS, TILE_SIZE * ROWS + 50));
@@ -90,8 +95,25 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 	}
 	
-	/*
-	 * explain method..
+	/**
+	 * Button method which holds all three menu, game start and replay buttons.
+	 * Each button has an individual actionlistener to determine when the buttons are being clicked on, which sets the corresponding buttons visibilities
+	 * and swaps the gameState
+	 * 
+	 * MENU BUTTON:
+	 * 	Menu button stamps the current program running time and converts it to seconds which we use to synchronize the program running time and the game running time
+	 * 
+	 * REPLAY BUTTON:
+	 * 	Replay button utilizes similar functions as menu button, however swaps to a different game state
+	 * 
+	 * START BUTTON:
+	 * 	Start button simply stamps the current running time as the game starting time upon clicking the JButton
+	 * 
+	 * Under the actionlistener implementation for each button, Each button had to be modified for UI placement,
+	 * setFont used for selecting font and size
+	 * BorderPainted false so we do not have a border outline
+	 * setBackgroundcolor and Foreground for button color and text color
+	 * Then all buttons are added to the JPanel board (this)
 	 */
 	private void buttons() {
 		replayButton.addActionListener(new ActionListener() {
@@ -166,8 +188,9 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		this.add(menuButton);
 	}
 
-	/*
-	 * explain method..
+	/**
+	 * STATESWITCH METHOD
+	 * Utilizes switch case to control game state
 	 */
     private void stateSwitch(int gameState) {
 		switch(gameState) {
@@ -190,8 +213,9 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 	}
     
-    /*
-	 * explain method..
+    /**
+	 * GAMERESET METHOD
+	 * Used to empty all ArrayLists holding entities
 	 */
     private void gameReset() {
     	rewards.clear();
@@ -201,8 +225,9 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
     	
     }
     
-    /*
-	 * explain method..
+    /**
+	 * GAMEINIT METHOD
+	 * Spawns all game entities and sets cakecount
 	 */
 	private void gameInit() {
 		player = new Player(); // Instantiate a player when gameBoard starts
@@ -216,6 +241,13 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 
     }
 	
+	/**
+	 * LOSECONDITION METHOD
+	 * Checks every actionPerformed to see if loseCondition has been met
+	 * 1. Player score < 0
+	 * 2. Player Position == Enemy Position (Point variables) by calling another method EnemyKillPlayer(player.getPos());
+	 * 3. GameTime has reached maximum time
+	 */
 	private void loseCondition() {
 		if(player.getScore() < 0 || MAX_GAMETIME == gameTimeElapsed) {
 			gameEnd(GAMELOSE);
@@ -223,6 +255,13 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		enemyKillPlayer(player.getPos());
 	}
 	
+	/**
+	 * WINCONDITION METHOD
+	 * Checks every actionPerformed to see if winCondition has been met
+	 * 1. Opens gate when cakeCount reaches to total number of cakes
+	 * 2. Checks if player Position == winTile position both x and y
+	 * 		- If this is met, calls gameEnd function using GAMEWIN as parameter
+	 */
 	private void winCondition() {
 		if(cakeCount == NUM_CAKES) {
 			gameWalls.remove(gate);
@@ -231,7 +270,15 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			gameEnd(GAMEWIN);
 		}
 	}
-
+	
+	/**
+	 * TIMEELAPSED METHOD
+	 * Calculates the desired game countdown
+	 * Stamps the current program running time with currRealTime
+	 * Using currRealTime, gameTimeElapsed increments as long as the maximum time has not been reached
+	 * currRealTime is the current time, startRealTime is game start Time, gameTimeElapsed is game time passed in seconds and
+	 * pauseTime is the amount of time passed while paused
+	 */
     private void timeElapsed() {
         double currRealTime = System.currentTimeMillis() / 1000;
 
@@ -241,15 +288,24 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 
     }
     
+    /**
+     * GAMEEND METHOD
+     * @param gameResult
+     * Upon calling this method, takes in GAMERESULT parameter which is either GAMEWIN or GAMELOSE
+     * sets both replay and menu button to visible to display them in the Window
+     * Pauses the player so no movements can be made post game
+     */
     public void gameEnd(int gameResult) {
     	player.pause = true;
-    	
-    	
 		replayButton.setVisible(true);
 		menuButton.setVisible(true);
     	gameState = gameResult;
     }
 	
+    /**
+     * LOADIMAGES
+     * Loads game background images and pause text
+     */
 	void loadImages() {
 		try { 
 			bgImage = ImageIO.read(new File("src/main/resources/Bg.png"));
@@ -262,6 +318,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		}
 	}
 	
+	/**
+	 * PAINTCOMPONENT
+	 * All drawings occur in this method
+	 * Drawings are revealed based on gameState
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		

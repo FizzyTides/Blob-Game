@@ -33,6 +33,10 @@ public class Entities {
 	}
 
 	public Point getPos() {
-        return pos;
+        return this.pos;
+    }
+	
+    public void setPos(Point pos) {
+    	this.pos = pos;
     }
 }
