@@ -72,15 +72,19 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		setLayout(null);
 		gameState = MENU;
 		stateSwitch(gameState);
+		System.out.println("boardStateSwitch");
+		loadImages();
+		buttons();
 		
 	}
 	
-	private void replayButton() {
+	private void buttons() {
 		replayButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				if(event.getSource() == replayButton) {
 					gameState = GAMEPLAY;
 					stateSwitch(gameState);
+					System.out.println("ReplayButton switch State");
 					replayButton.setVisible(false);
 					replayButton.setFocusable(false);
 					menuButton.setVisible(false);
@@ -89,7 +93,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 					gameTimeElapsed = 0;
 					pauseTime = 0;
 					frozenStartTime = -punishmentFreezeTime;
-					timer.restart();
 				}
 			}
 		});
@@ -98,6 +101,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 				if(event.getSource() == menuButton) {
 					gameState = MENU;
 					stateSwitch(gameState);
+					System.out.println("Menubutton state switch: ");
 					menuButton.setVisible(false);
 					menuButton.setFocusable(false);
 					replayButton.setVisible(false);
@@ -107,11 +111,29 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 					pauseTime = 0;
 					frozenStartTime = -punishmentFreezeTime;
 					startButton.setVisible(true);
-					timer.restart();
 					repaint();
 				}
 			}
 		});
+		
+		startButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				if(event.getSource() == startButton) {
+					gameState = GAMEPLAY;
+					stateSwitch(gameState);
+					System.out.println("Start button state switch");
+					startButton.setVisible(false);
+					startButton.setFocusable(false);
+					startRealTime = System.currentTimeMillis() / 1000;
+				}
+			}
+		});
+		startButton.setFont(new Font("TimesNew Bold", Font.PLAIN, 18));
+		startButton.setBorderPainted(false);
+		startButton.setOpaque(true);
+		startButton.setBackground(Color.BLACK);
+		startButton.setForeground(Color.WHITE);
+		startButton.setBounds(TILE_SIZE * COLUMNS / 2 - 100, TILE_SIZE * ROWS / 2 - 50, 200, 50);
 		replayButton.setFont(new Font("TimesNew Bold", Font.PLAIN, 18));
 		replayButton.setBorderPainted(false);
 		replayButton.setOpaque(true);
@@ -124,50 +146,41 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		menuButton.setBackground(Color.BLACK);
 		menuButton.setForeground(Color.WHITE);
 		menuButton.setBounds(TILE_SIZE * COLUMNS / 2 - 100, TILE_SIZE * ROWS / 2 + 245, 200, 50);
+		this.add(startButton);
 		this.add(replayButton);
 		this.add(menuButton);
-	}
-	
-	private void startButton() {
-		startButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				gameState = GAMEPLAY;
-				stateSwitch(gameState);
-				startButton.setVisible(false);
-				startButton.setFocusable(false);
-				startRealTime = System.currentTimeMillis() / 1000;
-			}
-		});
-		startButton.setFont(new Font("TimesNew Bold", Font.PLAIN, 18));
-		startButton.setBorderPainted(false);
-		startButton.setOpaque(true);
-		startButton.setBackground(Color.BLACK);
-		startButton.setForeground(Color.WHITE);
-		startButton.setBounds(TILE_SIZE * COLUMNS / 2 - 100, TILE_SIZE * ROWS / 2 - 50, 200, 50);
-		this.add(startButton);
 	}
 
     private void stateSwitch(int gameState) {
 		switch(gameState) {
 		case MENU:
-			startButton();
-			replayButton();
 			replayButton.setVisible(false);
 			menuButton.setVisible(false);
-			loadImages();
 			break;
 		case GAMEPLAY:
+			timer = new Timer(DELAY, this); // Calls the actionPerformed() function every DELAY
+			timer.start();
 			gameInit();
+			System.out.println("wall size: " + gameWalls.size());
 			break;
 		case GAMELOSE:
-			replayButton();
+			gameReset();
+			System.out.println("wall size: " + gameWalls.size());
 			break;
 		case GAMEWIN:
-			replayButton();
+			gameReset();
 			break;
 		}
 		
 	}
+    
+    private void gameReset() {
+    	rewards.clear();
+    	punishments.clear();
+    	gameWalls.clear();
+    	enemies.clear();
+    	
+    }
     
 	private void gameInit() {
 		player = new Player(); // Instantiate a player when gameBoard starts
@@ -176,11 +189,9 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         gameWalls = spawnWalls();
 		punishments = spawnPunishments();
 		winTile = new ExitTile(new Point(19,13));
-
 		cakeCount = 0;
-        
-		timer = new Timer(DELAY, this); // Calls the actionPerformed() function every DELAY
-		timer.start();
+		
+
     }
 	
 	private void loseCondition() {
@@ -210,7 +221,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
     
     public void gameEnd(int gameResult) {
     	player.pause = true;
-    	timer.stop();
+    	
+    	
 		replayButton.setVisible(true);
 		menuButton.setVisible(true);
     	gameState = gameResult;
@@ -266,6 +278,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		}
 		else if(gameState == MENU) {
 			g.drawImage(menuBgImage, 0, 0, this);
+			//g.fillRect(0,0, TILE_SIZE * COLUMNS, TILE_SIZE * ROWS);
 		}
 
 		
