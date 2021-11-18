@@ -89,6 +89,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 					gameTimeElapsed = 0;
 					pauseTime = 0;
 					frozenStartTime = -punishmentFreezeTime;
+					timer.restart();
 				}
 			}
 		});
@@ -106,6 +107,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 					pauseTime = 0;
 					frozenStartTime = -punishmentFreezeTime;
 					startButton.setVisible(true);
+					timer.restart();
 					repaint();
 				}
 			}
