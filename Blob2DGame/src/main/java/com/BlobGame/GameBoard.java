@@ -65,6 +65,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	JButton startButton= new JButton("START");
 	JButton replayButton = new JButton("REPLAY");
+	JButton menuButton = new JButton("MENU");
 	
 	public GameBoard() {
 		setPreferredSize(new Dimension(TILE_SIZE * COLUMNS, TILE_SIZE * ROWS + 50));
@@ -77,15 +78,36 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private void replayButton() {
 		replayButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				gameState = GAMEPLAY;
-				stateSwitch(gameState);
-				replayButton.setVisible(false);
-				replayButton.setFocusable(false);
-				startRealTime = System.currentTimeMillis() / 1000;
-				player.setScore(0);
-				gameTimeElapsed = 0;
-				pauseTime = 0;
-				frozenStartTime = -punishmentFreezeTime;
+				if(event.getSource() == replayButton) {
+					gameState = GAMEPLAY;
+					stateSwitch(gameState);
+					replayButton.setVisible(false);
+					replayButton.setFocusable(false);
+					menuButton.setVisible(false);
+					startRealTime = System.currentTimeMillis() / 1000;
+					player.setScore(0);
+					gameTimeElapsed = 0;
+					pauseTime = 0;
+					frozenStartTime = -punishmentFreezeTime;
+				}
+			}
+		});
+		menuButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				if(event.getSource() == menuButton) {
+					gameState = MENU;
+					stateSwitch(gameState);
+					menuButton.setVisible(false);
+					menuButton.setFocusable(false);
+					replayButton.setVisible(false);
+					player.setScore(0);
+					startRealTime = System.currentTimeMillis() / 1000;
+					gameTimeElapsed = 0;
+					pauseTime = 0;
+					frozenStartTime = -punishmentFreezeTime;
+					startButton.setVisible(true);
+					repaint();
+				}
 			}
 		});
 		replayButton.setFont(new Font("TimesNew Bold", Font.PLAIN, 18));
@@ -94,7 +116,14 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		replayButton.setBackground(Color.BLACK);
 		replayButton.setForeground(Color.WHITE);
 		replayButton.setBounds(TILE_SIZE * COLUMNS / 2 - 100, TILE_SIZE * ROWS / 2 + 185, 200, 50);
+		menuButton.setFont(new Font("TimesNew Bold", Font.PLAIN, 18));
+		menuButton.setBorderPainted(false);
+		menuButton.setOpaque(true);
+		menuButton.setBackground(Color.BLACK);
+		menuButton.setForeground(Color.WHITE);
+		menuButton.setBounds(TILE_SIZE * COLUMNS / 2 - 100, TILE_SIZE * ROWS / 2 + 245, 200, 50);
 		this.add(replayButton);
+		this.add(menuButton);
 	}
 	
 	private void startButton() {
@@ -122,6 +151,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			startButton();
 			replayButton();
 			replayButton.setVisible(false);
+			menuButton.setVisible(false);
 			loadImages();
 			break;
 		case GAMEPLAY:
@@ -180,6 +210,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
     	player.pause = true;
     	timer.stop();
 		replayButton.setVisible(true);
+		menuButton.setVisible(true);
     	gameState = gameResult;
     }
 	
