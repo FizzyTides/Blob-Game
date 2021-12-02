@@ -3,9 +3,11 @@ package com.BlobGame;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.Point;
+import java.time.Duration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 class GameBoardTest {
 	GameBoard board = new GameBoard();
@@ -31,7 +33,23 @@ class GameBoardTest {
 	}
 	
 	@Test
-	void test() {
-		
+	@Timeout(10)
+	void testFrozenCheck() throws Exception {
+		//Start off frozen for the frozen timer duration
+		boolean frozenCheck = true;
+		int punishmentFreezeTime = 1000;
+		long frozenStartTime = -punishmentFreezeTime;
+		frozenStartTime = 0;
+		if(frozenStartTime + punishmentFreezeTime > System.currentTimeMillis()) {
+			System.out.println("Still Frozen!");
+			frozenCheck = true;
+			
+		}
+		else {
+			System.out.println("Unfrozen!");
+			frozenCheck = false;
+		}
+		//Asserting false as we want to melt once the set duration has passed currently set to 1000 ms
+		Assertions.assertFalse(frozenCheck, "STILL FROZEN!");
 	}
 }

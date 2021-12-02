@@ -434,7 +434,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			gameBoundary();
 			collectRewards();
 			//Added player as parameter to hitPunishment(Player player); for JUnit Testing
-			hitPunishment(player);
+			hitPunishment(player, punishments);
 			enemyDirection();
 			winCondition();
 			loseCondition();
@@ -894,7 +894,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	 * Checks to see if player lands on tile with punishment
 	 * Same as collectReward, different effects sets player position to start if instanceof Telepunishment otherwise freezes player
 	 */
-	public void hitPunishment(Player player) {
+	public void hitPunishment(Player player, ArrayList<Punishment> punishments) {
 		// Fills ArrayList with collectedPunishments
         ArrayList<Punishment> collectedPunishments = new ArrayList<Punishment>();
         for (Punishment punishment : punishments) {
