@@ -33,8 +33,7 @@ class GameBoardTest {
 	}
 	
 	@Test
-	@Timeout(10)
-	void testFrozenCheck() throws Exception {
+	void testFrozenCheck() {
 		//Start off frozen for the frozen timer duration
 		boolean frozenCheck = true;
 		int punishmentFreezeTime = 1000;
