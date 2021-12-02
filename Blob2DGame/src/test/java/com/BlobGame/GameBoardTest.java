@@ -26,9 +26,17 @@ class GameBoardTest {
 		Point tempPos = new Point(1,1);
 		Player tempPlayer = new Player();
 		Punishment tempPunishment = new Punishment(tempPos);
+		boolean playerHit = false;
 		//Move Player to Punishment Tile
 		tempPlayer.pos.translate(1,0);
-		Assertions.assertEquals(tempPunishment.getPos(), tempPlayer.getPos(), "Player did not hit Punishment Tile");
+		tempPlayer.addScore(300);
+		if(tempPlayer.getPos().equals(tempPunishment.getPos())) {
+			System.out.println("Player hit Punishment!");
+			playerHit = true;
+			tempPlayer.deductScore(tempPunishment.getPenalty());
+			Assertions.assertEquals(200, tempPlayer.getScore(), "Score not deducted correctly!");
+		}
+		Assertions.assertTrue(playerHit, "Player did not hit Punishment Tile");
 		
 	}
 	
@@ -36,9 +44,10 @@ class GameBoardTest {
 	void testFrozenCheck() {
 		//Start off frozen for the frozen timer duration
 		boolean frozenCheck = true;
-		int punishmentFreezeTime = 1000;
-		long frozenStartTime = -punishmentFreezeTime;
-		frozenStartTime = 0;
+		int punishmentFreezeTime = 1000; // Freeze duration
+		long frozenStartTime = -punishmentFreezeTime; // In actual game, frozenStartTime gets marked upon hitting punishment
+		frozenStartTime = 0; // Player gets frozen at the start of the game
+		//If the current time passed surpasses the time frozen + duration of freeze, melt
 		if(frozenStartTime + punishmentFreezeTime > System.currentTimeMillis()) {
 			System.out.println("Still Frozen!");
 			frozenCheck = true;
