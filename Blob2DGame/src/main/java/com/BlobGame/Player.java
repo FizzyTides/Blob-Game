@@ -30,6 +30,8 @@ public class Player extends Entities {
 	double coolDownInMillis = -100;
 	private int score;
 	public boolean pause;
+    public int punishmentFreezeTime = 1000; //in milliseconds 
+    public double frozenStartTime = -punishmentFreezeTime;
 	
 	public Player() {
 		
@@ -81,6 +83,22 @@ public class Player extends Entities {
             lastTime = System.currentTimeMillis();
         }
 	}
+	
+	public void frozenCheck() {
+        if((frozenStartTime + punishmentFreezeTime) > System.currentTimeMillis()) {
+       
+            //still frozen
+        	this.imageName = "FrozenPlayer.png";
+        	this.loadImage();
+            this.pause = true;
+        }
+        //not frozen anymore
+        else {
+            this.pause = false;
+            this.imageName = "Blob.png";
+            this.loadImage();
+        }
+    }
 
 	public void addScore(int amount) {
         score += amount;

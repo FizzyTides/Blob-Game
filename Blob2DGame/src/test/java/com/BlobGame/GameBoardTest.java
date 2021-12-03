@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Timeout;
 
 class GameBoardTest {
 	GameBoard board = new GameBoard();
+	
 	@Test
 	void testSpawnWalls() {
 		System.out.println("Testing SpawnWalls()");
@@ -20,7 +21,7 @@ class GameBoardTest {
 		
 	}
 	
-	@Test
+	@Test // This test uses similar functionality to collectRewards(), 
 	void testHitPunishment() {
 		System.out.println("Testing HitPunishment()");
 		Point tempPos = new Point(1,1);
@@ -60,4 +61,5 @@ class GameBoardTest {
 		//Asserting false as we want to melt once the set duration has passed currently set to 1000 ms
 		Assertions.assertFalse(frozenCheck, "STILL FROZEN!");
 	}
+	
 }

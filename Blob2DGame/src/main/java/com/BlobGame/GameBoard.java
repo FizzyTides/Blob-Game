@@ -43,8 +43,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	boolean wallFound = false;
 	private boolean pause = false;
 	
-    private int punishmentFreezeTime = 1000; //in milliseconds 
-    private double frozenStartTime = -punishmentFreezeTime;
+//    private int punishmentFreezeTime = 1000; //in milliseconds 
+//    private double frozenStartTime = -punishmentFreezeTime;
     private int gameTimeElapsed = 0;
     private double startRealTime;
     private double pauseTime = 0;
@@ -130,7 +130,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 					player.setScore(0);
 					gameTimeElapsed = 0;
 					pauseTime = 0;
-					frozenStartTime = -punishmentFreezeTime;
+					player.frozenStartTime = -player.punishmentFreezeTime;
 				}
 			}
 		});
@@ -147,7 +147,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 					startRealTime = System.currentTimeMillis() / 1000;
 					gameTimeElapsed = 0;
 					pauseTime = 0;
-					frozenStartTime = -punishmentFreezeTime;
+					player.frozenStartTime = -player.punishmentFreezeTime;
 					startButton.setVisible(true);
 					repaint();
 				}
@@ -439,7 +439,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			winCondition();
 			loseCondition();
 			bonusVisibility();
-			frozenCheck();
+			player.frozenCheck();
 		}
 		repaint();
 	}
@@ -882,7 +882,12 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
                 // give the player some points for picking this up
                 player.addScore(reward.getValue());
                 collectedCakes.add(reward);
-                cakeCount++;
+                if(reward instanceof BonusReward) {
+                	cakeCount+=0;
+                }
+                else {
+                	cakeCount++;
+                }
             }
         }
         // remove collected cakes from the board
@@ -911,7 +916,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
                 }
                 else {
                 	//frozenStartTime = gameTimeElapsed;
-                	frozenStartTime = System.currentTimeMillis();
+                	player.frozenStartTime = System.currentTimeMillis();
                 }
             }
         }
@@ -924,19 +929,19 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	 * Checks to see if player is frozen, calculates the freeze duration and replaces player image with frozen player image
 	 * pauses player
 	 */
-	public void frozenCheck() {
-        if((frozenStartTime + punishmentFreezeTime) > System.currentTimeMillis()) {
-       
-            //still frozen
-        	player.imageName = "FrozenPlayer.png";
-        	player.loadImage();
-            player.pause = true;
-        }
-        //not frozen anymore
-        else {
-            player.pause = false;
-            player.imageName = "Blob.png";
-            player.loadImage();
-        }
-    }
+//	public void frozenCheck() {
+//        if((frozenStartTime + punishmentFreezeTime) > System.currentTimeMillis()) {
+//       
+//            //still frozen
+//        	player.imageName = "FrozenPlayer.png";
+//        	player.loadImage();
+//            player.pause = true;
+//        }
+//        //not frozen anymore
+//        else {
+//            player.pause = false;
+//            player.imageName = "Blob.png";
+//            player.loadImage();
+//        }
+//    }
 }
