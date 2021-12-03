@@ -915,7 +915,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
                 	player.setPos(new Point(0, 1));
                 }
                 else {
-                	//frozenStartTime = gameTimeElapsed;
                 	player.frozenStartTime = System.currentTimeMillis();
                 }
             }
@@ -923,25 +922,5 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         // remove collected cakes from the board
         punishments.removeAll(collectedPunishments);
     }
-	
-	/**
-	 * FROZENCHECK METHOD
-	 * Checks to see if player is frozen, calculates the freeze duration and replaces player image with frozen player image
-	 * pauses player
-	 */
-//	public void frozenCheck() {
-//        if((frozenStartTime + punishmentFreezeTime) > System.currentTimeMillis()) {
-//       
-//            //still frozen
-//        	player.imageName = "FrozenPlayer.png";
-//        	player.loadImage();
-//            player.pause = true;
-//        }
-//        //not frozen anymore
-//        else {
-//            player.pause = false;
-//            player.imageName = "Blob.png";
-//            player.loadImage();
-//        }
-//    }
+
 }

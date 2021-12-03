@@ -84,6 +84,11 @@ public class Player extends Entities {
         }
 	}
 	
+	/**
+	 * FROZENCHECK METHOD
+	 * Checks to see if player is frozen, calculates the freeze duration and replaces player image with frozen player image
+	 * pauses player
+	 */
 	public void frozenCheck() {
         if((frozenStartTime + punishmentFreezeTime) > System.currentTimeMillis()) {
        

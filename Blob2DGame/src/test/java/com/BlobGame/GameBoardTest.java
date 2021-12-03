@@ -28,6 +28,7 @@ class GameBoardTest {
 		Player tempPlayer = new Player();
 		Punishment tempPunishment = new Punishment(tempPos);
 		boolean playerHit = false;
+		boolean tPort = false;
 		//Move Player to Punishment Tile
 		tempPlayer.pos.translate(1,0);
 		tempPlayer.addScore(300);
@@ -36,6 +37,14 @@ class GameBoardTest {
 			playerHit = true;
 			tempPlayer.deductScore(tempPunishment.getPenalty());
 			Assertions.assertEquals(200, tempPlayer.getScore(), "Score not deducted correctly!");
+			if(tempPunishment instanceof TelePunishment) {
+				tPort = true;
+				Assertions.assertTrue(tPort, "TelePunishment not activated!");
+			}
+			else {
+				tPort = false;
+				Assertions.assertFalse(tPort, "Is teleporting");
+			}
 		}
 		Assertions.assertTrue(playerHit, "Player did not hit Punishment Tile");
 		
