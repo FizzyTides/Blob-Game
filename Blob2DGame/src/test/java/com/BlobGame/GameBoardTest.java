@@ -21,7 +21,7 @@ class GameBoardTest {
 		
 	}
 	
-	@Test // This test uses similar functionality to collectRewards(), 
+	@Test
 	void testHitPunishment() {
 		System.out.println("Testing HitPunishment()");
 		Point tempPos = new Point(1,1);
@@ -37,6 +37,27 @@ class GameBoardTest {
 			playerHit = true;
 			tempPlayer.deductScore(tempPunishment.getPenalty());
 			Assertions.assertEquals(200, tempPlayer.getScore(), "Score not deducted correctly!");
+		}
+		Assertions.assertTrue(playerHit, "Player did not hit Punishment Tile");
+		
+	}
+	
+	@Test
+	void testHitTelePunishment() {
+		System.out.println("Testing HitTelePunishment()");
+		Point tempPos = new Point(1,1);
+		Player tempPlayer = new Player();
+		Punishment tempPunishment = new TelePunishment(tempPos);
+		boolean playerHit = false;
+		boolean tPort = false;
+		//Move Player to Punishment Tile
+		tempPlayer.pos.translate(1,0);
+		tempPlayer.addScore(300);
+		if(tempPlayer.getPos().equals(tempPunishment.getPos())) {
+			System.out.println("Player hit Punishment!");
+			playerHit = true;
+			tempPlayer.deductScore(tempPunishment.getPenalty());
+			Assertions.assertEquals(250, tempPlayer.getScore(), "Score not deducted correctly!");
 			if(tempPunishment instanceof TelePunishment) {
 				tPort = true;
 				Assertions.assertTrue(tPort, "TelePunishment not activated!");
@@ -47,7 +68,6 @@ class GameBoardTest {
 			}
 		}
 		Assertions.assertTrue(playerHit, "Player did not hit Punishment Tile");
-		
 	}
 	
 }
