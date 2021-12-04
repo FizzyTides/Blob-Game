@@ -47,15 +47,16 @@ class GameBoardTest {
 		Player testPlayer = new Player();
 		Gate gate = new Gate(new Point(1,1));
 		ExitTile winTile = new ExitTile(new Point(0,1));
-		boolean doorLock = true;
 		boolean win = false;
-		
+		cakeCount++;
 		walls.add(gate);
 		if(cakeCount == NUM_CAKES) {
+			System.out.println("YOU GOT ALL THE CAKES! GATE IS REMOVED");
 			walls.remove(gate);
 			Assertions.assertEquals(0, walls.size(), "Gate not removed from game");
 		}
-		if(!doorLock && testPlayer.getPos().x == winTile.getPos().x && testPlayer.getPos().y == winTile.getPos().y) {
+		if(walls.size() == 0 && testPlayer.getPos().x == winTile.getPos().x && testPlayer.getPos().y == winTile.getPos().y) {
+			System.out.println("YOU WIN");
 			win = true;
 			Assertions.assertTrue(win);
 		}
