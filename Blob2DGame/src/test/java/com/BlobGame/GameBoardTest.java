@@ -219,8 +219,6 @@ class GameBoardTest {
                 System.out.println("player is on same column");
             }
             
-            
-            
             if(i == 0) { //Player is in top left
                 //Should be true
                 Assertions.assertTrue(tempEnemy.playerAbove, "Player is not Above!");
@@ -420,6 +418,73 @@ class GameBoardTest {
             	System.out.println("There is not a wall West!");
             }
         }
+	}
+	
+	@Test
+	void testEnemyCheckEnemy() {
+		System.out.println("Testing EnemyCheckEnemy");
+		ArrayList<Enemy> testEnemies = new ArrayList<Enemy>();
+		Enemy e1 = new Enemy(new Point(1,1), null);
+		Enemy e2 = new Enemy(new Point(1,2), null);
+		Enemy e3 = new Enemy(new Point(2,2), null);
+		testEnemies.add(e1);
+		testEnemies.add(e2);
+		testEnemies.add(e3);
+		
+		for(Enemy enemy : testEnemies) {
+			Point currEnemyPos = enemy.getPos();
+	        boolean aEnemyNorth, aEnemySouth, aEnemyEast, aEnemyWest;
+	        aEnemyNorth = aEnemySouth = aEnemyEast = aEnemyWest = false;
+	        for(Enemy otherEnemy : testEnemies) {
+	            Point otherEnemyPos = otherEnemy.getPos();
+	            
+
+	            if((currEnemyPos.y - 1 == otherEnemyPos.y && currEnemyPos.x == otherEnemyPos.x) || aEnemyNorth) {
+	            	enemy.otherEnemyNorth = true;
+	                aEnemyNorth = true;
+	                Assertions.assertTrue(enemy.otherEnemyNorth);
+	                Assertions.assertTrue(aEnemyNorth);
+	                System.out.println("There is an enemy North!");
+	            }
+	            else {
+	            	enemy.otherEnemyNorth = false;
+	            	Assertions.assertFalse(enemy.otherEnemyNorth);
+	            }
+	            if((currEnemyPos.y + 1 == otherEnemyPos.y && currEnemyPos.x == otherEnemyPos.x) || aEnemySouth) {
+	            	enemy.otherEnemySouth = true;
+	                aEnemySouth = true;
+	                Assertions.assertTrue(enemy.otherEnemySouth);
+	                Assertions.assertTrue(aEnemySouth);
+	                System.out.println("There is an enemy to the South!");
+	            }
+	            else {
+	            	enemy.otherEnemySouth = false;
+	            	Assertions.assertFalse(enemy.otherEnemySouth);
+	            }
+	            if((currEnemyPos.x + 1== otherEnemyPos.x && currEnemyPos.y == otherEnemyPos.y) || aEnemyEast) {
+	            	enemy.otherEnemyEast = true;
+	                aEnemyEast = true;
+	                Assertions.assertTrue(enemy.otherEnemyEast);
+	                Assertions.assertTrue(aEnemyEast);
+	                System.out.println("There is an enemy to the East!");
+	            }
+	            else {
+	            	enemy.otherEnemyEast = false;
+	            	Assertions.assertFalse(enemy.otherEnemyEast);
+	            }
+	            if((currEnemyPos.x - 1 == otherEnemyPos.x && currEnemyPos.y == otherEnemyPos.y) || aEnemyWest) {
+	            	enemy.otherEnemyWest = true;
+	                aEnemyWest = true;
+	                Assertions.assertTrue(enemy.otherEnemyWest);
+	                Assertions.assertTrue(aEnemyWest);
+	                System.out.println("There is an enemy to the West!");
+	            }
+	            else {
+	            	enemy.otherEnemyWest = false;
+	            	Assertions.assertFalse(enemy.otherEnemyWest);
+	            }
+	        }
+		}
 	}
 	
 	@Test
