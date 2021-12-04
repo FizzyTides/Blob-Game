@@ -1,15 +1,12 @@
 package com.BlobGame;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.awt.Point;
-import java.time.Duration;
 
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
+
 
 class GameBoardTest {
 	GameBoard board = new GameBoard();
@@ -43,11 +40,34 @@ class GameBoardTest {
     }
 	
 	@Test
+	void testPlayerWin() {
+		ArrayList<Wall> walls = new ArrayList<Wall>();
+		int cakeCount = 9;
+		final int NUM_CAKES = 10;
+		Player testPlayer = new Player();
+		Gate gate = new Gate(new Point(1,1));
+		ExitTile winTile = new ExitTile(new Point(0,1));
+		boolean doorLock = true;
+		boolean win = false;
+		
+		walls.add(gate);
+		if(cakeCount == NUM_CAKES) {
+			walls.remove(gate);
+			Assertions.assertEquals(0, walls.size(), "Gate not removed from game");
+		}
+		if(!doorLock && testPlayer.getPos().x == winTile.getPos().x && testPlayer.getPos().y == winTile.getPos().y) {
+			win = true;
+			Assertions.assertTrue(win);
+		}
+	}
+	
+	@Test
 	void testPlayerLose() {
 		System.out.println("Testing PlayerLose");
 		Player testPlayer = new Player();
 		boolean lost = false;
 		testPlayer.setScore(-1); //Initialized Player score to simulate lose
+		Assertions.assertEquals(-1, testPlayer.getScore());
 		
 		if(testPlayer.getScore() < 0) {
 			lost = true;
@@ -119,6 +139,130 @@ class GameBoardTest {
 		}
 		Assertions.assertTrue(playerHit, "Player did not hit Punishment Tile");
 	}
+	
+	@Test
+    void testEnemyDirection() {
+        System.out.println("Testing EnemyDirection()");
+        
+        Point middlePoint = new Point(10,7);
+        
+        Point topLeft = new Point(0,0); //i=0 //Player is in top left
+        Point topRight = new Point(19,0); //i=1 //Player is in top right
+        Point bottomLeft = new Point(0,14); //i=2 //Player is in bottom left
+        Point bottomRight = new Point(19,14); //i=3 //Player is in bottom right
+        int testPlayerPoints = 4;
+        
+        Player tempPlayer = new Player();
+        Enemy tempEnemy = new Enemy(middlePoint, "MomEnemy.png");
+        Point enemyCurrPos = tempEnemy.getPos();
+        
+        int i=0;
+        while(i < testPlayerPoints) {
+            Point playerCurrPos = new Point(0,0);
+            if(i == 0) {
+                //Player is in top left & Enemy in middle
+                tempPlayer.pos = topLeft;
+                playerCurrPos = tempPlayer.getPos();
+            }
+            if(i == 1) {
+                //Player is in top right & Enemy in middle
+                tempPlayer.pos = topRight;
+                playerCurrPos = tempPlayer.getPos();
+            }
+            if(i == 2) {
+                //Player is in bottom left & Enemy in middle
+                tempPlayer.pos = bottomLeft;
+                playerCurrPos = tempPlayer.getPos();
+            }
+            if(i == 3) {
+                //Player is in bottom right & Enemy in middle
+                tempPlayer.pos = bottomRight;
+                playerCurrPos = tempPlayer.getPos();
+            }
+            
+            //player is above
+            if(playerCurrPos.y < enemyCurrPos.y) {
+                tempEnemy.playerAbove = true;
+                tempEnemy.playerBelow = false;
+                System.out.println("player is above");
+            }
+            //player is below
+            else if(playerCurrPos.y > enemyCurrPos.y) {
+                tempEnemy.playerBelow = true;
+                tempEnemy.playerAbove = false;
+                System.out.println("player is below");
+            }
+            //player on same row (or switch not 0 --> time to switch)
+            else {
+                tempEnemy.playerAbove = false;
+                tempEnemy.playerBelow = false;
+                System.out.println("player is on same row");
+            }
+            
+            //player is to right
+            if(playerCurrPos.x > enemyCurrPos.x) {
+                tempEnemy.playerRight = true;
+                tempEnemy.playerLeft = false;
+                System.out.println("player is to right");
+            }
+            //player is to left
+            else if(playerCurrPos.x < enemyCurrPos.x) {
+                tempEnemy.playerLeft = true;
+                tempEnemy.playerRight = false;
+                System.out.println("player is to left");
+            }
+            //player on same columns (or switch not 1 --> time to switch)
+            else {
+                tempEnemy.playerRight = false;
+                tempEnemy.playerLeft = false;
+                System.out.println("player is on same column");
+            }
+            
+            
+            
+            if(i == 0) { //Player is in top left
+                //Should be true
+                Assertions.assertTrue(tempEnemy.playerAbove, "Player is not Above!");
+                Assertions.assertTrue(tempEnemy.playerLeft, "Player is not to Left!");
+                
+                //Should be false
+                Assertions.assertFalse(tempEnemy.playerBelow, "Player is Below!");
+                Assertions.assertFalse(tempEnemy.playerRight, "Player is to Right!");
+            }
+            
+            if(i == 1) { //Player is in top right
+                //Should be true
+                Assertions.assertTrue(tempEnemy.playerAbove, "Player is not Above!");
+                Assertions.assertTrue(tempEnemy.playerRight, "Player is not to Right!");
+                
+                //Should be false
+                Assertions.assertFalse(tempEnemy.playerBelow, "Player is Below!");
+                Assertions.assertFalse(tempEnemy.playerLeft, "Player is to Left!");
+            }
+            
+            if(i == 2) { //Player is in bottom left
+                //Should be true
+                Assertions.assertTrue(tempEnemy.playerBelow, "Player is not Below!");
+                Assertions.assertTrue(tempEnemy.playerLeft, "Player is not to Left!");
+                
+                //Should be false
+                Assertions.assertFalse(tempEnemy.playerAbove, "Player is Above!");
+                Assertions.assertFalse(tempEnemy.playerRight, "Player is to Right!");    
+            }
+            
+            if(i == 3) { //Player is in bottom right
+                //Should be true
+                Assertions.assertTrue(tempEnemy.playerBelow, "Player is not Below!");
+                Assertions.assertTrue(tempEnemy.playerRight, "Player is not to Right!");
+                
+                //Should be false
+                Assertions.assertFalse(tempEnemy.playerAbove, "Player is Above!");
+                Assertions.assertFalse(tempEnemy.playerLeft, "Player is to Left!");    
+            }
+            
+            i++;
+        }
+    }
 	
 	@Test
 	void testEnemyCheckWalls() {
