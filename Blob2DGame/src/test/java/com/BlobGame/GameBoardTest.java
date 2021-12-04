@@ -43,13 +43,42 @@ class GameBoardTest {
     }
 	
 	@Test
+	void testPlayerLose() {
+		System.out.println("Testing PlayerLose");
+		Player testPlayer = new Player();
+		boolean lost = false;
+		testPlayer.setScore(-1); //Initialized Player score to simulate lose
+		
+		if(testPlayer.getScore() < 0) {
+			lost = true;
+			Assertions.assertTrue(lost, "Player did not lose with score < 0");
+		}
+	}
+	
+	@Test
+	void testEnemyKillPlayer() {
+		System.out.println("Testing EnemyKillPlayer");
+		Enemy e = new Enemy(new Point(1,1), null);
+		Player testPlayer = new Player();
+		boolean isDead = false;
+		testPlayer.pos.translate(1,0);
+		System.out.println("Player moving to (1,1)");
+		
+		if(testPlayer.pos.x == e.getPos().x && testPlayer.getPos().y == e.getPos().y) {
+			Assertions.assertEquals(e.getPos(), testPlayer.getPos(), "Positions do not match!");
+			isDead = true;
+			System.out.println("GAMEOVER PLAYER IS DEAD");
+			Assertions.assertTrue(isDead);
+		}
+	}
+	
+	@Test
 	void testHitPunishment() {
 		System.out.println("Testing HitPunishment()");
 		Point tempPos = new Point(1,1);
 		Player tempPlayer = new Player();
 		Punishment tempPunishment = new Punishment(tempPos);
 		boolean playerHit = false;
-		boolean tPort = false;
 		//Move Player to Punishment Tile
 		tempPlayer.pos.translate(1,0);
 		tempPlayer.addScore(300);
