@@ -922,5 +922,4 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         // remove collected cakes from the board
         punishments.removeAll(collectedPunishments);
     }
-
 }

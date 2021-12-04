@@ -5,6 +5,15 @@ import org.junit.jupiter.api.Test;
 import java.awt.event.KeyEvent;
 import java.awt.Point;
 
+/**
+ * EnemyTest class
+ * Tests all unit and integration features from Enemy.java
+ * @author Mca
+ * @author Mba
+ * @author ketan
+ *
+ */
+
 class EnemyTest {
 	
 	@Test
