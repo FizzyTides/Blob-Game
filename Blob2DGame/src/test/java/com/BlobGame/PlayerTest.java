@@ -25,6 +25,7 @@ class PlayerTest {
 			if(timeElapsed > frozenStartTime + punishmentFreezeTime) {
 				frozenCheck = false;
 				System.out.println("Frozen Time exceeded! UNFREEZING!");
+				Assertions.assertFalse(frozenCheck);
 			}
 		}
 		//Asserting false as we want to melt once the set duration has passed currently set to 1000 ms

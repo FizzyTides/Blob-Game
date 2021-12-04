@@ -15,13 +15,32 @@ class GameBoardTest {
 	GameBoard board = new GameBoard();
 	
 	@Test
-	void testSpawnWalls() {
-		System.out.println("Testing SpawnWalls()");
-		Point wallPos = new Point(2,2);
-		Wall testWall = new Wall(wallPos);
-		Assertions.assertEquals(wallPos, testWall.getPos(), "Expected Wall did not spawn in the correct location...");
-		
-	}
+    void testSpawn() {
+        System.out.println("Testing SpawnWalls()");
+        Point testPos = new Point(2,2);
+        Wall testWall = new Wall(testPos);
+        Assertions.assertEquals(testPos, testWall.getPos(), "Expected Wall did not spawn in the correct location...");
+
+        System.out.println("Testing SpawnRewards()");
+        testPos.setLocation(1,1);
+        Cake testCake = new Cake(testPos);
+        Assertions.assertEquals(testPos, testCake.getPos(), "Expected Cake did not spawn in the correct location...");
+
+        System.out.println("Testing SpawnPunishments()");
+        testPos.setLocation(3,1);
+        Punishment testPunishment = new Punishment(testPos);
+        Assertions.assertEquals(testPos, testPunishment.getPos(), "Expected Punishment did not spawn in the correct location...");
+
+        System.out.println("Testing SpawnEnemies()");
+        testPos.setLocation(7,1);
+        Enemy testEnemy = new Enemy(testPos, "MomEnemy.png");
+        Assertions.assertEquals(testPos, testEnemy.getPos(), "Expected Enemy did not spawn in the correct location...");
+
+        System.out.println("Testing SpawnRewards() For Bonus Reward");
+        testPos.setLocation(3,8);
+        BonusReward testReward = new BonusReward(testPos);
+        Assertions.assertEquals(testPos, testReward.getPos(), "Expected Bonus Reward did not spawn in the correct location...");
+    }
 	
 	@Test
 	void testHitPunishment() {
@@ -70,6 +89,84 @@ class GameBoardTest {
 			}
 		}
 		Assertions.assertTrue(playerHit, "Player did not hit Punishment Tile");
+	}
+	
+	@Test
+	void testEnemyCheckWalls() {
+		System.out.println("Testing EnemyCheckWalls");
+		ArrayList<Wall> testWalls = new ArrayList<Wall>();
+		boolean aWallNorth, aWallSouth, aWallWest, aWallEast;
+		aWallNorth = aWallSouth = aWallWest = aWallEast = false;
+		Point origin = new Point(1,1);
+		Enemy testEnemy = new Enemy(origin, "enemy");
+		Assertions.assertEquals(origin, testEnemy.getPos(), "Enemy did not spawn at origin");
+		
+		Wall wallN = new Wall(new Point(1,0));
+		Wall wallS = new Wall(new Point(1,2));
+		Wall wallE = new Wall(new Point(2,1));
+		Wall wallW = new Wall(new Point(0,2));
+		
+		testWalls.add(wallN);
+		testWalls.add(wallS);
+		testWalls.add(wallE);
+		testWalls.add(wallW);
+		
+		Assertions.assertEquals(new Point(1,0), wallN.getPos(), "WallNorth spawned incorrectly!");
+		
+        for(Wall walls : testWalls) {
+            Point wallCurrPos = walls.getPos();
+            
+
+            if((testEnemy.pos.y - 1 == wallCurrPos.y && testEnemy.pos.x == wallCurrPos.x) || aWallNorth) {
+            	testEnemy.wallNorth = true;
+                aWallNorth = true;
+                Assertions.assertTrue(aWallNorth, "There is no wall North");
+                Assertions.assertTrue(testEnemy.wallNorth, "There is no wall North");
+                System.out.println("There is a wall North!");
+            }
+            else {
+            	testEnemy.wallNorth = false;
+            	Assertions.assertFalse(testEnemy.wallNorth);
+            	System.out.println("There is not a wall North!");
+            }
+            if((testEnemy.pos.y + 1 == wallCurrPos.y && testEnemy.pos.x == wallCurrPos.x) || aWallSouth) {
+            	testEnemy.wallSouth = true;
+                aWallSouth = true;
+                Assertions.assertTrue(aWallSouth, "There is no wall South");
+                Assertions.assertTrue(testEnemy.wallSouth, "There is no wall South");
+                System.out.println("There is a wall South!");
+            }
+            else {
+            	testEnemy.wallSouth = false;
+            	Assertions.assertFalse(testEnemy.wallSouth);
+            	System.out.println("There is not a wall South!");
+            }
+            if((testEnemy.pos.x + 1 == wallCurrPos.x && testEnemy.pos.y == wallCurrPos.y) || aWallEast) {
+            	testEnemy.wallEast = true;
+                aWallEast = true;
+                Assertions.assertTrue(aWallEast, "There is no wall East");
+                Assertions.assertTrue(testEnemy.wallEast, "There is no wall East");
+                System.out.println("There is a wall East!");
+            }
+            else {
+            	testEnemy.wallEast = false;
+            	Assertions.assertFalse(testEnemy.wallEast);
+            	System.out.println("There is not a wall East!");
+            }
+            if((testEnemy.pos.x - 1 == wallCurrPos.x && testEnemy.pos.y == wallCurrPos.y) || aWallWest) {
+            	testEnemy.wallWest = true;
+                aWallWest = true;
+                Assertions.assertTrue(aWallWest, "There is no wall West");
+                Assertions.assertTrue(testEnemy.wallWest, "There is no wall West");
+                System.out.println("There is a wall West!");
+            }
+            else {
+            	testEnemy.wallWest = false;
+            	Assertions.assertFalse(testEnemy.wallWest, "This should be false!");
+            	System.out.println("There is not a wall West!");
+            }
+        }
+		
 	}
 	
 	@Test
@@ -175,5 +272,23 @@ class GameBoardTest {
 		Assertions.assertTrue(tempBonusReward.isBonus, "Reward was not a Bonus Reward");
 	}
 	
+	
+	@Test
+    void testCollectRewards() {
+        System.out.println("Testing CollectRewards()");
+        Point tempPos = new Point(1,1);
+        Player tempPlayer = new Player();
+        Cake tempCake = new Cake(tempPos);
+        boolean playerHit = false;
+        //Move Player to Reward Tile
+        tempPlayer.pos.translate(1,0);
+        if(tempPlayer.getPos().equals(tempCake.getPos())) {
+            System.out.println("Player Collected Rewards!");
+            playerHit = true;
+            tempPlayer.addScore(tempCake.getValue());
+            Assertions.assertEquals(100, tempPlayer.getScore(), "Score not deducted correctly!");
+        }
+        Assertions.assertTrue(playerHit, "Player did not hit Punishment Tile");
+    }
 }
 
