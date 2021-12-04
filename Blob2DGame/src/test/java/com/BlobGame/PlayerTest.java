@@ -9,6 +9,7 @@ class PlayerTest {
 
 	@Test
 	void testFrozenTimer() {
+		System.out.println("Testing FrozenTimer()");
 		int timeElapsed = 4;
 		//Start off frozen for the frozen timer duration
 		boolean frozenCheck = true;
@@ -33,7 +34,8 @@ class PlayerTest {
 	}
 	
 	@Test
-    public void testkKeyPressed() {
+    public void testKeyPressed() {
+		System.out.println("Testing KeyPressed()");
         //Not using real timer --> so not testing coolDownTime as it is based on our in game tick
         boolean wallNorth, wallSouth, wallEast, wallWest;
         wallNorth = true; //There is a wall to the North (above)
