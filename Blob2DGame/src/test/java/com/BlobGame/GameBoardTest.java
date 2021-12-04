@@ -170,6 +170,5 @@ class GameBoardTest {
 		Assertions.assertTrue(tempBonusReward.isBonus, "Reward was not a Bonus Reward");
 	}
 	
-	
 }
 
