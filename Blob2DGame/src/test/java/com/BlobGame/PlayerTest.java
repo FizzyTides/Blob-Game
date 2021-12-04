@@ -5,6 +5,15 @@ import org.junit.jupiter.api.Test;
 import java.awt.event.KeyEvent;
 import java.awt.Point;
 
+/**
+ * PlayerTest class
+ * Tests all unit and integration features from Player.java
+ * @author Mca
+ * @author Mba
+ * @author ketan
+ *
+ */
+
 class PlayerTest {
 
 	@Test
