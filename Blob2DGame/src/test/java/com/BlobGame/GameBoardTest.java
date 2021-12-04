@@ -70,4 +70,45 @@ class GameBoardTest {
 		Assertions.assertTrue(playerHit, "Player did not hit Punishment Tile");
 	}
 	
+	/*@Test
+	public void testBonusVisibility() {
+		System.out.println("Testing BonusVisibility()");
+		for (Cake cake : rewards) {
+			if((cake.isBonus == true) && (gameTimeElapsed == rand)) {
+				cake.setBonusReward((int) (player.getScore() * 1.5 + 200));
+				cake.visibility = true; 
+			}
+			if((cake.isBonus == true) && (gameTimeElapsed == (rand + bonusStayTime)) && cake.visibility == true) {
+				cake.visibility = false; 
+			}
+		}
+		
+	}*/
+	
+	@Test
+	void testBonusVisibility() {
+		System.out.println("Testing BonusVisibility()");
+		Point tempPos = new Point(1,1);
+		Cake tempBonusReward = new Cake(tempPos);
+		int  gameTimeElapsed = 5;
+		double rand = 5;
+		double bonusStayTime = 5;
+
+		tempBonusReward.isBonus = true;
+		//gameTimeElaped == rand --> Cake has spawned (& it is a bonus reward)
+		if((tempBonusReward.isBonus == true) && (gameTimeElapsed == rand)) {
+			tempBonusReward.visibility = true;
+			Assertions.assertTrue(tempBonusReward.visibility, "Bonus Reward not visible!");
+		}
+		
+		gameTimeElapsed += 5; // 5 more seconds has elapsed  --> Cake should now un-spawn
+		if((tempBonusReward.isBonus == true) && (gameTimeElapsed == (rand + bonusStayTime)) && tempBonusReward.visibility == true) {
+			tempBonusReward.visibility = false;
+			Assertions.assertFalse(tempBonusReward.visibility, "Bonus Reward has not disappeared!");
+		}
+		Assertions.assertTrue(tempBonusReward.isBonus, "Reward was not a Bonus Reward");
+	}
+	
+	
 }
+
