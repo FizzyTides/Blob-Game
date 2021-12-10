@@ -7,6 +7,14 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * GameBoardTest class
+ * Tests all unit and integration features from GameBoard.java
+ * @author Mca
+ * @author Mba
+ * @author ketan
+ *
+ */
 
 class GameBoardTest {
 	GameBoard board = new GameBoard();
