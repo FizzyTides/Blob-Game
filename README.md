@@ -58,3 +58,26 @@ Step 1: Open Your IDE and Open the "Blob2DGame" folder in your IDE.
 Step 2: In the package explorer window at the left, Select the "src/test/java" folder under the drop down menu of "Blob2DGame" folder.
 Step 3: Click on the run button in your IDE. A new window will appear to ask how would you like to run the build. 
 Step 4: Select the "JUnit" option from the menu, and Run the build.
+
+------------------------------------------------------------------------------------------------------------------
+
+Exporting Jar File:
+
+Step 1: Right click project folder "Blob2DGame"
+Step 2: Select Export
+Step 3: Under Java select Runnable Jar File
+Step 4: Hit Next
+Step 5: Set Launch Configuration to "Game - Blob2DGame"
+Step 6: Set Export Destination
+Step 7: Set Library Handling to "Package required libraries..."
+Step 8: Finish
+
+------------------------------------------------------------------------------------------------------------------
+
+Exporting JavaDocs using maven:
+
+Step 1: Open Terminal or windows powershell
+Step 2: Change directories to project folder containing pom.xml, \project\Blob2DGame
+Step 3: Run mvn javadoc:javadoc to extract the HTML Javadoc
+Step 4: Find Html Javadocs under \project\Blob2DGame\target\site\apidocs\
+Step 5: Done
