@@ -429,8 +429,8 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		if(gameState == GAMEPLAY && !pause) {
 			timeElapsed();
 			enemyCheckEnemies();
-			enemyCheckWalls();
-			checkWalls();
+			//enemyCheckWalls();
+			//checkWalls();
 			gameBoundary();
 			collectRewards();
 			//Added player as parameter to hitPunishment(Player player); for JUnit Testing
@@ -440,6 +440,10 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			loseCondition();
 			bonusVisibility();
 			player.frozenCheck();
+			player.checkWalls(gameWalls);
+			for(Enemy enemy : enemies) {
+				enemy.checkWalls(gameWalls);
+			}
 		}
 		repaint();
 	}
@@ -523,54 +527,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			enemy.enemyMovement();
 		}
 	}
-	
-	/**
-	 * CHECKWALLS METHOD
-	 * Handles player wall check by comparing player's x and y coordinates to the indexed wall's x and y coordinate
-	 * Triggers corresponding wall boolean to restrict player movement upon attempting to move onto wall with tile
-	 */
-	public void checkWalls() {
-        Point playerCurrPos = player.getPos();
-        boolean aWallNorth, aWallSouth, aWallEast, aWallWest;
-        aWallNorth = aWallSouth = aWallEast = aWallWest = false;
-        for(Wall walls : gameWalls) {
-            Point wallCurrPos = walls.getPos();
-            
 
-            if((playerCurrPos.y - 1 == wallCurrPos.y && playerCurrPos.x == wallCurrPos.x) || aWallNorth) {
-                player.wallNorth = true;
-                aWallNorth = true;
-                //System.out.println("There is a wall to the North!");
-            }
-            else {
-            	player.wallNorth = false;
-            }
-            if((playerCurrPos.y + 1 == wallCurrPos.y && playerCurrPos.x == wallCurrPos.x) || aWallSouth) {
-                player.wallSouth = true;
-                aWallSouth = true;
-                //System.out.println("There is a wall to the South!");
-            }
-            else {
-            	player.wallSouth = false;
-            }
-            if((playerCurrPos.x - 1== wallCurrPos.x && playerCurrPos.y == wallCurrPos.y) || aWallEast) {
-                player.wallEast = true;
-                aWallEast = true;
-                //System.out.println("There is a wall to the East!");
-            }
-            else {
-            	player.wallEast = false;
-            }
-            if((playerCurrPos.x + 1 == wallCurrPos.x && playerCurrPos.y == wallCurrPos.y) || aWallWest) {
-                player.wallWest = true;
-                aWallWest = true;
-               //System.out.println("There is a wall to the West!");
-            }
-            else {
-            	player.wallWest = false;
-            }
-        }
-	}
 	
 	/**
 	 * ENEMYKILLPLAYER METHOD
@@ -583,55 +540,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			if(playerPos.x == enemies.getPos().x && playerPos.y == enemies.getPos().y) {
 				gameEnd(GAMELOSE);
 			}
-		}
-	}
-	
-	/**
-	 * ENEMYCHECKWALLS METHOD
-	 * Same as player check walls method simply used for enemies detection
-	 */
-	public void enemyCheckWalls() {
-		for(Enemy enemy : enemies) {
-			Point currEnemyPos = enemy.getPos();
-	        boolean aWallNorth, aWallSouth, aWallEast, aWallWest;
-	        aWallNorth = aWallSouth = aWallEast = aWallWest = false;
-	        for(Wall walls : gameWalls) {
-	            Point wallCurrPos = walls.getPos();
-	            
-
-	            if((currEnemyPos.y - 1 == wallCurrPos.y && currEnemyPos.x == wallCurrPos.x) || aWallNorth) {
-	            	enemy.wallNorth = true;
-	                aWallNorth = true;
-	                //System.out.println("There is a wall to the North!");
-	            }
-	            else {
-	            	enemy.wallNorth = false;
-	            }
-	            if((currEnemyPos.y + 1 == wallCurrPos.y && currEnemyPos.x == wallCurrPos.x) || aWallSouth) {
-	            	enemy.wallSouth = true;
-	                aWallSouth = true;
-	                //System.out.println("There is a wall to the South!");
-	            }
-	            else {
-	            	enemy.wallSouth = false;
-	            }
-	            if((currEnemyPos.x - 1== wallCurrPos.x && currEnemyPos.y == wallCurrPos.y) || aWallEast) {
-	            	enemy.wallEast = true;
-	                aWallEast = true;
-	                //System.out.println("There is a wall to the East!");
-	            }
-	            else {
-	            	enemy.wallEast = false;
-	            }
-	            if((currEnemyPos.x + 1 == wallCurrPos.x && currEnemyPos.y == wallCurrPos.y) || aWallWest) {
-	            	enemy.wallWest = true;
-	                aWallWest = true;
-	               //System.out.println("There is a wall to the West!");
-	            }
-	            else {
-	            	enemy.wallWest = false;
-	            }
-	        }
 		}
 	}
 	
