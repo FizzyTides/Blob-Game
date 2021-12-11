@@ -321,6 +321,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	
 	/**
 	 * PAINTCOMPONENT
+	 * @param g
 	 * All drawings occur in this method
 	 * Drawings are revealed based on gameState
 	 */
@@ -662,7 +663,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
         return punishmentList;
     }
 	
-	/*
+	/**
 	 * COLLECTREWARDS METHOD
 	 * Checks to see if player picks up a reward
 	 * increments cakeCount if player picks one up

@@ -12,6 +12,10 @@ import java.awt.Point;
  */
 public class Gate extends Wall {
 	
+	/**
+	 * Gate Constructor
+	 * @param pos
+	 */
 	public Gate(Point pos) {
 		super(pos);
 		this.imageName = "Gate.png";

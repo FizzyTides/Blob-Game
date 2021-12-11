@@ -11,6 +11,10 @@ import java.awt.Point;
  */
 public class BonusReward extends Cake{
 
+	/**
+	 * BonusReward Constructor
+	 * @param position
+	 */
     BonusReward(Point position){
 
         super(position);

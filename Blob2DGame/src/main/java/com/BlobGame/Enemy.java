@@ -31,7 +31,7 @@ public class Enemy extends MovingObjects {
 
 	/**
 	 * ENEMYKILLPLAYER METHOD
-	 * @param playerPos
+	 * @param playerPos, board
 	 * Compares all enemy positions in enemy arraylist to player position, if they are =
 	 * gameEnd(GAMELOSE) is called ending the game with a lose
 	 */
@@ -98,6 +98,7 @@ public class Enemy extends MovingObjects {
 	
 	/**
 	 * ENEMYCHECKENEMIES METHOD
+	 * @param enemy, enemies
 	 * Similar to checkwalls logic, except uses it for comparing enemy position to eachother so they cannot move onto
 	 * the same tile
 	 */
@@ -146,7 +147,7 @@ public class Enemy extends MovingObjects {
 	
 	/**
 	 * ENEMYDIRECTION METHOD
-	 * 
+	 * @param player
 	 */
 	public void eDirection(Player player) {
 

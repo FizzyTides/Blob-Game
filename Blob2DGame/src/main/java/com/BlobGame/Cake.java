@@ -23,6 +23,10 @@ public class Cake extends Entities {
     protected boolean visibility;
     protected boolean isBonus;
 
+    /**
+     * Cake Constructor
+     * @param position
+     */
     public Cake (Point position) {
 
         this.imageName = "CakeSlice.png";

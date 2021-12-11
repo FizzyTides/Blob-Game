@@ -8,6 +8,7 @@ public class MovingObjects extends Entities {
 	
 	/**
 	 * CHECKWALLS METHOD
+	 * @param gameWalls
 	 * Handles player wall check by comparing player's x and y coordinates to the indexed wall's x and y coordinate
 	 * Triggers corresponding wall boolean to restrict player movement upon attempting to move onto wall with tile
 	 */
