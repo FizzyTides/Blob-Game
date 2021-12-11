@@ -238,7 +238,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		punishments = spawnPunishments();
 		winTile = new ExitTile(new Point(19,13));
 		cakeCount = 0;
-		
 
     }
 	
@@ -429,8 +428,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		if(gameState == GAMEPLAY && !pause) {
 			timeElapsed();
 			enemyCheckEnemies();
-			//enemyCheckWalls();
-			//checkWalls();
 			gameBoundary();
 			collectRewards();
 			//Added player as parameter to hitPunishment(Player player); for JUnit Testing
