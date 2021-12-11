@@ -18,7 +18,7 @@ public class Wall extends Entities {
 		imageName = "Wall.png";
 		this.pos = pos;
 		
-		System.out.println("Spawning Wall at point: " + this.getPos());
+		//System.out.println("Spawning Wall at point: " + this.getPos());
 		loadImage();
 		
 	}

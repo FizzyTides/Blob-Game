@@ -147,6 +147,8 @@ public class Enemy extends MovingObjects {
 	
 	/**
 	 * ENEMYDIRECTION METHOD
+	 * checks where the player is relative to each enemy (above, below, etc.), 
+	 * and sets relevant booleans accordingly
 	 * @param player
 	 */
 	public void eDirection(Player player) {

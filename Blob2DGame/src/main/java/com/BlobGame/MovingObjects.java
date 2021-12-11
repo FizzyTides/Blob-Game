@@ -3,6 +3,14 @@ package com.BlobGame;
 import java.awt.Point;
 import java.util.ArrayList;
 
+/**CAKE CLASS
+ * This is a subclass of Entities, which handles solely all objects of type Cakes functionalities
+ * 
+ * @author mca
+ * @author mba
+ * @author ketan
+ *
+ */
 public class MovingObjects extends Entities {
 	boolean wallNorth, wallSouth, wallEast, wallWest = false; //Wall detection booleans
 	
@@ -12,7 +20,6 @@ public class MovingObjects extends Entities {
 	 * Handles player wall check by comparing player's x and y coordinates to the indexed wall's x and y coordinate
 	 * Triggers corresponding wall boolean to restrict player movement upon attempting to move onto wall with tile
 	 */
-	
 	public void checkWalls(ArrayList<Wall> gameWalls) {
         Point CurrPos = this.getPos();
         boolean aWallNorth, aWallSouth, aWallEast, aWallWest;

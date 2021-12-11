@@ -37,14 +37,11 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private Timer timer;
 	
 	double bonusStayTime = 5;
-	//get random time (between 0 <-> MAXTIME-1-bonusStayTime)
 	double rand = Math.floor(Math.random()*((MAX_GAMETIME-1-bonusStayTime)+1));
 	
 	boolean wallFound = false;
 	private boolean pause = false;
 	
-//    private int punishmentFreezeTime = 1000; //in milliseconds 
-//    private double frozenStartTime = -punishmentFreezeTime;
     private int gameTimeElapsed = 0;
     private double startRealTime;
     private double pauseTime = 0;

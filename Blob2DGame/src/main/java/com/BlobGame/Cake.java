@@ -14,7 +14,9 @@ import java.awt.event.KeyEvent;
 /**CAKE CLASS
  * This is a subclass of Entities, which handles solely all objects of type Cakes functionalities
  * 
- * @author Michael
+ * @author mca
+ * @author mba
+ * @author ketan
  *
  */
 public class Cake extends Entities {
