@@ -1,6 +1,7 @@
 BLOB 2D GAME
 
 NOTE: These instructions are for Eclipse.
+Java Version: JavaSE-11 and up is used to play our game.
 
 Import the Project:
 
