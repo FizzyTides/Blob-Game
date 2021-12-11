@@ -1,6 +1,7 @@
 package com.BlobGame;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 /**ENEMY CLASS
  * This is a subclass of Entities which solely handles enemy functionalities
@@ -10,7 +11,7 @@ import java.awt.Point;
  * @author ketan
  *
  */
-public class Enemy extends Entities {
+public class Enemy extends MovingObjects {
 	
 	boolean otherEnemyNorth, otherEnemySouth, otherEnemyEast, otherEnemyWest = false;
 	boolean playerAbove, playerBelow, playerRight, playerLeft = false;
@@ -21,10 +22,24 @@ public class Enemy extends Entities {
 	int directionSwitch = 0; //0 is for up/down access, 1 is for left/right access
 	
 	Enemy(Point pos, String imageName) {
+		super();
 		this.imageName = imageName;
 		this.pos = pos;
 		
 		loadImage();
+	}
+
+	/**
+	 * ENEMYKILLPLAYER METHOD
+	 * @param playerPos
+	 * Compares all enemy positions in enemy arraylist to player position, if they are =
+	 * gameEnd(GAMELOSE) is called ending the game with a lose
+	 */
+	public void killPlayer(Point playerPos, GameBoard board) {
+
+		if(playerPos.x == this.getPos().x && playerPos.y == this.getPos().y) {
+			board.gameEnd(GameBoard.GAMELOSE);
+		}
 	}
 	
 	/**
@@ -81,7 +96,52 @@ public class Enemy extends Entities {
 				
 	}
 	
-	
-	
+	/**
+	 * ENEMYCHECKENEMIES METHOD
+	 * Similar to checkwalls logic, except uses it for comparing enemy position to eachother so they cannot move onto
+	 * the same tile
+	 */
+	public void checkEnemies(Enemy enemy, ArrayList<Enemy> enemies) {
+		Point currEnemyPos = enemy.getPos();
+		boolean aEnemyNorth, aEnemySouth, aEnemyEast, aEnemyWest;
+		aEnemyNorth = aEnemySouth = aEnemyEast = aEnemyWest = false;
+		for(Enemy otherEnemy : enemies) {
+			Point otherEnemyPos = otherEnemy.getPos();
 
+
+			if((currEnemyPos.y - 1 == otherEnemyPos.y && currEnemyPos.x == otherEnemyPos.x) || aEnemyNorth) {
+				enemy.otherEnemyNorth = true;
+				aEnemyNorth = true;
+				//System.out.println("There is a wall to the North!");
+			}
+			else {
+				enemy.otherEnemyNorth = false;
+			}
+			if((currEnemyPos.y + 1 == otherEnemyPos.y && currEnemyPos.x == otherEnemyPos.x) || aEnemySouth) {
+				enemy.otherEnemySouth = true;
+				aEnemySouth = true;
+				//System.out.println("There is a wall to the South!");
+			}
+			else {
+				enemy.otherEnemySouth = false;
+			}
+			if((currEnemyPos.x - 1== otherEnemyPos.x && currEnemyPos.y == otherEnemyPos.y) || aEnemyEast) {
+				enemy.otherEnemyEast = true;
+				aEnemyEast = true;
+				//System.out.println("There is a wall to the East!");
+			}
+			else {
+				enemy.otherEnemyEast = false;
+			}
+			if((currEnemyPos.x + 1 == otherEnemyPos.x && currEnemyPos.y == otherEnemyPos.y) || aEnemyWest) {
+				enemy.otherEnemyWest = true;
+				aEnemyWest = true;
+				//System.out.println("There is a wall to the West!");
+			}
+			else {
+				enemy.otherEnemyWest = false;
+			}
+		}
+	}
+	
 }

@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
  * @author mca
  * @author ketan
  */
-public class Player extends Entities {
+public class Player extends MovingObjects {
 	/**
      * Variables needed for the class are instantiated/set
      * 
@@ -22,9 +22,8 @@ public class Player extends Entities {
 	public boolean pause;
     public int punishmentFreezeTime = 1000; //in milliseconds 
     public double frozenStartTime = -punishmentFreezeTime;
-	
+    
 	public Player() {
-		
 		this.imageName = "Blob.png";
 		this.pos = new Point(0,1);
 		score = 0;

@@ -55,7 +55,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
     
     private static final int MENU = 0;
     private static final int GAMEPLAY = 1;
-    private static final int GAMELOSE = 2;
+    static final int GAMELOSE = 2;
     private static final int GAMEWIN = 3;
     
 	public static final int TILE_SIZE = 50;
@@ -73,6 +73,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private ArrayList<Wall> gameWalls;
 	private ArrayList<Punishment> punishments;
 	private ArrayList<Enemy> enemies;
+	private ArrayList<MovingObjects> mObjects = new ArrayList<MovingObjects>();
 	
 	JButton startButton= new JButton("START");
 	JButton replayButton = new JButton("REPLAY");
@@ -233,6 +234,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	private void gameInit() {
 		player = new Player(); // Instantiate a player when gameBoard starts
 		enemies =  spawnEnemies();
+		mObjects.add(player);
         rewards = spawnRewards();
         gameWalls = spawnWalls();
 		punishments = spawnPunishments();
@@ -252,7 +254,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		if(player.getScore() < 0 || MAX_GAMETIME == gameTimeElapsed) {
 			gameEnd(GAMELOSE);
 		}
-		enemyKillPlayer(player.getPos());
 	}
 	
 	/**
@@ -427,7 +428,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		
 		if(gameState == GAMEPLAY && !pause) {
 			timeElapsed();
-			enemyCheckEnemies();
 			gameBoundary();
 			collectRewards();
 			//Added player as parameter to hitPunishment(Player player); for JUnit Testing
@@ -437,9 +437,12 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			loseCondition();
 			bonusVisibility();
 			player.frozenCheck();
-			player.checkWalls(gameWalls);
 			for(Enemy enemy : enemies) {
-				enemy.checkWalls(gameWalls);
+				enemy.checkEnemies(enemy, enemies);
+				enemy.killPlayer(player.getPos(), this);
+			}
+			for(MovingObjects object : mObjects) {
+				object.checkWalls(gameWalls);
 			}
 		}
 		repaint();
@@ -523,73 +526,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			}
 			enemy.enemyMovement();
 		}
-	}
-
-	
-	/**
-	 * ENEMYKILLPLAYER METHOD
-	 * @param playerPos
-	 * Compares all enemy positions in enemy arraylist to player position, if they are =
-	 * gameEnd(GAMELOSE) is called ending the game with a lose
-	 */
-	public void enemyKillPlayer(Point playerPos) {
-		for(Enemy enemies : enemies) {
-			if(playerPos.x == enemies.getPos().x && playerPos.y == enemies.getPos().y) {
-				gameEnd(GAMELOSE);
-			}
-		}
-	}
-	
-	/**
-	 * ENEMYCHECKENEMIES METHOD
-	 * Similar to checkwalls logic, except uses it for comparing enemy position to eachother so they cannot move onto
-	 * the same tile
-	 */
-	public void enemyCheckEnemies() {
-		for(Enemy enemy : enemies) {
-			Point currEnemyPos = enemy.getPos();
-	        boolean aEnemyNorth, aEnemySouth, aEnemyEast, aEnemyWest;
-	        aEnemyNorth = aEnemySouth = aEnemyEast = aEnemyWest = false;
-	        for(Enemy otherEnemy : enemies) {
-	            Point otherEnemyPos = otherEnemy.getPos();
-	            
-
-	            if((currEnemyPos.y - 1 == otherEnemyPos.y && currEnemyPos.x == otherEnemyPos.x) || aEnemyNorth) {
-	            	enemy.otherEnemyNorth = true;
-	                aEnemyNorth = true;
-	                //System.out.println("There is a wall to the North!");
-	            }
-	            else {
-	            	enemy.otherEnemyNorth = false;
-	            }
-	            if((currEnemyPos.y + 1 == otherEnemyPos.y && currEnemyPos.x == otherEnemyPos.x) || aEnemySouth) {
-	            	enemy.otherEnemySouth = true;
-	                aEnemySouth = true;
-	                //System.out.println("There is a wall to the South!");
-	            }
-	            else {
-	            	enemy.otherEnemySouth = false;
-	            }
-	            if((currEnemyPos.x - 1== otherEnemyPos.x && currEnemyPos.y == otherEnemyPos.y) || aEnemyEast) {
-	            	enemy.otherEnemyEast = true;
-	                aEnemyEast = true;
-	                //System.out.println("There is a wall to the East!");
-	            }
-	            else {
-	            	enemy.otherEnemyEast = false;
-	            }
-	            if((currEnemyPos.x + 1 == otherEnemyPos.x && currEnemyPos.y == otherEnemyPos.y) || aEnemyWest) {
-	            	enemy.otherEnemyWest = true;
-	                aEnemyWest = true;
-	               //System.out.println("There is a wall to the West!");
-	            }
-	            else {
-	            	enemy.otherEnemyWest = false;
-	            }
-	        }
-		}
-	}
-	
+	}	
 
 	/**
 	 * SPAWNENEMIES METHOD
@@ -598,9 +535,12 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 	 */
 	private ArrayList<Enemy> spawnEnemies() {
 		ArrayList<Enemy> myEnemies = new ArrayList<Enemy>();
-		myEnemies.add(new Enemy(new Point(19, 13), "MomEnemy.png"));
-		myEnemies.add(new Enemy(new Point(1, 14), "DadEnemy.png"));
-		
+		Enemy mom = new Enemy(new Point(19, 13), "MomEnemy.png");
+		Enemy dad = new Enemy(new Point(1, 14), "DadEnemy.png");
+		myEnemies.add(mom);
+		myEnemies.add(dad);
+		mObjects.add(mom);
+		mObjects.add(dad);
 		return myEnemies;
 	}
 	

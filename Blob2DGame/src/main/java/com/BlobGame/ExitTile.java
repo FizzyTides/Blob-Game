@@ -18,7 +18,6 @@ class ExitTile extends Entities {
 	 * and loads its corresponding image "ExitTile.png"
 	 */
 	public ExitTile(Point pos) {
-		super();
 		this.imageName = "ExitTile.png";
 		this.pos = pos;
 		
