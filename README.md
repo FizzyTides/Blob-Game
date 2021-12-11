@@ -82,3 +82,13 @@ Step 2: Change directories to project folder containing pom.xml, \project\Blob2D
 Step 3: Run mvn javadoc:javadoc to extract the HTML Javadoc
 Step 4: Find Html Javadocs under \project\Blob2DGame\target\site\apidocs\
 Step 5: Done
+
+------------------------------------------------------------------------------------------------------------------
+
+Opening Javadoc Jar: 
+
+Step 1: Use either 7Zip or Winrar
+Step 2: Go to: \project\Blob2DGame\target
+Step 3: Right Click Javadoc Jar
+Step 4: Select Open archive using 7 Zip or Winrar (whichever you chose)
+Step 5: Done
