@@ -144,4 +144,52 @@ public class Enemy extends MovingObjects {
 		}
 	}
 	
+	/**
+	 * ENEMYDIRECTION METHOD
+	 * 
+	 */
+	public void eDirection(Player player) {
+
+		Point playerCurrPos = player.getPos();
+
+		//player is above
+		if(playerCurrPos.y < this.pos.y) {
+			this.playerAbove = true;
+			this.playerBelow = false;
+			//System.out.println("player is above");
+		}
+		//player is below
+		else if(playerCurrPos.y > this.pos.y) {
+			this.playerBelow = true;
+			this.playerAbove = false;
+			//System.out.println("player is below");
+		}
+		//player on same row (or switch not 0 --> time to switch)
+		else {
+			this.playerAbove = false;
+			this.playerBelow = false;
+			//System.out.println("player is on same row");
+		}
+
+		//player is to right
+		if(playerCurrPos.x > this.pos.x) {
+			this.playerRight = true;
+			this.playerLeft = false;
+			//System.out.println("player is to right");
+		}
+		//player is to left
+		else if(playerCurrPos.x < this.pos.x) {
+			this.playerLeft = true;
+			this.playerRight = false;
+			//System.out.println("player is to left");
+		}
+		//player on same columns (or switch not 1 --> time to switch)
+		else {
+			this.playerRight = false;
+			this.playerLeft = false;
+			//System.out.println("player is on same column");
+		}
+		this.enemyMovement();
+	}
+	
 }

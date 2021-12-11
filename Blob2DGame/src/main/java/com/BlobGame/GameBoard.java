@@ -432,7 +432,6 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			collectRewards();
 			//Added player as parameter to hitPunishment(Player player); for JUnit Testing
 			hitPunishment(player, punishments);
-			enemyDirection();
 			winCondition();
 			loseCondition();
 			bonusVisibility();
@@ -440,6 +439,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 			for(Enemy enemy : enemies) {
 				enemy.checkEnemies(enemy, enemies);
 				enemy.killPlayer(player.getPos(), this);
+				enemy.eDirection(player);
 			}
 			for(MovingObjects object : mObjects) {
 				object.checkWalls(gameWalls);
@@ -476,57 +476,7 @@ public class GameBoard extends JPanel implements KeyListener, ActionListener {
 		}
 	}
 	
-	/**
-	 * ENEMYDIRECTION METHOD
-	 * 
-	 */
-	public void enemyDirection() {
-		for(Enemy enemy : enemies) {
-		
-			
-			Point enemyCurrPos = enemy.getPos();
-			Point playerCurrPos = player.getPos();
-			
-			//player is above
-			if(playerCurrPos.y < enemyCurrPos.y) {
-				enemy.playerAbove = true;
-				enemy.playerBelow = false;
-				//System.out.println("player is above");
-			}
-			//player is below
-			else if(playerCurrPos.y > enemyCurrPos.y) {
-				enemy.playerBelow = true;
-				enemy.playerAbove = false;
-				//System.out.println("player is below");
-			}
-			//player on same row (or switch not 0 --> time to switch)
-			else {
-				enemy.playerAbove = false;
-				enemy.playerBelow = false;
-				//System.out.println("player is on same row");
-			}
-			
-			//player is to right
-			if(playerCurrPos.x > enemyCurrPos.x) {
-				enemy.playerRight = true;
-				enemy.playerLeft = false;
-				//System.out.println("player is to right");
-			}
-			//player is to left
-			else if(playerCurrPos.x < enemyCurrPos.x) {
-				enemy.playerLeft = true;
-				enemy.playerRight = false;
-				//System.out.println("player is to left");
-			}
-			//player on same columns (or switch not 1 --> time to switch)
-			else {
-				enemy.playerRight = false;
-				enemy.playerLeft = false;
-				//System.out.println("player is on same column");
-			}
-			enemy.enemyMovement();
-		}
-	}	
+
 
 	/**
 	 * SPAWNENEMIES METHOD
