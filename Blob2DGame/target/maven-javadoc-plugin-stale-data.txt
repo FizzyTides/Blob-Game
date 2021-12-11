@@ -1,0 +1,56 @@
+@options
+@packages
+@argfile
+-encoding
+'Cp1252'
+-protected
+-sourcepath
+'C:/Users/Michael/project/Blob2DGame/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2021. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/Michael/project/Blob2DGame/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Blob2DGame 0.0.1-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'Blob2DGame 0.0.1-SNAPSHOT API'
+com.BlobGame
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/BonusReward.java'
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/Cake.java'
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/Enemy.java'
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/Entities.java'
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/ExitTile.java'
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/Game.java'
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/GameBoard.java'
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/Gate.java'
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/MovingObjects.java'
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/Player.java'
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/Punishment.java'
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/TelePunishment.java'
+'C:/Users/Michael/project/Blob2DGame/src/main/java/com/BlobGame/Wall.java'
+C:\Users\Michael\project\Blob2DGame\src\main\java = 1638582540207
+C:\Users\Michael\project\Blob2DGame\target\apidocs\allclasses-index.html = 1639187520887
+C:\Users\Michael\project\Blob2DGame\target\apidocs\allpackages-index.html = 1639187520889
+C:\Users\Michael\project\Blob2DGame\target\apidocs\constant-values.html = 1639187520816
+C:\Users\Michael\project\Blob2DGame\target\apidocs\element-list = 1639187520796
+C:\Users\Michael\project\Blob2DGame\target\apidocs\help-doc.html = 1639187520909
+C:\Users\Michael\project\Blob2DGame\target\apidocs\index-all.html = 1639187520905
+C:\Users\Michael\project\Blob2DGame\target\apidocs\index.html = 1639187520906
+C:\Users\Michael\project\Blob2DGame\target\apidocs\jquery-ui.overrides.css = 1639187520932
+C:\Users\Michael\project\Blob2DGame\target\apidocs\member-search-index.js = 1639187520893
+C:\Users\Michael\project\Blob2DGame\target\apidocs\module-search-index.js = 1639187520890
+C:\Users\Michael\project\Blob2DGame\target\apidocs\overview-tree.html = 1639187520878
+C:\Users\Michael\project\Blob2DGame\target\apidocs\package-search-index.js = 1639187520891
+C:\Users\Michael\project\Blob2DGame\target\apidocs\script.js = 1639187520912
+C:\Users\Michael\project\Blob2DGame\target\apidocs\search.js = 1639187520914
+C:\Users\Michael\project\Blob2DGame\target\apidocs\serialized-form.html = 1639187520835
+C:\Users\Michael\project\Blob2DGame\target\apidocs\stylesheet.css = 1639187520911
+C:\Users\Michael\project\Blob2DGame\target\apidocs\tag-search-index.js = 1639187520894
+C:\Users\Michael\project\Blob2DGame\target\apidocs\type-search-index.js = 1639187520892
